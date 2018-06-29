@@ -12,4 +12,4 @@ class Pagamento(db.Model):
         self.id_reforma = id_reforma
 
     def __repr__(self):
-        return "<Cliente %r>" % self.id_reforma
+        return "<Pagamento %r>" % self.id_reforma 
