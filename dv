@@ -1,0 +1,216 @@
+[33mcommit 365506dc58e75f4e6c213ab5f9b084e381c6a5d4[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m, [m[1;31morigin/develop[m[33m)[m
+Author: Unknown <heitor.augusto@ufrpe.br>
+Date:   Fri Jun 29 04:05:16 2018 -0300
+
+    Habilidades do profissional + Profissional
+
+[1mdiff --git a/app/Facade.py b/app/Facade.py[m
+[1mindex 9087e41..626b4bd 100644[m
+[1m--- a/app/Facade.py[m
+[1m+++ b/app/Facade.py[m
+[36m@@ -1,7 +1,7 @@[m
+ from flask import render_template, request, jsonify[m
+ from flask_sqlalchemy import SQLAlchemy, BaseQuery[m
+ from app import db,app[m
+[31m-from app.models import ModelUsuario, ModelCliente, ModelPessoa, ModelProfissional, ModelReforma, ModelPagamento, ModelNegociacaoPreco, ModelReformaProfissional[m
+[32m+[m[32mfrom app.models import ModelUsuario, ModelCliente, ModelPessoa, ModelProfissional, ModelReforma, ModelPagamento, ModelNegociacaoPreco, ModelHabilidade, ModelMensagem, ModelProfissionalHabilidade, ModelReformaProfissional, ModelConversa[m
+ from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma, ControllerLogin, ControllerProfissional[m
+ #from app.routes import IndexRoutes, UsuarioRoutes, ClienteRoutes, ReformaRoutes, LoginRoutes[m
+ [m
+[1mdiff --git a/app/controllers/ControllerProfissional.py b/app/controllers/ControllerProfissional.py[m
+[1mindex d399bd1..f840aec 100644[m
+[1m--- a/app/controllers/ControllerProfissional.py[m
+[1m+++ b/app/controllers/ControllerProfissional.py[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-from app.Facade import SQLAlchemy, BaseQuery, db, ModelProfissional, ModelPessoa, ModelUsuario[m
+[32m+[m[32mfrom app.Facade import SQLAlchemy, BaseQuery, db, ModelProfissional, ModelPessoa, ModelUsuario, ModelHabilidade, ModelProfissionalHabilidade[m
+ #from flask_sqlalchemy import SQLAlchemy, BaseQuery[m
+ #from app import db[m
+ [m
+[36m@@ -7,6 +7,8 @@[m [mfrom app.Facade import SQLAlchemy, BaseQuery, db, ModelProfissional, ModelPessoa[m
+ Profissional = ModelProfissional.Profissional[m
+ Pessoa = ModelPessoa.Pessoa[m
+ Usuario = ModelUsuario.Usuario[m
+[32m+[m[32mHabilidade = ModelHabilidade.Habilidade[m
+[32m+[m[32mProfissionalHabilidade = ModelProfissionalHabilidade.ProfissionalHabilidade[m
+ [m
+ class ControllerProfissional():[m
+     def inserirProfissional(self,cpf,nome,telefone,senha,habilidades):[m
+[36m@@ -17,9 +19,23 @@[m [mclass ControllerProfissional():[m
+             i = Pessoa(cpf,nome,h.id)[m
+             db.session.add(i)[m
+             db.session.commit()[m
+[31m-            j = Profissional(i.id, habilidades)[m
+[31m-            db.session.add(j)   [m
+[32m+[m[32m            j = Profissional(i.id)[m
+[32m+[m[32m            db.session.add(j)[m
+             db.session.commit()[m
+[32m+[m[32m            for hab in habilidades:[m
+[32m+[m[32m                tudo = Habilidade.query.all()[m
+[32m+[m[32m                sidekick = str()[m
+[32m+[m[32m                for m in tudo:[m
+[32m+[m[32m                    sidekick = m[m
+[32m+[m[32m                    if hab == m.habilidade:[m
+[32m+[m[32m                        break[m
+[32m+[m[32m                if hab != sidekick:[m
+[32m+[m[32m                    k = Habilidade(hab)[m
+[32m+[m[32m                    db.session.add(k)[m
+[32m+[m[32m                    db.session.commit()[m
+[32m+[m[32m                    l = ProfissionalHabilidade(j.id, k.id)[m
+[32m+[m[32m                    db.session.add(l)[m
+[32m+[m[32m                    db.session.commit()[m
+             return True[m
+         except:[m
+             return False[m
+[36m@@ -30,6 +46,7 @@[m [mclass ControllerProfissional():[m
+             e = Pessoa.query.get(d.id_pessoa)[m
+             f = Usuario.query.get(e.id_usuario)[m
+             db.session.delete(d)[m
+[32m+[m[32m            ProfissionalHabilidade.query.filter_by(id_profissional=id).delete()[m
+             db.session.commit()[m
+             return True[m
+         except:[m
+[36m@@ -40,33 +57,58 @@[m [mclass ControllerProfissional():[m
+             g = Profissional.query.get(id)[m
+             h = Pessoa.query.get(str(g.id_pessoa))[m
+             i = Usuario.query.get(h.id_usuario)[m
+[31m-            return {'id':g.id,'cpf':h.cpf,'nome':h.nome,'telefone':i.telefone, 'senha':i.senha,'habilidades':g.listaHabilidades}[m
+[32m+[m[32m            prof = ProfissionalHabilidade.query.filter_by(id_profissional=id)[m
+[32m+[m[32m            lista = list()[m
+[32m+[m[32m            for w in prof:[m
+[32m+[m[32m                hab = Habilidade.query.get(w.id_habilidade)[m
+[32m+[m[32m                lista.append(hab.habilidade)[m
+[32m+[m[32m            return {'id':g.id,'cpf':h.cpf,'nome':h.nome,'telefone':i.telefone, 'senha':i.senha,'habilidades':lista}[m
+         except:[m
+             return False[m
+ [m
+     def retornarTodosProfissionais(self):[m
+[31m-        try:[m
+[31m-            g = Profissional.query.all()[m
+[31m-            lista = list()[m
+[31m-            for i in range(len(g)):[m
+[31m-                p = Pessoa.query.get(g[i].id_pessoa)[m
+[31m-                u = Usuario.query.get(p.id_usuario)[m
+[31m-                lista.append({'id':str(g[i].id),'cpf':p.cpf,'nome':p.nome,'telefone':u.telefone,'senha':u.senha,'habilidades':g[i].listaHabilidades})[m
+[31m-            return lista[m
+[31m-        except:[m
+[31m-            return False[m
+[32m+[m[32m        #try:[m
+[32m+[m[32m        g = Profissional.query.all()[m
+[32m+[m[32m        lista = list()[m
+[32m+[m[32m        listhab = list()[m
+[32m+[m[32m        for i in range(len(g)):[m
+[32m+[m[32m            p = Pessoa.query.get(g[i].id_pessoa)[m
+[32m+[m[32m            u = Usuario.query.get(p.id_usuario)[m
+[32m+[m[32m            prof = ProfissionalHabilidade.query.filter_by(id_profissional=g[i].id)[m
+[32m+[m[32m            for w in prof:[m
+[32m+[m[32m                hab = Habilidade.query.get(w.id_habilidade)[m
+[32m+[m[32m                listhab.append(hab.habilidade)[m
+[32m+[m[32m            lista.append({'id':str(g[i].id),'cpf':p.cpf,'nome':p.nome,'telefone':u.telefone,'senha':u.senha,'habilidades':listhab})[m
+[32m+[m[32m        return lista[m
+[32m+[m[32m        #except:[m
+[32m+[m[32m         #   return False[m
+ [m
+     def atualizarProfissional(self,id,cpf,nome,telefone,senha,habilidades):[m
+[31m-        try:[m
+[31m-            u = Profissional.query.get(id)[m
+[31m-            v = Pessoa.query.get(u.id_pessoa)[m
+[31m-            x = Usuario.query.get(v.id_usuario)[m
+[31m-            v.cpf = cpf[m
+[31m-            v.nome = nome[m
+[31m-            x.telefone = telefone[m
+[31m-            x.senha = senha[m
+[31m-            u.listaHabilidades = habilidades[m
+[31m-            db.session.commit()[m
+[31m-            return True[m
+[31m-        except:[m
+[31m-            return False[m
+\ No newline at end of file[m
+[32m+[m[32m        #try:[m
+[32m+[m[32m        u = Profissional.query.get(id)[m
+[32m+[m[32m        v = Pessoa.query.get(u.id_pessoa)[m
+[32m+[m[32m        x = Usuario.query.get(v.id_usuario)[m
+[32m+[m[32m        prof = ProfissionalHabilidade.query.filter_by(id_profissional=id)[m
+[32m+[m[32m        v.cpf = cpf[m
+[32m+[m[32m        v.nome = nome[m
+[32m+[m[32m        x.telefone = telefone[m
+[32m+[m[32m        x.senha = senha[m
+[32m+[m
+[32m+[m[32m        ProfissionalHabilidade.query.filter_by(id_profissional=id).delete()[m
+[32m+[m[32m        for hab in habilidades:[m
+[32m+[m[32m            tudo = Habilidade.query.all()[m
+[32m+[m[32m            for um in tudo:[m
+[32m+[m[32m                if hab == um.habilidade:[m
+[32m+[m[32m                    break[m
+[32m+[m[32m            if hab != um:[m
+[32m+[m[32m                k = Habilidade(hab)[m
+[32m+[m[32m                db.session.add(k)[m
+[32m+[m[32m                db.session.commit()[m
+[32m+[m[32m                l = ProfissionalHabilidade(id, k.id)[m
+[32m+[m[32m                db.session.add(l)[m
+[32m+[m[32m                db.session.commit()[m
+[32m+[m
+[32m+[m[32m        db.session.commit()[m
+[32m+[m[32m        return True[m
+[32m+[m[32m        #except:[m
+[32m+[m[32m        #    return False[m
+\ No newline at end of file[m
+[1mdiff --git a/app/models/ModelHabilidade.py b/app/models/ModelHabilidade.py[m
+[1mindex e019d1e..ff809c1 100644[m
+[1m--- a/app/models/ModelHabilidade.py[m
+[1m+++ b/app/models/ModelHabilidade.py[m
+[36m@@ -4,7 +4,7 @@[m [mclass Habilidade(db.Model):[m
+     __tablename__ = "habilidade"[m
+ [m
+     id = db.Column(db.Integer, primary_key=True)[m
+[31m-    habilidade = db.Column(db.DateTime)[m
+[32m+[m[32m    habilidade = db.Column(db.String)[m
+ [m
+     def __init__(self, habilidade):[m
+         self.habilidade = habilidade[m
+[1mdiff --git a/app/models/ModelProfissional.py b/app/models/ModelProfissional.py[m
+[1mindex 3d00874..7069328 100644[m
+[1m--- a/app/models/ModelProfissional.py[m
+[1m+++ b/app/models/ModelProfissional.py[m
+[36m@@ -5,11 +5,11 @@[m [mclass Profissional(db.Model):[m
+ [m
+     id = db.Column(db.Integer, primary_key=True)[m
+     id_pessoa = db.Column(db.Integer)[m
+[31m-    id_areaAtuacao = db.Column(db.Integer)[m
+[32m+[m[32m    #id_areaAtuacao = db.Column(db.Integer)[m
+ [m
+[31m-    def __init__(self, id_pessoa, id_areaAtuacao):[m
+[32m+[m[32m    def __init__(self, id_pessoa):#, id_areaAtuacao):[m
+         self.id_pessoa = id_pessoa[m
+[31m-        self.id_areaAtuacao = id_areaAtuacao[m
+[32m+[m[32m        #self.id_areaAtuacao = id_areaAtuacao[m
+ [m
+     def __repr__(self):[m
+         return "<Profissional %r>" % self.id_pessoa[m
+[1mdiff --git a/app/models/ModelProfissionalHabilidade.py b/app/models/ModelProfissionalHabilidade.py[m
+[1mindex caf2601..537355f 100644[m
+[1m--- a/app/models/ModelProfissionalHabilidade.py[m
+[1m+++ b/app/models/ModelProfissionalHabilidade.py[m
+[36m@@ -1,14 +1,14 @@[m
+ from app import db[m
+ [m
+ class ProfissionalHabilidade(db.Model):[m
+[31m-    __tablename__ = "profissionalHabilidade"[m
+[32m+[m[32m    __tablename__ = "ProfissionalHabilidade"[m
+ [m
+[31m-    id_profissional = db.Column(db.Integer)[m
+[31m-    id_hbilidade = db.Column(db.Integer)[m
+[32m+[m[32m    id_profissional = db.Column(db.Integer, primary_key=True)[m
+[32m+[m[32m    id_habilidade = db.Column(db.Integer)[m
+ [m
+[31m-    def __init__(self, id_profissional, id_hbilidade):[m
+[32m+[m[32m    def __init__(self, id_profissional, id_habilidade):[m
+         self.id_profissional = id_profissional[m
+[31m-        self.id_hbilidade = id_hbilidade[m
+[32m+[m[32m        self.id_habilidade = id_habilidade[m
+ [m
+     def __repr__(self):[m
+         return "<ProfissionalHabilidade %r>" % self.id_profissional[m
+[1mdiff --git a/app/routes/HabilidadeRoutes.py b/app/routes/HabilidadeRoutes.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e69de29[m
