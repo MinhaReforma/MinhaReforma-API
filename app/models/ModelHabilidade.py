@@ -4,7 +4,7 @@ class Habilidade(db.Model):
     __tablename__ = "habilidade"
 
     id = db.Column(db.Integer, primary_key=True)
-    habilidade = db.Column(db.DateTime)
+    habilidade = db.Column(db.String)
 
     def __init__(self, habilidade):
         self.habilidade = habilidade
