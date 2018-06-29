@@ -13,7 +13,7 @@ class Reforma(db.Model):
     #id_profissional = db.Column(db.Integer)
     #preco = db.Column(db.Float)
  
-    def __init__(self, id_cliente, datainicio, nome, descricao, id_status, id_profissional, preco):
+    def __init__(self, id_cliente, datainicio, nome, descricao):#, id_status, id_profissional, preco):
         self.id_cliente = id_cliente
         self.datainicio = datainicio
         self.nome = nome

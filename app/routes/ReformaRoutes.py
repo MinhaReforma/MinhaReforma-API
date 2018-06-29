@@ -40,3 +40,11 @@ def reforma(id):
         if controller.atualizarReforma(some_json['id'],some_json['id_cliente'],some_json['datainicio'],some_json['nome'],some_json['descricao']):#, some_json['id_status'],some_json['id_profissional'],some_json['preco'])
             return jsonify({'sucesso':True}), 201
         return jsonify({'sucesso':False}), 400
+
+@app.route("/reformas/aplicar", methods=['POST'])
+def aplicar():
+    if (request.method == 'POST'):
+        some_json = request.get_json()
+        if controller.inserirReformaProfissional(some_json['id_reforma'],some_json['id_profissional']):
+            return jsonify({'sucesso':True}), 201
+        return jsonify({'sucesso':False}), 400

@@ -1,21 +1,22 @@
-from app.Facade import SQLAlchemy, BaseQuery, db, ModelReforma
+from app.Facade import SQLAlchemy, BaseQuery, db, ModelReforma, ModelReformaProfissional
 #from flask_sqlalchemy import SQLAlchemy, BaseQuery
 #from app import db
 
 #from app.models.ModelReforma import Reforma
 
 Reforma = ModelReforma.Reforma
+ReformaProfissional = ModelReformaProfissional.ReformaProfissional
 
 class ControllerReforma():
 
     def inserirReforma(self,id_cliente, datainicio, nome, descricao):
-        try:
-            i = Reforma(id_cliente,datainicio,nome,descricao)#,id_status,id_profissional,preco)
-            db.session.add(i)   
-            db.session.commit()
-            return True
-        except:
-            return False
+        #try:
+        i = Reforma(id_cliente,datainicio,nome,descricao)#,id_status,id_profissional,preco)
+        db.session.add(i)   
+        db.session.commit()
+        return True
+        #except:
+            #return False
 
     def removerReforma(self,id):
         try:
@@ -29,7 +30,12 @@ class ControllerReforma():
     def retornarReforma(self,id):
         try:
             g = Reforma.query.get(id)
-            return {'id':g.id,'id_cliente':g.id_cliente,'datainicio':g.datainicio,'nome':g.nome,'descricao':g.descricao}#,'id_status':g.id_status,'id_profissional':g.id_profissional,'preco':g.preco}
+            h = ReformaProfissional.query.get(id)
+            lista = list()
+            for w in h:
+                prof = ReformaProfissional.query.get(w.id_reforma)
+                lista.append(prof.id_profissional)            
+            return {'id':g.id,'id_cliente':g.id_cliente,'datainicio':g.datainicio,'nome':g.nome,'descricao':g.descricao, 'listaProfissionais':lista}
         except:
             return False
     def retornarTodasReformas(self):
@@ -56,3 +62,13 @@ class ControllerReforma():
             return True
         except:
             return False    
+                
+    def inserirReformaProfissional(self,id_reforma, id_profissional):
+        try:
+            i = ReformaProfissional(id_reforma,id_profissional)
+            print(i)
+            db.session.add(i)   
+            db.session.commit()
+            return True
+        except:
+            return False
