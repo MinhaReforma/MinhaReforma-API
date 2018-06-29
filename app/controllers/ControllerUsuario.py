@@ -1,55 +1,57 @@
-from flask import jsonify
-from flask_sqlalchemy import SQLAlchemy, BaseQuery
-from app import db
+from app.Facade import SQLAlchemy, BaseQuery, ModelUsuario
+#from flask_sqlalchemy import SQLAlchemy, BaseQuery
+#from app import db
 
-from app.models.ModelUsuario import Usuario
-#----------------------------Usuario--------------------------------
+#from app.models.ModelUsuario import Usuario
 
-def inserirUsuario(telefone,senha):
-    i = Usuario(telefone,senha)
-    db.session.add(i)   
-    db.session.commit()
-    return jsonify({'sucesso':True,'id':i.id,'telefone':i.telefone,'senha':i.senha}), 201
+Usuario = ModelUsuario.Usuario
 
-def removerUsuario(id):
-    try:
-        d = Usuario.query.get(id)
-        db.session.delete(d)
-        db.session.commit()
-        return jsonify({'sucesso':True,'id':d.id,'telefone':d.telefone,'senha':d.senha}), 202
-    except:
-        return jsonify({'sucesso':False,'tipo':'usuário não encontrado'}),404
+class ControllerUsuario():
 
-def retornarTodosUsuarios():
-    g = Usuario.query.all()
-    lista = list()
-    for i in range(len(g)):
-        lista.append({'id':str(g[i].id),'telefone':g[i].telefone,'senha':g[i].senha}), 200
-    return jsonify(lista)
+    def inserirUsuario(self,telefone,senha):
+        try:
+            i = Usuario(telefone,senha)
+            db.session.add(i)   
+            db.session.commit()
+            return True
+        except:
+            return False
 
-def retornarUsuario(id):
-    try:
-        g = Usuario.query.get(id)
-        return jsonify({'sucesso':True,'id':g.id,'telefone':g.telefone,'senha':g.senha}), 200
-    except:
-        return jsonify({'sucesso':False,'tipo':'usuário não encontrado'}),404
+    def removerUsuario(self,id):
+        try:
+            d = Usuario.query.get(id)
+            db.session.delete(d)
+            db.session.commit()
+            return True
+        except:
+            return False
 
-def atualizarUsuario(id,telefone,senha):
-    try:
-        u = Usuario.query.get(id)
-        u.telefone = telefone
-        u.senha = senha
-        db.session.commit()
-        return jsonify({'sucesso':True,'id':u.id,'telefone':u.telefone,'senha':u.senha}), 200
-    except:
-        return jsonify({'sucesso':False,'tipo':'usuário não encontrado'}),404
+    def retornarTodosUsuarios(self):
+        try:
+            g = Usuario.query.all()
+            lista = list()
+            for i in range(len(g)):
+                lista.append({'id':str(g[i].id),'telefone':g[i].telefone,'senha':g[i].senha})
+            return lista
+        except:
+            return False
 
-#--------------------------------LOGIN USUARIO-----------------------------------------------
-def login(telefone,senha):
-    g = Usuario.query.filter(Usuario.telefone == telefone).first()
+    def retornarUsuario(self,id):
+        try:
+            g = Usuario.query.get(id)
+            result = {'id':g.id,'telefone':g.telefone,'senha':g.senha}
+            if result:
+                return result
+            return False
+        except:
+            return False
 
-    if g.senha == senha:
-        return jsonify({'sucesso':True, 'id':g.id ,'telefone':telefone, 'senha':senha})
-
-    return jsonify({'sucesso':False, 'tipo':'telefone ou senha invalidos'}), 400
-    
+    def atualizarUsuario(self,id,telefone,senha):
+        try:
+            u = Usuario.query.get(id)
+            u.telefone = telefone
+            u.senha = senha
+            db.session.commit()
+            return True
+        except:
+            return False

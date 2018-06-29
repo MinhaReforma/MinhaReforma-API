@@ -4,10 +4,10 @@ class Cliente(db.Model):
     __tablename__ = "cliente"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_usuario = db.Column(db.Integer)
+    id_pessoa = db.Column(db.Integer)
 
-    def __init__(self, id_usuario):
-        self.id_usuario = id_usuario
+    def __init__(self, id_pessoa):
+        self.id_pessoa = id_pessoa
 
     def __repr__(self):
-        return "<Cliente %r>" % self.id_usuario
+        return "<Cliente %r>" % self.id_pessoa

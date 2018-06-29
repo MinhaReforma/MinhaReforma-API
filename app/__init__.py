@@ -12,6 +12,7 @@ migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
-from app.models import ModelUsuario, ModelCliente, ModelReforma
-from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma
-from app.routes import IndexRoutes, UsuarioRoutes, ClienteRoutes, ReformaRoutes
+from app.models import ModelUsuario, ModelCliente, ModelReforma, ModelPessoa, ModelProfissional, ModelPagamento, ModelNegociacaoPreco
+from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma, ControllerLogin, ControllerProfissional
+from app.routes import IndexRoutes, UsuarioRoutes, ClienteRoutes, ReformaRoutes, LoginRoutes, ProfissionalRoutes
+#from app import Facade

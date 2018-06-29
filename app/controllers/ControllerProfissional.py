@@ -1,15 +1,15 @@
-from app.Facade import SQLAlchemy, BaseQuery, db, ModelCliente, ModelPessoa, ModelUsuario
+from app.Facade import SQLAlchemy, BaseQuery, db, ModelProfissional, ModelPessoa, ModelUsuario
 #from flask_sqlalchemy import SQLAlchemy, BaseQuery
 #from app import db
 
-#from app.models.ModelCliente import Cliente
+#from app.models.ModelProfissional import Profissional
 
-Cliente = ModelCliente.Cliente
+Profissional = ModelProfissional.Profissional
 Pessoa = ModelPessoa.Pessoa
 Usuario = ModelUsuario.Usuario
 
-class ControllerCliente():
-    def inserirCliente(self,cpf,nome,telefone,senha):
+class ControllerProfissional():
+    def inserirProfissional(self,cpf,nome,telefone,senha,habilidades):
         try:
             h = Usuario(telefone, senha)
             db.session.add(h)
@@ -17,16 +17,16 @@ class ControllerCliente():
             i = Pessoa(cpf,nome,h.id)
             db.session.add(i)
             db.session.commit()
-            j = Cliente(i.id)
+            j = Profissional(i.id, habilidades)
             db.session.add(j)   
             db.session.commit()
             return True
         except:
             return False
 
-    def removerCliente(self,id):
+    def removerProfissional(self,id):
         try:
-            d = Cliente.query.get(id)
+            d = Profissional.query.get(id)
             e = Pessoa.query.get(d.id_pessoa)
             f = Usuario.query.get(e.id_usuario)
             db.session.delete(d)
@@ -35,36 +35,37 @@ class ControllerCliente():
         except:
             return False
 
-    def retornarCliente(self,id):
+    def retornarProfissional(self,id):
         try:
-            g = Cliente.query.get(id)
+            g = Profissional.query.get(id)
             h = Pessoa.query.get(str(g.id_pessoa))
             i = Usuario.query.get(h.id_usuario)
-            return {'id':g.id,'cpf':h.cpf,'nome':h.nome,'telefone':i.telefone, 'senha':i.senha}
+            return {'id':g.id,'cpf':h.cpf,'nome':h.nome,'telefone':i.telefone, 'senha':i.senha,'habilidades':g.listaHabilidades}
         except:
             return False
 
-    def retornarTodosClientes(self):
+    def retornarTodosProfissionais(self):
         try:
-            g = Cliente.query.all()
+            g = Profissional.query.all()
             lista = list()
             for i in range(len(g)):
                 p = Pessoa.query.get(g[i].id_pessoa)
                 u = Usuario.query.get(p.id_usuario)
-                lista.append({'id':str(g[i].id),'cpf':p.cpf,'nome':p.nome,'telefone':u.telefone,'senha':u.senha})
+                lista.append({'id':str(g[i].id),'cpf':p.cpf,'nome':p.nome,'telefone':u.telefone,'senha':u.senha,'habilidades':g[i].listaHabilidades})
             return lista
         except:
             return False
 
-    def atualizarCliente(self,id,cpf,nome,telefone,senha):
+    def atualizarProfissional(self,id,cpf,nome,telefone,senha,habilidades):
         try:
-            u = Cliente.query.get(id)
+            u = Profissional.query.get(id)
             v = Pessoa.query.get(u.id_pessoa)
             x = Usuario.query.get(v.id_usuario)
             v.cpf = cpf
             v.nome = nome
             x.telefone = telefone
             x.senha = senha
+            u.listaHabilidades = habilidades
             db.session.commit()
             return True
         except:
