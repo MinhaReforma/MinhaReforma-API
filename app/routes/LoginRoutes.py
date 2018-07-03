@@ -1,14 +1,13 @@
-from flask import render_template, request, jsonify
-from app import app
+from app.Facade import render_template, request, jsonify, app, Facade
 
-from app.controllers.ControllerLogin import *
+facade = Facade()
 
 @app.route("/login/", methods=['POST'])
 @app.route("/login", methods=['POST'])
 def loginUsuario():
     if (request.method == 'POST'):
         some_json = request.get_json()
-        g = login(some_json['telefone'],some_json['senha'])
+        g = facade.login(some_json['telefone'],some_json['senha'])
         if g is False:
             return jsonify({'sucesso':False, 'tipo':'telefone ou senha não encontrado'}), 404
         else:
