@@ -1,8 +1,4 @@
 from app.Facade import SQLAlchemy, BaseQuery, db, ModelCliente, ModelPessoa, ModelUsuario
-#from flask_sqlalchemy import SQLAlchemy, BaseQuery
-#from app import db
-
-#from app.models.ModelCliente import Cliente
 
 Cliente = ModelCliente.Cliente
 Pessoa = ModelPessoa.Pessoa

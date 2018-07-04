@@ -1,8 +1,4 @@
 from app.Facade import SQLAlchemy, BaseQuery, db, ModelReforma, ModelReformaProfissional
-#from flask_sqlalchemy import SQLAlchemy, BaseQuery
-#from app import db
-
-#from app.models.ModelReforma import Reforma
 
 Reforma = ModelReforma.Reforma
 ReformaProfissional = ModelReformaProfissional.ReformaProfissional

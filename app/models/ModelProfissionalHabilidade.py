@@ -1,10 +1,10 @@
 from app import db
 
 class ProfissionalHabilidade(db.Model):
-    __tablename__ = "ProfissionalHabilidade"
+    __tablename__ = "profissionalHabilidade"
 
     id_profissional = db.Column(db.Integer, primary_key=True)
-    id_habilidade = db.Column(db.Integer)
+    id_habilidade = db.Column(db.Integer, primary_key=True)
 
     def __init__(self, id_profissional, id_habilidade):
         self.id_profissional = id_profissional

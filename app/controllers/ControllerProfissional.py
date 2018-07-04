@@ -1,8 +1,4 @@
 from app.Facade import SQLAlchemy, BaseQuery, db, ModelProfissional, ModelPessoa, ModelUsuario, ModelHabilidade, ModelProfissionalHabilidade
-#from flask_sqlalchemy import SQLAlchemy, BaseQuery
-#from app import db
-
-#from app.models.ModelProfissional import Profissional
 
 Profissional = ModelProfissional.Profissional
 Pessoa = ModelPessoa.Pessoa
@@ -11,6 +7,7 @@ Habilidade = ModelHabilidade.Habilidade
 ProfissionalHabilidade = ModelProfissionalHabilidade.ProfissionalHabilidade
 
 class ControllerProfissional():
+
     def inserirProfissional(self,cpf,nome,telefone,senha,habilidades):
         h = Usuario(telefone, senha)
         db.session.add(h)
@@ -25,13 +22,13 @@ class ControllerProfissional():
             tudo = Habilidade.query.all()
             sidekick = str()
             for m in tudo:
-                sidekick = m
+                sidekick = m.habilidade
                 if hab == m.habilidade:
                     break
             if hab != sidekick:
                 k = Habilidade(hab)
                 db.session.add(k)
-                db.session.commit()
+                #db.session.commit()
                 l = ProfissionalHabilidade(j.id, k.id)
                 db.session.add(l)
                 db.session.commit()
@@ -87,7 +84,7 @@ class ControllerProfissional():
             for um in tudo:
                 if hab == um.habilidade:
                     break
-            if hab != um:
+            if hab != um.habilidade:
                 k = Habilidade(hab)
                 db.session.add(k)
                 db.session.commit()
