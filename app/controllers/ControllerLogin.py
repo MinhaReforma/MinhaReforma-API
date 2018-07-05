@@ -3,7 +3,7 @@ from app.Facade import SQLAlchemy, BaseQuery, db, ModelUsuario
 Usuario = ModelUsuario.Usuario
 
 class ControllerLogin():
-    def login(telefone,senha):
+    def login(self,telefone,senha):
         g = Usuario.query.filter(Usuario.telefone == telefone).first()
 
         if g.senha == senha:
