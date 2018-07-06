@@ -57,9 +57,11 @@ class ControllerProfissional():
         d = Profissional.query.get(id)
         if d == None:
             return {'sucesso':False, 'mensagem':'profissional não existe.'}
+
         e = Pessoa.query.get(d.id_pessoa)
         f = Usuario.query.get(e.id_usuario)
         c = Cliente.query.filter_by(id_pessoa=e.id)
+
         if c == None:
             db.session.delete(e)
             db.session.commit()
@@ -86,12 +88,13 @@ class ControllerProfissional():
             hab = Habilidade.query.get(habil.id_habilidade)
             lista.append(hab.habilidade)
             
-        return {'sucesso':True,'mensagem':'profissional retornado com sucesso.','id':g.id,'cpf':h.cpf,'nome':h.nome,'telefone':i.telefone, 'senha':i.senha,'habilidades':lista}
+        return {'sucesso':True,'mensagem':'profissional retornado com sucesso.','id':g.id,'cpf':h.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':lista}
 
     def retornarTodosProfissionais(self):
         g = Profissional.query.all()
         if g == None:
             return {'sucesso':False, 'mensagem':'não há profissionais.'}
+
         lista = list()
         listhab = list()
 
@@ -103,7 +106,7 @@ class ControllerProfissional():
             for habil in profhab:
                 hab = Habilidade.query.get(habil.id_habilidade)
                 listhab.append(hab.habilidade)
-            lista.append({'id':g[i].id,'cpf':p.cpf,'nome':p.nome,'telefone':u.telefone,'senha':u.senha,'habilidades':listhab})
+            lista.append({'id':g[i].id,'cpf':p.cpf,'nome':p.nome,'telefone':u.telefone,'habilidades':listhab})
         return {'sucesso':True,'mensagem':'todos os profissionais retornados com sucesso.','profissionais':lista}
 
     def atualizarProfissional(self,id,cpf,nome,telefone,senha,habilidades):
@@ -140,7 +143,7 @@ class ControllerProfissional():
                 db.session.commit()
 
         db.session.commit()
-        return {'sucesso':True,'mensagem':'profissional atualizado com sucesso.','id':u.id,'cpf':v.cpf,'telefone':x.telefone,'habilidades':habilidlades}
+        return {'sucesso':True,'mensagem':'profissional atualizado com sucesso.','id':u.id,'cpf':v.cpf,'telefone':x.telefone,'habilidades':habilidades}
     
     def validarIntegridade(self,cpf,nome,telefone,senha,habilidades):
         if cpf is None:
