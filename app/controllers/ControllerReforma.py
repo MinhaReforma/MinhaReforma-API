@@ -16,7 +16,7 @@ class ControllerReforma():
         db.session.add(i)   
         db.session.commit()
 
-        return {'sucesso':True,'mensagem':'reforma cadastrada com sucesso.','id_cliente':i.id_cliente,'datainicio':i.datainicio,'nome':h.nome,'descricao':descricao}
+        return {'sucesso':True,'mensagem':'reforma cadastrada com sucesso.','id_cliente':i.id_cliente,'datainicio':i.datainicio,'nome':i.nome,'descricao':i.descricao}
 
     def removerReforma(self,id):
         d = Reforma.query.get(id)
