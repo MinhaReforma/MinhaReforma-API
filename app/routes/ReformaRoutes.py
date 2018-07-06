@@ -36,8 +36,8 @@ def reforma(id):
             return jsonify({'sucesso':True}), 201
         return jsonify({'sucesso':False}), 400
 
-@app.route("/reformas/aplicar", methods=['POST'])
-def aplicar():
+@app.route("/reformas/profissionais", methods=['POST'])
+def profissionais():
     if (request.method == 'POST'):
         some_json = request.get_json()
         if facade.inserirReformaProfissional(some_json['id_reforma'],some_json['id_profissional']):

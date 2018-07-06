@@ -31,15 +31,30 @@ class ControllerLogin():
             pass
         elif valor.senha == senha:
             result = self.recuperarIds(valor,tipoPessoa)
-            return {'sucesso':True,'mensagem':'logado com sucesso','id_usuario':valor.id, 'id_pessoa':result['idP'],'id_perfil':result['idR'] ,'telefone':valor.telefone, 'senha':valor.senha}
+            if result['sucesso']:
+                return {'sucesso':True,'mensagem':'logado com sucesso','id_usuario':valor.id, 'id_pessoa':result['idPes'],'id_perfil':result['idRes'] ,'telefone':valor.telefone}
+            return result
         return {'sucesso':False,'mensagem':'telefone ou senha inválido.'}
     
     def recuperarIds(self,valor, tipoPessoa):
         p = Pessoa.query.filter(Pessoa.id_usuario == valor.id).first()
+
         if tipoPessoa == 'cliente':
             Cliente = ModelCliente.Cliente
             r = Cliente.query.filter(Cliente.id_pessoa == p.id).first()
+            result = self.validarPerfil(r)
+
         elif tipoPessoa == 'profissional':
             Profissional = ModelProfissional.Profissional
             r = Profissional.query.filter(Profissional.id_pessoa == p.id).first()
-        return {'idP':p.id,'idR':r.id}
+            result = self.validarPerfil(r)
+
+        if result['sucesso']:
+            return {'sucesso':True,'idPes':p.id,'idRes':r.id}
+
+        return result
+    
+    def validarPerfil(self,perfil):
+        if perfil == None:
+            return {'sucesso':False, 'mensagem':'usuário não cadastrado.'}
+        return {'sucesso':True}
