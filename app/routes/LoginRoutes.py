@@ -7,8 +7,12 @@ facade = Facade()
 def loginUsuario():
     if (request.method == 'POST'):
         some_json = request.get_json()
+        if not 'telefone' in some_json or 'senha' not in some_json:
+            return jsonify({'sucesso':False,'tipo':'Parâmetro(s) faltando no Json'}), 404
+
         g = facade.login(some_json['telefone'],some_json['senha'])
-        if g is False:
-            return jsonify({'sucesso':False, 'tipo':'telefone ou senha não encontrado'}), 404
+
+        if g['sucesso'] == False:
+            return jsonify(g), 404
         else:
-            return jsonify({'sucesso':True, 'id':g['id'] ,'telefone':g['telefone'], 'senha':g['senha']}), 200
+            return jsonify(g), 200
