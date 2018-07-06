@@ -64,7 +64,7 @@ class ControllerCliente():
 
     def retornarTodosClientes(self):
         g = Cliente.query.all()
-         if g == None:
+        if g == None:
             return {'sucesso':False, 'mensagem':'não há clientes.'}
 
         lista = list()
