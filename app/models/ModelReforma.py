@@ -5,7 +5,7 @@ class Reforma(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     id_cliente = db.Column(db.Integer)
-    datainicio = db.Column(db.DateTime)
+    datainicio = db.Column(db.String)
     nome = db.Column(db.String)
     descricao = db.Column(db.String)
     #listaFotos

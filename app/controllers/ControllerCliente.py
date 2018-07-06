@@ -71,7 +71,7 @@ class ControllerCliente():
         for i in range(len(g)):
             p = Pessoa.query.get(g[i].id_pessoa)
             u = Usuario.query.get(p.id_usuario)
-            lista.append({'id':str(g[i].id),'cpf':p.cpf,'nome':p.nome,'telefone':u.telefone,'senha':u.senha})
+            lista.append({'id':str(g[i].id),'cpf':p.cpf,'nome':p.nome,'telefone':u.telefone})
 
         return {'sucesso':True,'mensagem':'todos os clientes retornados com sucesso.','clientes':lista}
 

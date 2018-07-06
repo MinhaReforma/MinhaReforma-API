@@ -34,7 +34,7 @@ class ControllerLogin():
             if result['sucesso']:
                 return {'sucesso':True,'mensagem':'logado com sucesso','id_usuario':valor.id, 'id_pessoa':result['idPes'],'id_perfil':result['idRes'] ,'telefone':valor.telefone}
             return result
-        return {'sucesso':False,'mensagem':'telefone ou senha inválido.'}
+        return {'sucesso':False,'mensagem':'telefone ou senha incorreto.'}
     
     def recuperarIds(self,valor, tipoPessoa):
         p = Pessoa.query.filter(Pessoa.id_usuario == valor.id).first()
