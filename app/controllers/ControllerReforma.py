@@ -16,7 +16,7 @@ class ControllerReforma():
         db.session.add(i)   
         db.session.commit()
 
-        return {'sucesso':True,'mensagem':'reforma cadastrada com sucesso.','id_cliente':j.id_cliente,'datainicio':i.datainicio,'nome':h.nome,'descricao':descricao}
+        return {'sucesso':True,'mensagem':'reforma cadastrada com sucesso.','id_cliente':i.id_cliente,'datainicio':i.datainicio,'nome':h.nome,'descricao':descricao}
 
     def removerReforma(self,id):
         d = Reforma.query.get(id)
@@ -77,12 +77,6 @@ class ControllerReforma():
         db.session.commit()
 
         return {'sucesso':True,'mensagem':'reforma atualizada com sucesso.','id':u.id,'id_cliente':u.id_cliente ,'datainicio':u.datainicio, 'nome':u.nome, 'descricao':u.descricao}
-                
-    def inserirReformaProfissional(self,id_reforma, id_profissional):
-        i = ReformaProfissional(id_reforma,id_profissional)
-        db.session.add(i)   
-        db.session.commit()
-        return {'sucesso':True,'mensagem':'profissional adicionado com sucesso.','id_reforma':i.id_reforma,'id_profissional':i.id_profissional}
     
     def validarIntegridade(self,id_cliente, datainicio, nome, descricao):
         if id_cliente is None:
@@ -94,3 +88,22 @@ class ControllerReforma():
         elif descricao is None:
             return {'sucesso':False, 'mensagem':'descricao em branco.'}
         return {'sucesso':True}
+######################################################################### REFORMA PROFISSIONAL ########################################################################################################################
+
+    def inserirReformaProfissional(self,id_reforma, id_profissional):
+        i = ReformaProfissional(id_reforma,id_profissional)
+        db.session.add(i)   
+        db.session.commit()
+        return {'sucesso':True,'mensagem':'profissional adicionado com sucesso.','id_reforma':i.id_reforma,'id_profissional':i.id_profissional}
+
+    # def retornarReformaProfissional(self,id):
+    #     g = Reforma.query.get(id)
+    #     if g == None:
+    #         return {'sucesso':False, 'mensagem':'reforma não existe.'}
+            
+    #     h = ReformaProfissional.query.filter_by(id_reforma=id).all()
+    #     lista = list()
+    #     for profic in h:
+    #         prof = Profissional.query.get(profic.id_profissional)
+    #         lista.append(prof.id)            
+    #     return {'sucesso':True, 'mensagem':'reforma retornada com sucesso.','id':g.id,'id_cliente':g.id_cliente,'datainicio':g.datainicio,'nome':g.nome,'descricao':g.descricao, 'listaProfissionais':lista}

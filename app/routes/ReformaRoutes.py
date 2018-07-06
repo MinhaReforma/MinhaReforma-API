@@ -45,12 +45,19 @@ def reforma(id):
 def profissionais():
     if (request.method == 'POST'):
         some_json = request.get_json()
-        if facade.inserirReformaProfissional(some_json['id_reforma'],some_json['id_profissional']):
-            return jsonify({'sucesso':True}), 201
-        return jsonify({'sucesso':False}), 400
+        result = facade.inserirReformaProfissional(some_json['id_reforma'],some_json['id_profissional'])
+        if result['sucesso']:
+            return jsonify(result), 201
+        return jsonify(result), 400
     
     if (request.method == 'GET'):
-        some_json = request.get_json()
-        if facade.inserirReformaProfissional(some_json['id_reforma'],some_json['id_profissional']):
-            return jsonify({'sucesso':True}), 201
-        return jsonify({'sucesso':False}), 400
+        if id == None:
+            result = facade.retornarTodasReformasProfissionais()
+            if result['sucesso']:
+                return jsonify(result), 200
+            return jsonify(result),400
+        else:
+            result = facade.retornarReformaProfissional(id)
+            if result['sucesso']:
+                return jsonify(result), 200
+            return jsonify(result),400
