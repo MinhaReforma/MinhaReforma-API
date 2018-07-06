@@ -29,8 +29,8 @@ class Facade():
     def atualizarCliente(self, id, cpf, nome, telefone, senha):
         return self.__cliente.atualizarCliente(id, cpf, nome, telefone, senha)
     
-    def login(self, telefone, senha):
-        return self.__login.login(telefone, senha)
+    def login(self, telefone, senha, tipoPessoa):
+        return self.__login.login(telefone, senha, tipoPessoa)
     
     def inserirProfissional(self,cpf,nome,telefone,senha,habilidades):
         return self.__profissional.inserirProfissional(cpf, nome, telefone, senha, habilidades)
