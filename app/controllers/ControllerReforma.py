@@ -56,7 +56,7 @@ class ControllerReforma():
                 listaprof.append(prof.id)
             lista.append({'id':g[i].id,'id_cliente':g[i].id_cliente,'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
 
-        return {'sucesso':True,'mensagem':'todos as reformas retornadas com sucesso.','reformas':lista}
+        return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
                 
     def atualizarReforma(self,id,id_cliente,datainicio,nome,descricao):#, id_status,id_profissional,preco)   
         result = self.validarIntegridade(id,id_cliente,datainicio,nome,descricao)

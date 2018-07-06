@@ -38,11 +38,13 @@ class ControllerProfissional():
         for hab in habilidades:
             tudo = Habilidade.query.all()
 
+            sidekick = str()
             for um in tudo:
                 if hab == um.habilidade:
+                    sidekick = um.habilidade
                     break
 
-            if hab != um.habilidade:
+            if hab != sidekick:
                 k = Habilidade(hab)
                 db.session.add(k)
                 db.session.commit()
