@@ -49,7 +49,7 @@ class ControllerReforma():
         lista = list()
         listaprof = list()
         for i in range(len(g)):
-            refprof = ReformaProfissional.query.filter_by(id_reforma=g[i].id_reforma)
+            refprof = ReformaProfissional.query.filter_by(id_reforma=g[i].id)
 
             for profis in refprof:
                 prof = Profissional.query.get(profis.id_profissional)
