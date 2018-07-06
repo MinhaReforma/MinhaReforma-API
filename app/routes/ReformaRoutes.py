@@ -41,7 +41,7 @@ def reforma(id):
 
 # @app.route("/reformas/profissionais/id", methods=['GET'])
 # @app.route("/reformas/profissionais/", defaults={'id':None}, methods=['POST'])
-@app.route("/reformas/profissionais", defaults={'id':None}, methods=['POST'])
+@app.route("/reformas/profissionais", methods=['POST'])
 def profissionais():
     if (request.method == 'POST'):
         some_json = request.get_json()
