@@ -4,9 +4,11 @@ class Pessoa(db.Model):
     __tablename__ = "pessoa"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_usuario = db.Column(db.Integer)
-    cpf = db.Column(db.String, unique=True)
-    nome = db.Column(db.String)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), unique=True, nullable=False)
+    cpf = db.Column(db.String, unique=True, nullable=False)
+    nome = db.Column(db.String, nullable=False)
+    cliente = db.relationship('Cliente', backref='pessoa', lazy='joined', uselist=False)
+    profissional = db.relationship('Profissional', backref='pessoa', lazy='joined', uselist=False)
     #id_carteira = db.Column(db.Integer)
     #foto = db.Column(db.String)
 

@@ -1,16 +1,24 @@
 from app import db
 
+refprofissionais = db.Table("reformaProfissional",
+    db.Column('id_reforma', db.Integer, db.ForeignKey('reforma.id'), primary_key=True),
+    db.Column('id_profissional', db.Integer, db.ForeignKey('profissional.id'), primary_key=True)
+)
+
 class Reforma(db.Model):
     __tablename__ = "reforma"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_cliente = db.Column(db.Integer)
+    id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
     datainicio = db.Column(db.String)
-    nome = db.Column(db.String)
+    nome = db.Column(db.String, nullable=False)
     descricao = db.Column(db.String)
+    profissionais = db.relationship('Profissional', secondary=refprofissionais, lazy='subquery', backref='reforma')
+    pagamentos = db.relationship('Pagamento', backref='reforma')
+    negociacoes = db.relationship('NegociacaoPreco', backref='reforma')
+    conversas = db.relationship('Conversa', backref='reforma')
     #listaFotos
     #id_status = db.Column(db.Integer)
-    #id_profissional = db.Column(db.Integer)
     #preco = db.Column(db.Float)
  
     def __init__(self, id_cliente, datainicio, nome, descricao):#, id_status, id_profissional, preco):

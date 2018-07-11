@@ -6,6 +6,7 @@ class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     telefone = db.Column(db.String, unique=True)
     senha = db.Column(db.String)
+    pessoa = db.relationship('Pessoa', backref='usuario', lazy='joined', uselist=False)
 
     def __init__(self, telefone, senha):
         self.telefone = telefone
