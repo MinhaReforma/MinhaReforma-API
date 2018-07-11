@@ -4,8 +4,8 @@ class Mensagem(db.Model):
     __tablename__ = "mensagem"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_conversa = db.Column(db.Integer, nullable=False)
-    Data = db.Column(db.DateTime, nullable=False)
+    id_conversa = db.Column(db.Integer, db.ForeignKey('conversa.id') , nullable=False)
+    Data = db.Column(db.String)
     mensagem = db.Column(db.String, nullable=False)
 
     def __init__(self, id_conversa, Data, mensagem):

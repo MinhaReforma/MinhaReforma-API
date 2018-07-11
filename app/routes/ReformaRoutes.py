@@ -39,10 +39,10 @@ def reforma(id):
             return jsonify(result), 200
         return jsonify(result), 400
 
-# @app.route("/reformas/profissionais/id", methods=['GET'])
-# @app.route("/reformas/profissionais/", defaults={'id':None}, methods=['POST'])
-@app.route("/reformas/profissionais", methods=['POST'])
-def profissionais():
+@app.route("/reformas/profissionais/<idr>/<idp>", methods=['GET'])
+@app.route("/reformas/profissionais/", defaults={'idr':None, 'idp':None}, methods=['POST', 'GET'])
+@app.route("/reformas/profissionais", defaults={'idr':None, 'idp':None}, methods=['POST', 'GET'])
+def profissionais(idr,idp):
     if (request.method == 'POST'):
         some_json = request.get_json()
         result = facade.inserirReformaProfissional(some_json['id_reforma'],some_json['id_profissional'])
@@ -51,13 +51,13 @@ def profissionais():
         return jsonify(result), 400
     
     # if (request.method == 'GET'):
-    #     if id == None:
+    #     if idr == None and idp == None:
     #         result = facade.retornarTodasReformasProfissionais()
     #         if result['sucesso']:
     #             return jsonify(result), 200
     #         return jsonify(result),400
     #     else:
-    #         result = facade.retornarReformaProfissional(id)
+    #         result = facade.retornarReformaProfissional(idr,idp)
     #         if result['sucesso']:
     #             return jsonify(result), 200
     #         return jsonify(result),400

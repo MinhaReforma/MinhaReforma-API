@@ -1,10 +1,10 @@
-from app.Facade import SQLAlchemy, BaseQuery, db, ModelProfissional, ModelPessoa, ModelUsuario, ModelHabilidade, ModelProfissionalHabilidade, ModelCliente
+from app.Facade import SQLAlchemy, BaseQuery, db, ModelProfissional, ModelPessoa, ModelUsuario, ModelHabilidade, ModelCliente#, ModelProfissionalHabilidade
 
 Profissional = ModelProfissional.Profissional
 Pessoa = ModelPessoa.Pessoa
 Usuario = ModelUsuario.Usuario
 Habilidade = ModelHabilidade.Habilidade
-ProfissionalHabilidade = ModelProfissionalHabilidade.ProfissionalHabilidade
+#ProfissionalHabilidade = ModelProfissionalHabilidade.ProfissionalHabilidade
 Cliente = ModelCliente.Cliente
 
 class ControllerProfissional():
@@ -49,8 +49,7 @@ class ControllerProfissional():
                 db.session.add(k)
                 db.session.commit()
                 
-                l = ProfissionalHabilidade(j.id, k.id)
-                db.session.add(l)
+                j.habilidades.append(k)
                 db.session.commit()
 
         return {'sucesso':True,'mensagem':'profissional cadastrado com sucesso.','id':j.id,'cpf':i.cpf,'telefone':h.telefone,'habilidades':habilidades}
@@ -71,7 +70,7 @@ class ControllerProfissional():
             db.session.commit()
         
         db.session.delete(d)
-        ProfissionalHabilidade.query.filter_by(id_profissional=id).delete()
+        #ProfissionalHabilidade.query.filter_by(id_profissional=id).delete()
         db.session.commit()
 
         return {'sucesso':True, 'mensagem':'profissional removido com sucesso.'}
@@ -83,14 +82,14 @@ class ControllerProfissional():
         h = Pessoa.query.get(str(g.id_pessoa))
         i = Usuario.query.get(h.id_usuario)
 
-        profhab = ProfissionalHabilidade.query.filter_by(id_profissional=id)
-        lista = list()
+        #profhab = ProfissionalHabilidade.query.filter_by(id_profissional=id)
+        # lista = list()
 
-        for habil in profhab:
-            hab = Habilidade.query.get(habil.id_habilidade)
-            lista.append(hab.habilidade)
+        # for habil in profhab:
+        #     hab = Habilidade.query.get(habil.id_habilidade)
+        #     lista.append(hab.habilidade)
             
-        return {'sucesso':True,'mensagem':'profissional retornado com sucesso.','id':g.id,'cpf':h.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':lista}
+        return {'sucesso':True,'mensagem':'profissional retornado com sucesso.','id':g.id,'cpf':h.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':g.habilidades}
 
     def retornarTodosProfissionais(self):
         g = Profissional.query.all()
@@ -103,10 +102,10 @@ class ControllerProfissional():
         for i in range(len(g)):
             p = Pessoa.query.get(g[i].id_pessoa)
             u = Usuario.query.get(p.id_usuario)
-            profhab = ProfissionalHabilidade.query.filter_by(id_profissional=g[i].id)
+            # profhab = ProfissionalHabilidade.query.filter_by(id_profissional=g[i].id)
 
-            for habil in profhab:
-                hab = Habilidade.query.get(habil.id_habilidade)
+            for habil in g[i].habilidades:
+                hab = Habilidade.query.get(habil.id)
                 listhab.append(hab.habilidade)
             lista.append({'id':g[i].id,'cpf':p.cpf,'nome':p.nome,'telefone':u.telefone,'habilidades':listhab})
         return {'sucesso':True,'mensagem':'todos os profissionais retornados com sucesso.','profissionais':lista}
@@ -127,7 +126,8 @@ class ControllerProfissional():
         x.telefone = telefone
         x.senha = senha
 
-        ProfissionalHabilidade.query.filter_by(id_profissional=id).delete()
+        #ProfissionalHabilidade.query.filter_by(id_profissional=id).delete()
+        u.habilidades.clear()
         for hab in habilidades:
             tudo = Habilidade.query.all()
 
@@ -140,8 +140,9 @@ class ControllerProfissional():
                 db.session.add(k)
                 db.session.commit()
 
-                l = ProfissionalHabilidade(id, k.id)
-                db.session.add(l)
+                #l = ProfissionalHabilidade(id, k.id)
+                #db.session.add(l)
+                u.habilidades.append(k)
                 db.session.commit()
 
         db.session.commit()
