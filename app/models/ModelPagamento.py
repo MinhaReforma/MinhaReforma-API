@@ -4,8 +4,8 @@ class Pagamento(db.Model):
     __tablename__ = "pagamento"
 
     id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.DateTime)
-    id_reforma = db.Column(db.Integer)
+    data = db.Column(db.DateTime, nullable=False)
+    id_reforma = db.Column(db.Integer, nullable=False)
 
     def __init__(self, data, id_reforma):
         self.data = data

@@ -4,8 +4,8 @@ class Usuario(db.Model):
     __tablename__ = "usuario"
 
     id = db.Column(db.Integer, primary_key=True)
-    telefone = db.Column(db.String, unique=True)
-    senha = db.Column(db.String)
+    telefone = db.Column(db.String, unique=True, nullable=False)
+    senha = db.Column(db.String, nullable=False)
 
     def __init__(self, telefone, senha):
         self.telefone = telefone

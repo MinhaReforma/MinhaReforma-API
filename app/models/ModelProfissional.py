@@ -4,7 +4,7 @@ class Profissional(db.Model):
     __tablename__ = "profissional"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_pessoa = db.Column(db.Integer)
+    id_pessoa = db.Column(db.Integer, nullable=False)
     #id_areaAtuacao = db.Column(db.Integer)
 
     def __init__(self, id_pessoa):#, id_areaAtuacao):

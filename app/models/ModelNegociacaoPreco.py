@@ -4,10 +4,10 @@ class NegociacaoPreco(db.Model):
     __tablename__ = "negociacaopreco"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_cliente = db.Column(db.Integer)
-    id_profissional = db.Column(db.Integer)
+    id_cliente = db.Column(db.Integer, nullable=False)
+    id_profissional = db.Column(db.Integer, nullable=False)
     preco = db.Column(db.Float)
-    id_reforma = db.Column(db.Integer)
+    id_reforma = db.Column(db.Integer, nullable=False)
 
     def __init__(self, id_cliente, id_profissional, preco, id_reforma):
         self.id_cliente = id_cliente
