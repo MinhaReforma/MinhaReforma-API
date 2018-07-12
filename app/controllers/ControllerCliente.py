@@ -16,13 +16,13 @@ class ControllerCliente():
         if h == None:
             h = Usuario(telefone, senha)
             db.session.add(h)
-            db.session.commit()
+            #db.session.commit()
 
         i = Pessoa.query.filter(Pessoa.cpf == cpf).first()
         if i == None:
             i = Pessoa(cpf,nome,h.id)
             db.session.add(i)
-            db.session.commit()
+            #db.session.commit()
 
         j = Cliente.query.filter(Cliente.id_pessoa == i.id).first()
         if j == None:
@@ -45,9 +45,9 @@ class ControllerCliente():
 
         if p == None:
             db.session.delete(e)
-            db.session.commit()
+            #db.session.commit()
             db.session.delete(f)
-            db.session.commit()
+            #db.session.commit()
 
         db.session.delete(d)
         db.session.commit()

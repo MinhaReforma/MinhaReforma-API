@@ -19,19 +19,19 @@ class ControllerProfissional():
         if h == None:
             h = Usuario(telefone, senha)
             db.session.add(h)
-            db.session.commit()
+            #db.session.commit()
         
         i = Pessoa.query.filter(Pessoa.cpf == cpf).first()
         if i == None:
             i = Pessoa(cpf,nome,h.id)
             db.session.add(i)
-            db.session.commit()
+            #db.session.commit()
         
         j = Profissional.query.filter(Profissional.id_pessoa == i.id).first()
         if j == None:
             j = Profissional(i.id)
             db.session.add(j)
-            db.session.commit()
+            #db.session.commit()
         else:
             return {'sucesso':False, 'mensagem':'profissional existente.'}
 
@@ -47,10 +47,12 @@ class ControllerProfissional():
             if hab != sidekick:
                 k = Habilidade(hab)
                 db.session.add(k)
-                db.session.commit()
+                #db.session.commit()
                 
                 j.habilidades.append(k)
-                db.session.commit()
+                #db.session.commit()
+
+        db.session.commit()
 
         return {'sucesso':True,'mensagem':'profissional cadastrado com sucesso.','id':j.id,'cpf':i.cpf,'telefone':h.telefone,'habilidades':habilidades}
 
@@ -65,9 +67,9 @@ class ControllerProfissional():
 
         if c == None:
             db.session.delete(e)
-            db.session.commit()
+            #db.session.commit()
             db.session.delete(f)
-            db.session.commit()
+            #db.session.commit()
         
         db.session.delete(d)
         #ProfissionalHabilidade.query.filter_by(id_profissional=id).delete()
@@ -138,14 +140,15 @@ class ControllerProfissional():
             if hab != um.habilidade:
                 k = Habilidade(hab)
                 db.session.add(k)
-                db.session.commit()
+                #db.session.commit()
 
                 #l = ProfissionalHabilidade(id, k.id)
                 #db.session.add(l)
                 u.habilidades.append(k)
-                db.session.commit()
+                #db.session.commit()
 
         db.session.commit()
+        
         return {'sucesso':True,'mensagem':'profissional atualizado com sucesso.','id':u.id,'cpf':v.cpf,'telefone':x.telefone,'habilidades':habilidades}
     
     def validarIntegridade(self,cpf,nome,telefone,senha,habilidades):
