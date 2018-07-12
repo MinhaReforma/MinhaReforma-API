@@ -1,13 +1,18 @@
 from app import db
+from sqlalchemy.orm import backref
+
 
 class Cliente(db.Model):
     __tablename__ = "cliente"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_pessoa = db.Column(db.Integer, db.ForeignKey('pessoa.id'), unique=True, nullable=False)
-    reformas = db.relationship('Reforma', backref='cliente', lazy='joined')
-    negociacoes = db.relationship('NegociacaoPreco', backref='cliente')
-    conversas = db.relationship('Conversa', backref='cliente')
+    id_pessoa = db.Column(db.Integer, db.ForeignKey('pessoa.id', ondelete='CASCADE'), unique=True, nullable=False)
+
+    pessoa = db.relationship('Pessoa', backref=backref('cliente', passive_deletes=True), lazy='joined', uselist=False)
+
+    # reformas = db.relationship('Reforma', backref='cliente', lazy='joined')
+    # negociacoes = db.relationship('NegociacaoPreco', backref='cliente')
+    # conversas = db.relationship('Conversa', backref='cliente')
 
     def __init__(self, id_pessoa):
         self.id_pessoa = id_pessoa

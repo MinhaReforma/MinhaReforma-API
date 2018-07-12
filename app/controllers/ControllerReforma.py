@@ -1,9 +1,10 @@
-from app.Facade import SQLAlchemy, BaseQuery, db, ModelReforma, ModelProfissional, ModelCliente, ModelConversa
+from app.Facade import SQLAlchemy, BaseQuery, db, ModelReforma, ModelProfissional, ModelCliente, ModelConversa, ModelHabilidade
 
 Reforma = ModelReforma.Reforma
 Profissional = ModelProfissional.Profissional
 Cliente = ModelCliente.Cliente
 Conversa = ModelConversa.Conversa
+Habilidade = ModelHabilidade.Habilidade
 
 class ControllerReforma():
 
@@ -33,16 +34,16 @@ class ControllerReforma():
         g = Reforma.query.get(id)
         if g == None:
             return {'sucesso':False, 'mensagem':'reforma não existe.'}
-            
+                
         lista = list()
-        for profic in h:
+        for profic in g.profissionais:
             listhab = list()
             prof = Profissional.query.get(profic.id_profissional)
             for habil in prof.habilidades:
-                hab = Habilidade.query.get(habil.id_habilidade)
+                hab = Habilidade.query.get(habil.id)
                 listhab.append(hab.habilidade)
-            lista.append({'id':prof.id,'cpf':prof.cpf,'nome':prof.nome,'telefone':prof.telefone, 'habilidade':listhab})            
-        return {'sucesso':True, 'mensagem':'reforma retornada com sucesso.','id':g.id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g.datainicio,'nome':g.nome,'descricao':g.descricao, 'listaProfissionais':lista}
+            lista.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidade':listhab})            
+        return {'sucesso':True, 'mensagem':'reforma retornada com sucesso.','id':g.id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.pessoa.cpf,'nome':g.cliente.pessoa.nome,'telefone':g.cliente.pessoa.usuario.telefone},'datainicio':g.datainicio,'nome':g.nome,'descricao':g.descricao, 'listaProfissionais':lista, 'status':g.status}
 
     def retornarTodasReformas(self):
         g = Reforma.query.all()
@@ -57,15 +58,20 @@ class ControllerReforma():
                 listhab = list()
                 prof = Profissional.query.get(profis.id)
                 for habil in prof.habilidades:
-                    hab = Habilidade.query.get(habil.id_habilidade)
+                    hab = Habilidade.query.get(habil.id)
                     listhab.append(hab.habilidade)
+<<<<<<< HEAD
                 listaprof.append({'id':prof.id,'cpf':prof.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':listhab})
             lista.append({'id':g[i].id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'status':g[i].status, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
+=======
+                listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidades':listhab})
+            lista.append({'id':g[i].id,'cliente':{'id':g[i].cliente.id,'cpf':g[i].cliente.pessoa.cpf,'nome':g[i].cliente.pessoa.nome,'telefone':g[i].cliente.pessoa.usuario.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof, 'status':g[i].status})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
+>>>>>>> bf9e92d843c23f6e17d671dea97107f98265dc77
 
         return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
     
     def retornarTodasReformasCliente(self, id_cliente):
-        g = Reforma.query.filter_by(id_cliente==id_cliente).all()
+        g = Reforma.query.filter_by(id_cliente=id_cliente).all()
         if g == None:
             return {'sucesso':False, 'mensagem':'não há reformas.'}
 
@@ -77,15 +83,20 @@ class ControllerReforma():
                 listhab = list()
                 prof = Profissional.query.get(profis.id)
                 for habil in prof.habilidades:
-                    hab = Habilidade.query.get(habil.id_habilidade)
+                    hab = Habilidade.query.get(habil.id)
                     listhab.append(hab.habilidade)
+<<<<<<< HEAD
                 listaprof.append({'id':prof.id,'cpf':prof.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':listhab})
             lista.append({'id':g[i].id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao,'status':g[i].status, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
+=======
+                listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidades':listhab})
+            lista.append({'id':g[i].id,'cliente':{'id':g[i].cliente.id,'cpf':g[i].cliente.pessoa.cpf,'nome':g[i].cliente.pessoa.nome,'telefone':g[i].cliente.pessoa.usuario.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof, 'status':g[i].status})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
+>>>>>>> bf9e92d843c23f6e17d671dea97107f98265dc77
 
         return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
 
     def retornarTodasReformasProfissional(self, id_profissional):
-        f = Profissional.query.filter_by(id==id_profissional).first()
+        f = Profissional.query.filter_by(id=id_profissional).first()
         g = f.reformas
         if g == None:
             return {'sucesso':False, 'mensagem':'não há reformas.'}
@@ -98,10 +109,15 @@ class ControllerReforma():
                 listhab = list()
                 prof = Profissional.query.get(profis.id)
                 for habil in prof.habilidades:
-                    hab = Habilidade.query.get(habil.id_habilidade)
+                    hab = Habilidade.query.get(habil.id)
                     listhab.append(hab.habilidade)
+<<<<<<< HEAD
                 listaprof.append({'id':prof.id,'cpf':prof.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':listhab})
             lista.append({'id':g[i].id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao,'status':g[i].status, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
+=======
+                listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidades':listhab})
+            lista.append({'id':g[i].id,'cliente':{'id':g[i].cliente.id,'cpf':g[i].cliente.cpf,'nome':g[i].cliente.nome,'telefone':g[i].cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof, 'status':g[i].status})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
+>>>>>>> bf9e92d843c23f6e17d671dea97107f98265dc77
 
         return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
                 
@@ -124,7 +140,11 @@ class ControllerReforma():
         #u.preco = preco
         db.session.commit()
 
+<<<<<<< HEAD
         return {'sucesso':True,'mensagem':'reforma atualizada com sucesso.','id':u.id,'id_cliente':u.id_cliente ,'datainicio':u.datainicio, 'nome':u.nome, 'descricao':u.status, 'descricao':u.status}
+=======
+        return {'sucesso':True,'mensagem':'reforma atualizada com sucesso.','id':u.id,'id_cliente':u.id_cliente ,'datainicio':u.datainicio, 'nome':u.nome, 'descricao':u.descricao, 'status':status}
+>>>>>>> bf9e92d843c23f6e17d671dea97107f98265dc77
     
     def validarIntegridade(self,id_cliente, datainicio, nome, descricao, status):
         if id_cliente is None:
@@ -135,7 +155,11 @@ class ControllerReforma():
             return {'sucesso':False, 'mensagem':'nome em branco.'}
         elif descricao is None:
             return {'sucesso':False, 'mensagem':'descricao em branco.'}
+<<<<<<< HEAD
         elif status is None:
+=======
+        elif status == None:
+>>>>>>> bf9e92d843c23f6e17d671dea97107f98265dc77
             return {'sucesso':False, 'mensagem':'status em branco.'}
         return {'sucesso':True}
 
@@ -143,19 +167,19 @@ class ControllerReforma():
 
     def inserirReformaProfissional(self,id_reforma, id_profissional):
 
-        ir = Reforma.query.get(id_reforma)
-        ip = Profissional.query.get(id_profissional)
+        reforma = Reforma.query.get(id_reforma)
+        profissional = Profissional.query.get(id_profissional)
 
-        if ip in ir.profissionais:
+        if profissional in reforma.profissionais:
             return {'sucesso':True, 'mensagem':'profissional existente na reforma'}
 
-        h = Conversa.query.filter(Conversa.id_reforma == ir, Conversa.id_profissional == ip).first()
+        h = Conversa.query.filter(Conversa.id_reforma == reforma.id, Conversa.id_profissional == profissional.id).first()
         if h == None:
-            h = Conversa(ir, ir.id_cliente, ip)
+            h = Conversa(reforma.id, reforma.id_cliente, profissional.id)
             db.session.add(h)
             db.session.commit()
 
-        ir.profissionais.append(ip)
-        db.session.add(ir)   
+        reforma.profissionais.append(profissional)
+        db.session.add(reforma)   
         db.session.commit()
-        return {'sucesso':True,'mensagem':'profissional adicionado com sucesso.','id_reforma':ir.id,'id_profissional':ip.id}
+        return {'sucesso':True,'mensagem':'profissional adicionado com sucesso.','id_reforma':reforma.id,'id_profissional':profissional.id}
