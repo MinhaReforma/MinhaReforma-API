@@ -1,9 +1,8 @@
 from flask import render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy, BaseQuery
 from app import db,app
-from app.models import ModelUsuario, ModelCliente, ModelPessoa, ModelProfissional, ModelReforma, ModelPagamento, ModelNegociacaoPreco, ModelHabilidade, ModelMensagem, ModelConversa#, ModelProfissionalHabilidade, ModelReformaProfissional
-from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma, ControllerLogin, ControllerProfissional
-#from app.routes import IndexRoutes, UsuarioRoutes, ClienteRoutes, ReformaRoutes, LoginRoutes
+from app.models import ModelUsuario, ModelCliente, ModelPessoa, ModelProfissional, ModelReforma, ModelPagamento, ModelNegociacaoPreco, ModelHabilidade, ModelMensagem, ModelConversa
+from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma, ControllerLogin, ControllerProfissional, ControllerConversa
 
 class Facade():
 
@@ -13,6 +12,7 @@ class Facade():
         self.__cliente = ControllerCliente.ControllerCliente()
         self.__profissional = ControllerProfissional.ControllerProfissional()
         self.__login = ControllerLogin.ControllerLogin()
+        self.__conversa = ControllerConversa.ControllerConversa()
     
     def inserirCliente(self, cpf, nome, telefone, senha):
         return self.__cliente.inserirCliente(cpf, nome, telefone, senha)
@@ -58,18 +58,18 @@ class Facade():
 
     def retornarTodasReformas(self):
         return self.__reforma.retornarTodasReformas()
+    
+    def retornarTodasReformasProfissional(self,id):
+        return self.__reforma.retornarTodasReformasProfissional(id)
+    
+    def retornarTodasReformasCliente(self,id):
+        return self.__reforma.retornarTodasReformasCliente(id)
                 
     def atualizarReforma(self,id,id_cliente,datainicio,nome,descricao):#, id_status,id_profissional,preco) 
         return self.__reforma.atualizarReforma(id, id_cliente, datainicio, nome, descricao)  
                 
     def inserirReformaProfissional(self,id_reforma, id_profissional):
         return self.__reforma.inserirReformaProfissional(id_reforma, id_profissional)
-    
-    def retornarReformaProfissional(self, idr, idp):
-        return self.__reforma.retornarReformaProfissional(idr, idp)
-    
-    def retornarTodasReformasProfissionais(self):
-        return self.__reforma.retornarTodasReformasProfissionais()
     
     def inserirUsuario(self,telefone,senha):
         return self.__usuario.inserirUsuario(telefone, senha)
@@ -85,3 +85,12 @@ class Facade():
 
     def atualizarUsuario(self,id,telefone,senha):
         return self.__usuario.atualizarUsuario(id, telefone, senha)
+    
+    def retornarConversa(self,id):
+        return self.__conversa.retornarConversa(id)
+    
+    def retornarTodasConversas(self):
+        return self.__conversa.retornarTodasConversas()
+    
+    def inserirMensagem(self, id_conversa, perfil, data, mensagem):
+        return self.__conversa.inserirMensagem(id_conversa,perfil,data,mensagem)

@@ -2,7 +2,6 @@ from app.Facade import render_template, request, jsonify, app, Facade
 
 facade = Facade()
 
-@app.route("/login/", methods=['POST'])
 @app.route("/login", methods=['POST'])
 def loginUsuario():
     if (request.method == 'POST'):

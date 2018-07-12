@@ -1,10 +1,9 @@
-from app.Facade import SQLAlchemy, BaseQuery, db, ModelProfissional, ModelPessoa, ModelUsuario, ModelHabilidade, ModelCliente#, ModelProfissionalHabilidade
+from app.Facade import SQLAlchemy, BaseQuery, db, ModelProfissional, ModelPessoa, ModelUsuario, ModelHabilidade, ModelCliente
 
 Profissional = ModelProfissional.Profissional
 Pessoa = ModelPessoa.Pessoa
 Usuario = ModelUsuario.Usuario
 Habilidade = ModelHabilidade.Habilidade
-#ProfissionalHabilidade = ModelProfissionalHabilidade.ProfissionalHabilidade
 Cliente = ModelCliente.Cliente
 
 class ControllerProfissional():
@@ -39,18 +38,20 @@ class ControllerProfissional():
             tudo = Habilidade.query.all()
 
             sidekick = str()
-            for um in tudo:
+            for um in tudo: #Verifica se habilidade existe na tabela de Habilidade
                 if hab == um.habilidade:
                     sidekick = um.habilidade
                     break
 
-            if hab != sidekick:
+            if hab != sidekick:# se não existir, adiciona na tabela
                 k = Habilidade(hab)
                 db.session.add(k)
-                #db.session.commit()
+                db.session.commit()
+            else:
+                k = hab
                 
-                j.habilidades.append(k)
-                #db.session.commit()
+            j.habilidades.append(k)
+            db.session.commit()
 
         db.session.commit()
 
@@ -72,7 +73,6 @@ class ControllerProfissional():
             #db.session.commit()
         
         db.session.delete(d)
-        #ProfissionalHabilidade.query.filter_by(id_profissional=id).delete()
         db.session.commit()
 
         return {'sucesso':True, 'mensagem':'profissional removido com sucesso.'}
@@ -84,14 +84,13 @@ class ControllerProfissional():
         h = Pessoa.query.get(str(g.id_pessoa))
         i = Usuario.query.get(h.id_usuario)
 
-        #profhab = ProfissionalHabilidade.query.filter_by(id_profissional=id)
-        # lista = list()
+        lista = list()
 
-        # for habil in profhab:
-        #     hab = Habilidade.query.get(habil.id_habilidade)
-        #     lista.append(hab.habilidade)
+        for habil in g.habilidades:
+            hab = Habilidade.query.get(habil.id_habilidade)
+            lista.append(hab.habilidade)
             
-        return {'sucesso':True,'mensagem':'profissional retornado com sucesso.','id':g.id,'cpf':h.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':g.habilidades}
+        return {'sucesso':True,'mensagem':'profissional retornado com sucesso.','id':g.id,'cpf':h.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':lista}
 
     def retornarTodosProfissionais(self):
         g = Profissional.query.all()
@@ -104,7 +103,6 @@ class ControllerProfissional():
         for i in range(len(g)):
             p = Pessoa.query.get(g[i].id_pessoa)
             u = Usuario.query.get(p.id_usuario)
-            # profhab = ProfissionalHabilidade.query.filter_by(id_profissional=g[i].id)
 
             for habil in g[i].habilidades:
                 hab = Habilidade.query.get(habil.id)
@@ -140,12 +138,12 @@ class ControllerProfissional():
             if hab != um.habilidade:
                 k = Habilidade(hab)
                 db.session.add(k)
-                #db.session.commit()
+                db.session.commit()
+            else:
+                k = hab
 
-                #l = ProfissionalHabilidade(id, k.id)
-                #db.session.add(l)
-                u.habilidades.append(k)
-                #db.session.commit()
+            u.habilidades.append(k)
+            db.session.commit()
 
         db.session.commit()
         

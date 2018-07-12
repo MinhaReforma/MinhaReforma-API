@@ -3,7 +3,6 @@ from app.Facade import render_template, request, jsonify, app, Facade #Controlle
 facade = Facade()
 
 @app.route("/reformas/<id>",methods=['GET'])
-@app.route("/reformas/", defaults={'id':None}, methods=['POST','GET','DELETE','PUT'])
 @app.route("/reformas", defaults={'id':None}, methods=['POST','GET','DELETE','PUT'])
 def reforma(id):
     if (request.method == 'POST'):
@@ -39,9 +38,7 @@ def reforma(id):
             return jsonify(result), 200
         return jsonify(result), 400
 
-@app.route("/reformas/profissionais/<idr>/<idp>", methods=['GET'])
-@app.route("/reformas/profissionais/", defaults={'idr':None, 'idp':None}, methods=['POST', 'GET'])
-@app.route("/reformas/profissionais", defaults={'idr':None, 'idp':None}, methods=['POST', 'GET'])
+@app.route("/reformas/profissionais", methods=['POST'])
 def profissionais(idr,idp):
     if (request.method == 'POST'):
         some_json = request.get_json()
@@ -50,14 +47,21 @@ def profissionais(idr,idp):
             return jsonify(result), 201
         return jsonify(result), 400
     
-    # if (request.method == 'GET'):
-    #     if idr == None and idp == None:
-    #         result = facade.retornarTodasReformasProfissionais()
-    #         if result['sucesso']:
-    #             return jsonify(result), 200
-    #         return jsonify(result),400
-    #     else:
-    #         result = facade.retornarReformaProfissional(idr,idp)
-    #         if result['sucesso']:
-    #             return jsonify(result), 200
-    #         return jsonify(result),400
+
+@app.route("/reformas/profissional/<id>", methods=['GET'])
+def reformaProfissional(id):
+    if (request.method == 'GET'):
+        some_json = request.get_json()
+        result = facade.retornarTodasReformasProfissional(id)
+        if result['sucesso']:
+            return jsonify(result), 200
+        return jsonify(result), 400
+
+@app.route("/reformas/cliente/<id>", methods=['GET'])
+def reformaCliente(id):
+    if (request.method == 'GET'):
+        some_json = request.get_json()
+        result = facade.retornarTodasReformasCliente(id)
+        if result['sucesso']:
+            return jsonify(result), 200
+        return jsonify(result), 400

@@ -10,23 +10,23 @@ class Reforma(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
-    datainicio = db.Column(db.String)
+    datainicio = db.Column(db.Integer)
     nome = db.Column(db.String, nullable=False)
     descricao = db.Column(db.String, nullable=False)
-    profissionais = db.relationship('Profissional', secondary=refprofissionais, lazy='subquery', backref='reforma')
+    status = db.Column(db.String, nullable=False)
+    profissionais = db.relationship('Profissional', secondary=refprofissionais, lazy='subquery', backref='reformas')
     pagamentos = db.relationship('Pagamento', backref='reforma')
     negociacoes = db.relationship('NegociacaoPreco', backref='reforma')
     conversas = db.relationship('Conversa', backref='reforma')
     #listaFotos
-    #id_status = db.Column(db.Integer)
     #preco = db.Column(db.Float)
  
-    def __init__(self, id_cliente, datainicio, nome, descricao):#, id_status, id_profissional, preco):
+    def __init__(self, id_cliente, datainicio, nome, descricao, status):#, id_profissional, preco):
         self.id_cliente = id_cliente
         self.datainicio = datainicio
         self.nome = nome
         self.descricao = descricao
-        #self.id_status = id_status
+        self.status = status
         #self.id_profissional = id_profissional
         #self.preco = preco
 

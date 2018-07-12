@@ -3,7 +3,6 @@ from app.Facade import render_template, request, jsonify, app, Facade
 facade = Facade()
 
 @app.route("/profissionais/<id>",methods=['GET'])
-@app.route("/profissionais/", defaults={'id':None}, methods=['POST','GET','DELETE','PUT'])
 @app.route("/profissionais", defaults={'id':None}, methods=['POST','GET','DELETE','PUT'])
 def profissional(id):
     if (request.method == 'POST'):
