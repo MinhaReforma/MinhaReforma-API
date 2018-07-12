@@ -12,7 +12,7 @@ class Reforma(db.Model):
     id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
     datainicio = db.Column(db.String)
     nome = db.Column(db.String, nullable=False)
-    descricao = db.Column(db.String)
+    descricao = db.Column(db.String, nullable=False)
     profissionais = db.relationship('Profissional', secondary=refprofissionais, lazy='subquery', backref='reforma')
     pagamentos = db.relationship('Pagamento', backref='reforma')
     negociacoes = db.relationship('NegociacaoPreco', backref='reforma')
