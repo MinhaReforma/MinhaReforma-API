@@ -7,17 +7,17 @@ Conversa = ModelConversa.Conversa
 
 class ControllerReforma():
 
-    def inserirReforma(self,id_cliente, datainicio, nome, descricao):
+    def inserirReforma(self,id_cliente, datainicio, nome, descricao, status):
 
-        result = self.validarIntegridade(id_cliente, datainicio, nome, descricao)
+        result = self.validarIntegridade(id_cliente, datainicio, nome, descricao, status)
         if result['sucesso'] is False:
             return result
 
-        i = Reforma(id_cliente,datainicio,nome,descricao)#,id_status,id_profissional,preco)
+        i = Reforma(id_cliente,datainicio,nome,descricao,status)#,id_status,id_profissional,preco)
         db.session.add(i)   
         db.session.commit()
 
-        return {'sucesso':True,'mensagem':'reforma cadastrada com sucesso.','id_cliente':i.id_cliente,'datainicio':i.datainicio,'nome':i.nome,'descricao':i.descricao}
+        return {'sucesso':True,'mensagem':'reforma cadastrada com sucesso.','id_cliente':i.id_cliente,'datainicio':i.datainicio,'nome':i.nome,'descricao':i.descricao,'status':i.status}
 
     def removerReforma(self,id):
         d = Reforma.query.get(id)
@@ -60,7 +60,7 @@ class ControllerReforma():
                     hab = Habilidade.query.get(habil.id_habilidade)
                     listhab.append(hab.habilidade)
                 listaprof.append({'id':prof.id,'cpf':prof.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':listhab})
-            lista.append({'id':g[i].id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
+            lista.append({'id':g[i].id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'status':g[i].status, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
 
         return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
     
@@ -80,7 +80,7 @@ class ControllerReforma():
                     hab = Habilidade.query.get(habil.id_habilidade)
                     listhab.append(hab.habilidade)
                 listaprof.append({'id':prof.id,'cpf':prof.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':listhab})
-            lista.append({'id':g[i].id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
+            lista.append({'id':g[i].id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao,'status':g[i].status, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
 
         return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
 
@@ -101,12 +101,12 @@ class ControllerReforma():
                     hab = Habilidade.query.get(habil.id_habilidade)
                     listhab.append(hab.habilidade)
                 listaprof.append({'id':prof.id,'cpf':prof.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':listhab})
-            lista.append({'id':g[i].id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
+            lista.append({'id':g[i].id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao,'status':g[i].status, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
 
         return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
                 
-    def atualizarReforma(self,id,id_cliente,datainicio,nome,descricao):#, id_status,id_profissional,preco)   
-        result = self.validarIntegridade(id,id_cliente,datainicio,nome,descricao)
+    def atualizarReforma(self,id,id_cliente,datainicio,nome,descricao,status):#, id_status,id_profissional,preco)   
+        result = self.validarIntegridade(id,id_cliente,datainicio,nome,descricao,status)
         if result['sucesso'] is False:
             return result
 
@@ -118,14 +118,15 @@ class ControllerReforma():
         u.datainicio = datainicio
         u.nome = nome
         u.descricao = descricao
+        u.status = status
         #u.id_status = id_status
         #u.id_profissional = id_profissional
         #u.preco = preco
         db.session.commit()
 
-        return {'sucesso':True,'mensagem':'reforma atualizada com sucesso.','id':u.id,'id_cliente':u.id_cliente ,'datainicio':u.datainicio, 'nome':u.nome, 'descricao':u.descricao}
+        return {'sucesso':True,'mensagem':'reforma atualizada com sucesso.','id':u.id,'id_cliente':u.id_cliente ,'datainicio':u.datainicio, 'nome':u.nome, 'descricao':u.status, 'descricao':u.status}
     
-    def validarIntegridade(self,id_cliente, datainicio, nome, descricao):
+    def validarIntegridade(self,id_cliente, datainicio, nome, descricao, status):
         if id_cliente is None:
             return {'sucesso':False, 'mensagem':'id_cliente em branco.'}
         elif datainicio is None:
@@ -134,6 +135,8 @@ class ControllerReforma():
             return {'sucesso':False, 'mensagem':'nome em branco.'}
         elif descricao is None:
             return {'sucesso':False, 'mensagem':'descricao em branco.'}
+        elif status is None:
+            return {'sucesso':False, 'mensagem':'status em branco.'}
         return {'sucesso':True}
 
 ######################################################################### REFORMA PROFISSIONAL ########################################################################################################################

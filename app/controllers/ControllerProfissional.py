@@ -150,15 +150,15 @@ class ControllerProfissional():
         return {'sucesso':True,'mensagem':'profissional atualizado com sucesso.','id':u.id,'cpf':v.cpf,'telefone':x.telefone,'habilidades':habilidades}
     
     def validarIntegridade(self,cpf,nome,telefone,senha,habilidades):
-        if cpf is None:
+        if cpf is None or cpf.strip() == "":
             return {'sucesso':False, 'mensagem':'cpf em branco.'}
-        elif nome is None:
+        elif nome is None or nome.strip() == "":
             return {'sucesso':False, 'mensagem':'nome em branco.'}
-        elif telefone is None:
+        elif telefone is None or telefone.strip() == "":
             return {'sucesso':False, 'mensagem':'telefone em branco.'}
-        elif senha is None:
+        elif senha is None or senha.strip() == "":
             return {'sucesso':False, 'mensagem':'senha em branco.'}
-        elif habilidades is list() or habilidades is None:
+        elif habilidades == list() or habilidades == None:
             return {'sucesso':False, 'mensagem':'habilidades em branco.'}
         return {'sucesso':True}
         
