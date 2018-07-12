@@ -47,8 +47,8 @@ class Facade():
     def atualizarProfissional(self,id,cpf,nome,telefone,senha,habilidades):
         return self.__profissional.atualizarProfissional( id, cpf, nome, telefone, senha, habilidades)
 
-    def inserirReforma(self,id_cliente, datainicio, nome, descricao):
-        return self.__reforma.inserirReforma(id_cliente, datainicio, nome, descricao)
+    def inserirReforma(self,id_cliente, datainicio, nome, descricao, status):
+        return self.__reforma.inserirReforma(id_cliente, datainicio, nome, descricao, status)
 
     def removerReforma(self,id):
         return self.__reforma.removerReforma(id)
@@ -65,7 +65,7 @@ class Facade():
     def retornarTodasReformasCliente(self,id):
         return self.__reforma.retornarTodasReformasCliente(id)
                 
-    def atualizarReforma(self,id,id_cliente,datainicio,nome,descricao):#, id_status,id_profissional,preco) 
+    def atualizarReforma(self,id,id_cliente,datainicio,nome,descricao, status):#, id_status,id_profissional,preco) 
         return self.__reforma.atualizarReforma(id, id_cliente, datainicio, nome, descricao)  
                 
     def inserirReformaProfissional(self,id_reforma, id_profissional):

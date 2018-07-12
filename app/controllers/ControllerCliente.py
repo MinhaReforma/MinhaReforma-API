@@ -32,7 +32,7 @@ class ControllerCliente():
         else:
             return {'sucesso':False, 'mensagem':'cliente existente.'}
 
-        return {'sucesso':True, 'mensagem':'cliente cadastrado com sucesso.','id':j.id,'cpf':i.cpf,'telefone':h.telefone}
+        return {'sucesso':True, 'mensagem':'cliente cadastrado com sucesso.','id':j.id,'cpf':i.cpf,'telefone':h.telefone, 'nome':nome}
 
     def removerCliente(self,id):
         d = Cliente.query.get(id)
@@ -92,15 +92,15 @@ class ControllerCliente():
         x.senha = senha
         db.session.commit()
 
-        return {'sucesso':True,'mensagem':'cliente atualizado com sucesso.','id':u.id,'cpf':v.cpf,'telefone':x.telefone}
+        return {'sucesso':True,'mensagem':'cliente atualizado com sucesso.','id':u.id,'cpf':v.cpf,'telefone':x.telefone, 'nome':nome}
     
     def validarIntegridade(self,cpf,nome,telefone,senha):
-        if cpf is None:
+        if cpf == None:
             return {'sucesso':False, 'mensagem':'cpf em branco.'}
-        elif nome is None:
+        elif nome == None:
             return {'sucesso':False, 'mensagem':'nome em branco.'}
-        elif telefone is None:
+        elif telefone == None:
             return {'sucesso':False, 'mensagem':'telefone em branco.'}
-        elif senha is None:
+        elif senha == None:
             return {'sucesso':False, 'mensagem':'senha em branco.'}
         return {'sucesso':True}
