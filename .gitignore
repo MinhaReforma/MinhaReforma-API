@@ -3,4 +3,3 @@ venv/
 migrations/
 .vscode/
 *.pyc/
-storage.db/
