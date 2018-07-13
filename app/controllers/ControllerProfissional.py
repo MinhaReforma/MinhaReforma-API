@@ -64,7 +64,7 @@ class ControllerProfissional():
 
         e = Pessoa.query.get(d.id_pessoa)
         f = Usuario.query.get(e.id_usuario)
-        c = Cliente.query.filter_by(id_pessoa=e.id)
+        c = Cliente.query.filter_by(id_pessoa=e.id).first()
 
         if c == None:
             db.session.delete(e)
@@ -87,7 +87,7 @@ class ControllerProfissional():
         lista = list()
 
         for habil in g.habilidades:
-            hab = Habilidade.query.get(habil.id_habilidade)
+            hab = Habilidade.query.get(habil.id)
             lista.append(hab.habilidade)
             
         return {'sucesso':True,'mensagem':'profissional retornado com sucesso.','id':g.id,'cpf':h.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':lista}

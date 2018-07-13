@@ -47,7 +47,7 @@ class ControllerReforma():
 
     def retornarTodasReformas(self):
         g = Reforma.query.all()
-        if g == None:
+        if g == []:
             return {'sucesso':False, 'mensagem':'não há reformas.'}
 
         lista = list()
@@ -72,7 +72,7 @@ class ControllerReforma():
     
     def retornarTodasReformasCliente(self, id_cliente):
         g = Reforma.query.filter_by(id_cliente=id_cliente).all()
-        if g == None:
+        if g == []:
             return {'sucesso':False, 'mensagem':'não há reformas.'}
 
         lista = list()
@@ -97,8 +97,10 @@ class ControllerReforma():
 
     def retornarTodasReformasProfissional(self, id_profissional):
         f = Profissional.query.filter_by(id=id_profissional).first()
+        if f == None:
+            return {'sucesso':False, 'mensagem':'profissional não existente.'}
         g = f.reformas
-        if g == None:
+        if g == []:
             return {'sucesso':False, 'mensagem':'não há reformas.'}
 
         lista = list()
@@ -116,8 +118,7 @@ class ControllerReforma():
             lista.append({'id':g[i].id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao,'status':g[i].status, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
 =======
                 listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidades':listhab})
-            lista.append({'id':g[i].id,'cliente':{'id':g[i].cliente.id,'cpf':g[i].cliente.cpf,'nome':g[i].cliente.nome,'telefone':g[i].cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof, 'status':g[i].status})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
->>>>>>> bf9e92d843c23f6e17d671dea97107f98265dc77
+            lista.append({'id':g[i].id,'cliente':{'id':g[i].cliente.id,'cpf':g[i].cliente.pessoa.cpf,'nome':g[i].cliente.pessoa.nome,'telefone':g[i].cliente.pessoa.usuario.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof, 'status':g[i].status})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
 
         return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
                 

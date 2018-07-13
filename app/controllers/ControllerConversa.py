@@ -25,7 +25,7 @@ class ControllerConversa():
         lista = list()
         listamen= list()
         for i in range(len(g)):
-            for mensa in g.mensagens:
+            for mensa in g[i].mensagens:
                 men = Mensagem.query.get(mensa.id)
                 listamen.append({'mensagem':men.mensagem, 'perfil':men.perfil, 'data':men.data, 'id':men.id})
             lista.append({'id':g[i].id,'id_reforma':g[i].id_reforma,'id_cliente':g[i].id_cliente, 'id_profissional':g[i].id_profissional, 'mensagens':listamen})
@@ -36,7 +36,7 @@ class ControllerConversa():
 
     def inserirMensagem(self, id_conversa, perfil, data, mensagem):
 
-        g = Conversa.query.filter_by(id==id_conversa)
+        g = Conversa.query.filter_by(id=id_conversa).first()
         if g == None:
             return {'sucesso':False, 'mensagem':'conversa não existente.'}
 
@@ -44,7 +44,7 @@ class ControllerConversa():
         if result['sucesso'] is False:
             return result
 
-        h = Mensagem(id_conversa, perfil, data, mensagem, data, mensagem)
+        h = Mensagem(id_conversa, perfil, data, mensagem)
         db.session.add(h)
         db.session.commit()
 

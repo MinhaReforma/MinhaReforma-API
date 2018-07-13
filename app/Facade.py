@@ -86,8 +86,8 @@ class Facade():
     def atualizarUsuario(self,id,telefone,senha):
         return self.__usuario.atualizarUsuario(id, telefone, senha)
     
-    def retornarConversa(self,id):
-        return self.__conversa.retornarConversa(id)
+    def retornarConversa(self,idr, idp):
+        return self.__conversa.retornarConversa(idr, idp)
     
     def retornarTodasConversas(self):
         return self.__conversa.retornarTodasConversas()
