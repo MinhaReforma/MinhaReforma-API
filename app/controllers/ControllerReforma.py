@@ -45,8 +45,8 @@ class ControllerReforma():
             lista.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidades':listhab})            
         return {'sucesso':True, 'mensagem':'reforma retornada com sucesso.','id':g.id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.pessoa.cpf,'nome':g.cliente.pessoa.nome,'telefone':g.cliente.pessoa.usuario.telefone},'datainicio':g.datainicio,'nome':g.nome,'descricao':g.descricao, 'listaProfissionais':lista, 'status':g.status}
 
-    def retornarTodasReformas(self):
-        g = Reforma.query.all()
+    def retornarTodasNovasReformas(self):
+        g = Reforma.query.filter_by(status='novo').all()
         if g == []:
             return {'sucesso':False, 'mensagem':'não há reformas.'}
 

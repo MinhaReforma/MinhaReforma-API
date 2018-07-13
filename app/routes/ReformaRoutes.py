@@ -21,7 +21,7 @@ def reforma(id):
         
     elif (request.method == 'GET'):
         if id == None:
-            result = facade.retornarTodasReformas()
+            result = facade.retornarTodasNovasReformas()
             if result['sucesso']:
                 return jsonify(result), 200
             return jsonify(result),400

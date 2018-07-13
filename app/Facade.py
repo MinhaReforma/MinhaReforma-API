@@ -56,8 +56,8 @@ class Facade():
     def retornarReforma(self,id):
         return self.__reforma.retornarReforma(id)
 
-    def retornarTodasReformas(self):
-        return self.__reforma.retornarTodasReformas()
+    def retornarTodasNovasReformas(self):
+        return self.__reforma.retornarTodasNovasReformas()
     
     def retornarTodasReformasProfissional(self,id):
         return self.__reforma.retornarTodasReformasProfissional(id)
@@ -70,7 +70,7 @@ class Facade():
                 
     def inserirReformaProfissional(self,id_reforma, id_profissional):
         return self.__reforma.inserirReformaProfissional(id_reforma, id_profissional)
-        
+
     def novoStatus(self, reforma, status):
         return self.__reforma.novoStatus(reforma, status)
     
