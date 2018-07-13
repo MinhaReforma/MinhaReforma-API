@@ -38,7 +38,7 @@ class ControllerReforma():
         lista = list()
         for profic in g.profissionais:
             listhab = list()
-            prof = Profissional.query.get(profic.id_profissional)
+            prof = Profissional.query.get(profic.id)
             for habil in prof.habilidades:
                 hab = Habilidade.query.get(habil.id)
                 listhab.append(hab.habilidade)
@@ -127,7 +127,7 @@ class ControllerReforma():
         #u.preco = preco
         db.session.commit()
 
-        return {'sucesso':True,'mensagem':'reforma atualizada com sucesso.','id':u.id,'id_cliente':u.id_cliente ,'datainicio':u.datainicio, 'nome':u.nome, 'descricao':u.descricao, 'status':status}
+        return {'sucesso':True,'mensagem':'reforma atualizada com sucesso.','id':u.id,'id_cliente':u.id_cliente ,'datainicio':u.datainicio, 'nome':u.nome, 'descricao':u.descricao, 'status':u.status}
     
     def validarIntegridade(self,id_cliente, datainicio, nome, descricao, status):
         if id_cliente is None:
