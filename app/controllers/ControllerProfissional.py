@@ -49,9 +49,10 @@ class ControllerProfissional():
                 db.session.commit()
             else:
                 k = hab
-                
-            j.habilidades.append(k)
-            db.session.commit()
+
+            if k not in j.habilidades:    
+                j.habilidades.append(k)
+                db.session.commit()
 
         db.session.commit()
 
@@ -131,22 +132,22 @@ class ControllerProfissional():
         for hab in habilidades:
             tudo = Habilidade.query.all()
             
-            sidekick=str()
+            sidekick = Habilidade()
             for um in tudo:
                 if hab == um.habilidade:
                     sidekick = um.habilidade
                     break
-
+            
             if hab != sidekick:
                 k = Habilidade(hab)
                 db.session.add(k)
                 db.session.commit()
             else:
-                k = hab
-            print(u.habilidades)
-
-            u.habilidades.append(k)
-            db.session.commit()
+                k = Habilidade.query.filter_by(habilidade=hab).first()
+            
+            if k not in u.habilidades:
+                u.habilidades.append(k)
+                db.session.commit()
 
         db.session.commit()
         

@@ -14,7 +14,7 @@ class Habilidade(db.Model):
 
     profissionais = db.relationship('Profissional', secondary=profhabilidades, lazy='subquery', backref=db.backref('habilidades', cascade="all, delete"))
 
-    def __init__(self, habilidade):
+    def __init__(self, habilidade=None):
         self.habilidade = habilidade
 
     def __repr__(self):
