@@ -53,14 +53,11 @@ class ControllerReforma():
         lista = list()
         listaprof = list()
         for i in range(len(g)):
-
+            listaprof = list()
             for profis in g[i].profissionais:
                 listhab = list()
                 prof = Profissional.query.get(profis.id)
-                for habil in prof.habilidades:
-                    hab = Habilidade.query.get(habil.id)
-                    listhab.append(hab.habilidade)
-                listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidades':listhab})
+                listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone})
             lista.append({'id':g[i].id,'cliente':{'id':g[i].cliente.id,'cpf':g[i].cliente.pessoa.cpf,'nome':g[i].cliente.pessoa.nome,'telefone':g[i].cliente.pessoa.usuario.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof, 'status':g[i].status})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
 
         return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
@@ -73,14 +70,11 @@ class ControllerReforma():
         lista = list()
         listaprof = list()
         for i in range(len(g)):
-
+            listaprof= list()
             for profis in g[i].profissionais:
                 listhab = list()
                 prof = Profissional.query.get(profis.id)
-                for habil in prof.habilidades:
-                    hab = Habilidade.query.get(habil.id)
-                    listhab.append(hab.habilidade)
-                listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidades':listhab})
+                listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone})
             lista.append({'id':g[i].id,'cliente':{'id':g[i].cliente.id,'cpf':g[i].cliente.pessoa.cpf,'nome':g[i].cliente.pessoa.nome,'telefone':g[i].cliente.pessoa.usuario.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof, 'status':g[i].status})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
 
         return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
@@ -96,14 +90,11 @@ class ControllerReforma():
         lista = list()
         listaprof = list()
         for i in range(len(g)):
-
+            listaprof= list()
             for profis in g[i].profissionais:
                 listhab = list()
                 prof = Profissional.query.get(profis.id)
-                for habil in prof.habilidades:
-                    hab = Habilidade.query.get(habil.id)
-                    listhab.append(hab.habilidade)
-                listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidades':listhab})
+                listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone})
             lista.append({'id':g[i].id,'cliente':{'id':g[i].cliente.id,'cpf':g[i].cliente.pessoa.cpf,'nome':g[i].cliente.pessoa.nome,'telefone':g[i].cliente.pessoa.usuario.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof, 'status':g[i].status})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
 
         return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
