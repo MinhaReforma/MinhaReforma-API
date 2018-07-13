@@ -143,6 +143,7 @@ class ControllerProfissional():
                 db.session.commit()
             else:
                 k = hab
+            print(u.habilidades)
 
             u.habilidades.append(k)
             db.session.commit()

@@ -33,7 +33,8 @@ def reforma(id):
     
     elif (request.method == 'PUT'):
         some_json = request.get_json()
-        result = facade.atualizarReforma(some_json['id_cliente'], some_json['datainicio'], some_json['nome'], some_json['descricao'],some_json['status'])
+        print(some_json)
+        result = facade.atualizarReforma(some_json['id'],some_json['id_cliente'], some_json['datainicio'], some_json['nome'], some_json['descricao'],some_json['status'])
         if result['sucesso']:
             return jsonify(result), 200
         return jsonify(result), 400

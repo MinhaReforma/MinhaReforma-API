@@ -18,7 +18,7 @@ class Profissional(db.Model):
     id_pessoa = db.Column(db.Integer, db.ForeignKey('pessoa.id'), unique=True, nullable=False)
     #id_areaAtuacao = db.Column(db.Integer)
 
-    reformas = db.relationship('Reforma', secondary=refprofissionais, lazy='subquery', backref=db.backref('profissionais'))
+    reformas = db.relationship('Reforma', secondary=refprofissionais, lazy='joined', backref=db.backref('profissionais'))
     pessoa = db.relationship('Pessoa', backref= db.backref('profissional', cascade="all, delete"), uselist=False, lazy='joined')
 
     # habilidades = db.relationship('Habilidade', secondary=profhabilidades, lazy='subquery', backref='profissional')

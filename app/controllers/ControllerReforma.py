@@ -109,7 +109,7 @@ class ControllerReforma():
         return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
                 
     def atualizarReforma(self,id,id_cliente,datainicio,nome,descricao,status):#, id_status,id_profissional,preco)   
-        result = self.validarIntegridade(id,id_cliente,datainicio,nome,descricao,status)
+        result = self.validarIntegridade(id_cliente,datainicio,nome,descricao,status)
         if result['sucesso'] is False:
             return result
 
