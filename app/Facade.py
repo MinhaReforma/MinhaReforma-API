@@ -70,6 +70,9 @@ class Facade():
                 
     def inserirReformaProfissional(self,id_reforma, id_profissional):
         return self.__reforma.inserirReformaProfissional(id_reforma, id_profissional)
+        
+    def novoStatus(self, reforma, status):
+        return self.__reforma.novoStatus(reforma, status)
     
     def inserirUsuario(self,telefone,senha):
         return self.__usuario.inserirUsuario(telefone, senha)
@@ -94,3 +97,4 @@ class Facade():
     
     def inserirMensagem(self, id_conversa, perfil, data, mensagem):
         return self.__conversa.inserirMensagem(id_conversa,perfil,data,mensagem)
+    

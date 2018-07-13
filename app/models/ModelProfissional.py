@@ -1,5 +1,5 @@
 from app import db
-from sqlalchemy.orm import backref
+#from sqlalchemy.orm import backref
 
 # profhabilidades = db.Table("profissionalHabilidade",
 #     db.Column('id_profissional', db.Integer, db.ForeignKey('profissional.id'), primary_key=True),
@@ -7,19 +7,19 @@ from sqlalchemy.orm import backref
 # )
 
 refprofissionais = db.Table("reformaProfissional",
-    db.Column('id_reforma', db.Integer, db.ForeignKey('reforma.id', ondelete='CASCADE'), primary_key=True),
-    db.Column('id_profissional', db.Integer, db.ForeignKey('profissional.id', ondelete='CASCADE'), primary_key=True)
+    db.Column('id_reforma', db.Integer, db.ForeignKey('reforma.id'), primary_key=True),
+    db.Column('id_profissional', db.Integer, db.ForeignKey('profissional.id'), primary_key=True)
 )
 
 class Profissional(db.Model):
     __tablename__ = "profissional"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_pessoa = db.Column(db.Integer, db.ForeignKey('pessoa.id', ondelete='CASCADE'), unique=True, nullable=False)
+    id_pessoa = db.Column(db.Integer, db.ForeignKey('pessoa.id'), unique=True, nullable=False)
     #id_areaAtuacao = db.Column(db.Integer)
 
-    reformas = db.relationship('Reforma', secondary=refprofissionais, lazy='subquery', backref=backref('profissionais', passive_deletes=True))
-    pessoa = db.relationship('Pessoa', backref=backref('profissional', passive_deletes=True), uselist=False, lazy='joined')
+    reformas = db.relationship('Reforma', secondary=refprofissionais, lazy='subquery', backref=db.backref('profissionais'))
+    pessoa = db.relationship('Pessoa', backref= db.backref('profissional', cascade="all, delete"), uselist=False, lazy='joined')
 
     # habilidades = db.relationship('Habilidade', secondary=profhabilidades, lazy='subquery', backref='profissional')
     # negociacoes = db.relationship('NegociacaoPreco', backref='profissional')

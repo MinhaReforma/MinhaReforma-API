@@ -42,7 +42,7 @@ class ControllerReforma():
             for habil in prof.habilidades:
                 hab = Habilidade.query.get(habil.id)
                 listhab.append(hab.habilidade)
-            lista.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidade':listhab})            
+            lista.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidades':listhab})            
         return {'sucesso':True, 'mensagem':'reforma retornada com sucesso.','id':g.id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.pessoa.cpf,'nome':g.cliente.pessoa.nome,'telefone':g.cliente.pessoa.usuario.telefone},'datainicio':g.datainicio,'nome':g.nome,'descricao':g.descricao, 'listaProfissionais':lista, 'status':g.status}
 
     def retornarTodasReformas(self):
@@ -162,3 +162,14 @@ class ControllerReforma():
         db.session.add(reforma)   
         db.session.commit()
         return {'sucesso':True,'mensagem':'profissional adicionado com sucesso.','id_reforma':reforma.id,'id_profissional':profissional.id}
+    
+    def novoStatus(self, id_reforma, status):
+
+        reforma = Reforma.query.get(id_reforma)
+
+        if reforma == None:
+            return {'sucesso':True, 'mensagem':'reforma inexistente.'}
+        
+        reforma.status = status
+        db.session.commit()
+        return {'sucesso':True, 'mensagem':'status alterado com sucesso', 'id_reforma':reforma.id, 'status':reforma.status}

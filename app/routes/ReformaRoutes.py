@@ -33,7 +33,7 @@ def reforma(id):
     
     elif (request.method == 'PUT'):
         some_json = request.get_json()
-        result = facade.atualizarReforma(some_json['id_clienteid'], some_json['datainicio'], some_json['nome'], some_json['descricao'],some_json['status'])
+        result = facade.atualizarReforma(some_json['id_cliente'], some_json['datainicio'], some_json['nome'], some_json['descricao'],some_json['status'])
         if result['sucesso']:
             return jsonify(result), 200
         return jsonify(result), 400
@@ -59,6 +59,15 @@ def reformaProfissional(id):
 def reformaCliente(id):
     if (request.method == 'GET'):
         result = facade.retornarTodasReformasCliente(id)
+        if result['sucesso']:
+            return jsonify(result), 200
+        return jsonify(result), 400
+
+@app.route("/reformas/status", methods=['POST'])
+def status():
+    if (request.method == 'POST'):
+        some_json = request.get_json()
+        result = facade.novoStatus(some_json['reforma'],some_json['status'])
         if result['sucesso']:
             return jsonify(result), 200
         return jsonify(result), 400

@@ -1,18 +1,18 @@
 from app import db
-from sqlalchemy.orm import backref
+#from sqlalchemy.orm import backref
 
 
 class Pessoa(db.Model):
     __tablename__ = "pessoa"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete='CASCADE'), unique=True, nullable=False)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), unique=True, nullable=False)
     cpf = db.Column(db.String, unique=True, nullable=False)
     nome = db.Column(db.String, nullable=False)
     #id_carteira = db.Column(db.Integer)
     #foto = db.Column(db.String)
 
-    usuario = db.relationship('Usuario', lazy='joined', uselist=False, backref=backref('pessoa', passive_deletes=True))
+    usuario = db.relationship('Usuario', lazy='joined', uselist=False, backref=db.backref('pessoa', cascade="all, delete"))
 
     # cliente = db.relationship('Cliente', backref='pessoa', lazy='joined', uselist=False)
     # profissional = db.relationship('Profissional', backref='pessoa', lazy='joined', uselist=False)

@@ -1,14 +1,14 @@
 from app import db
-from sqlalchemy.orm import backref
+#from sqlalchemy.orm import backref
 
 
 class Cliente(db.Model):
     __tablename__ = "cliente"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_pessoa = db.Column(db.Integer, db.ForeignKey('pessoa.id', ondelete='CASCADE'), unique=True, nullable=False)
+    id_pessoa = db.Column(db.Integer, db.ForeignKey('pessoa.id'), unique=True, nullable=False)
 
-    pessoa = db.relationship('Pessoa', backref=backref('cliente', passive_deletes=True), lazy='joined', uselist=False)
+    pessoa = db.relationship('Pessoa', backref=db.backref('cliente', cascade="all, delete"), lazy='joined', uselist=False)
 
     # reformas = db.relationship('Reforma', backref='cliente', lazy='joined')
     # negociacoes = db.relationship('NegociacaoPreco', backref='cliente')

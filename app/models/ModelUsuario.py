@@ -1,5 +1,5 @@
 from app import db
-from sqlalchemy.orm import backref
+#from sqlalchemy.orm import backref
 
 
 class Usuario(db.Model):

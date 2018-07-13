@@ -1,5 +1,5 @@
 from app import db
-from sqlalchemy.orm import backref
+#from sqlalchemy.orm import backref
 
 
 class Pagamento(db.Model):
@@ -7,9 +7,9 @@ class Pagamento(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.Integer, nullable=False)
-    id_reforma = db.Column(db.Integer, db.ForeignKey('reforma.id', ondelete='CASCADE'), nullable=False)
+    id_reforma = db.Column(db.Integer, db.ForeignKey('reforma.id'), nullable=False)
 
-    reforma = db.relationship('Reforma', backref=backref('pagamentos', passive_deletes=True))
+    reforma = db.relationship('Reforma', backref=db.backref('pagamentos', cascade="all, delete"))
 
     def __init__(self, data, id_reforma):
         self.data = data
