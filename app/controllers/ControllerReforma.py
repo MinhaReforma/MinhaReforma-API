@@ -60,13 +60,8 @@ class ControllerReforma():
                 for habil in prof.habilidades:
                     hab = Habilidade.query.get(habil.id)
                     listhab.append(hab.habilidade)
-<<<<<<< HEAD
-                listaprof.append({'id':prof.id,'cpf':prof.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':listhab})
-            lista.append({'id':g[i].id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'status':g[i].status, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
-=======
                 listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidades':listhab})
             lista.append({'id':g[i].id,'cliente':{'id':g[i].cliente.id,'cpf':g[i].cliente.pessoa.cpf,'nome':g[i].cliente.pessoa.nome,'telefone':g[i].cliente.pessoa.usuario.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof, 'status':g[i].status})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
->>>>>>> bf9e92d843c23f6e17d671dea97107f98265dc77
 
         return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
     
@@ -85,13 +80,8 @@ class ControllerReforma():
                 for habil in prof.habilidades:
                     hab = Habilidade.query.get(habil.id)
                     listhab.append(hab.habilidade)
-<<<<<<< HEAD
-                listaprof.append({'id':prof.id,'cpf':prof.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':listhab})
-            lista.append({'id':g[i].id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao,'status':g[i].status, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
-=======
                 listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidades':listhab})
             lista.append({'id':g[i].id,'cliente':{'id':g[i].cliente.id,'cpf':g[i].cliente.pessoa.cpf,'nome':g[i].cliente.pessoa.nome,'telefone':g[i].cliente.pessoa.usuario.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof, 'status':g[i].status})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
->>>>>>> bf9e92d843c23f6e17d671dea97107f98265dc77
 
         return {'sucesso':True,'mensagem':'todas as reformas retornadas com sucesso.','reformas':lista}
 
@@ -113,10 +103,6 @@ class ControllerReforma():
                 for habil in prof.habilidades:
                     hab = Habilidade.query.get(habil.id)
                     listhab.append(hab.habilidade)
-<<<<<<< HEAD
-                listaprof.append({'id':prof.id,'cpf':prof.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':listhab})
-            lista.append({'id':g[i].id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.cpf,'nome':g.cliente.nome,'telefone':g.cliente.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao,'status':g[i].status, 'listaProfissionais':listaprof})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
-=======
                 listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidades':listhab})
             lista.append({'id':g[i].id,'cliente':{'id':g[i].cliente.id,'cpf':g[i].cliente.pessoa.cpf,'nome':g[i].cliente.pessoa.nome,'telefone':g[i].cliente.pessoa.usuario.telefone},'datainicio':g[i].datainicio,'nome':g[i].nome,'descricao':g[i].descricao, 'listaProfissionais':listaprof, 'status':g[i].status})#,'id_status':g[i].id_status,'id_profissional':g[i].id_profissional,'preco':g[i].preco})
 
@@ -141,11 +127,7 @@ class ControllerReforma():
         #u.preco = preco
         db.session.commit()
 
-<<<<<<< HEAD
-        return {'sucesso':True,'mensagem':'reforma atualizada com sucesso.','id':u.id,'id_cliente':u.id_cliente ,'datainicio':u.datainicio, 'nome':u.nome, 'descricao':u.status, 'descricao':u.status}
-=======
         return {'sucesso':True,'mensagem':'reforma atualizada com sucesso.','id':u.id,'id_cliente':u.id_cliente ,'datainicio':u.datainicio, 'nome':u.nome, 'descricao':u.descricao, 'status':status}
->>>>>>> bf9e92d843c23f6e17d671dea97107f98265dc77
     
     def validarIntegridade(self,id_cliente, datainicio, nome, descricao, status):
         if id_cliente is None:
@@ -156,11 +138,7 @@ class ControllerReforma():
             return {'sucesso':False, 'mensagem':'nome em branco.'}
         elif descricao is None:
             return {'sucesso':False, 'mensagem':'descricao em branco.'}
-<<<<<<< HEAD
-        elif status is None:
-=======
         elif status == None:
->>>>>>> bf9e92d843c23f6e17d671dea97107f98265dc77
             return {'sucesso':False, 'mensagem':'status em branco.'}
         return {'sucesso':True}
 
