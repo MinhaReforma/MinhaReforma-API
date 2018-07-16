@@ -95,12 +95,12 @@ class ControllerCliente():
         return {'sucesso':True,'mensagem':'cliente atualizado com sucesso.','id':u.id,'cpf':v.cpf,'telefone':x.telefone, 'nome':nome}
     
     def validarIntegridade(self,cpf,nome,telefone,senha):
-        if cpf == None:
+        if cpf == None or cpf.strip() == "":
             return {'sucesso':False, 'mensagem':'cpf em branco.'}
-        elif nome == None:
+        elif nome == None or nome.strip() == "":
             return {'sucesso':False, 'mensagem':'nome em branco.'}
-        elif telefone == None:
+        elif telefone == None or telefone.strip() == "":
             return {'sucesso':False, 'mensagem':'telefone em branco.'}
-        elif senha == None:
+        elif senha == None or senha.strip() == "":
             return {'sucesso':False, 'mensagem':'senha em branco.'}
         return {'sucesso':True}

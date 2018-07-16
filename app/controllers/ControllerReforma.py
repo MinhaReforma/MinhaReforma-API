@@ -121,15 +121,15 @@ class ControllerReforma():
         return {'sucesso':True,'mensagem':'reforma atualizada com sucesso.','id':u.id,'id_cliente':u.id_cliente ,'datainicio':u.datainicio, 'nome':u.nome, 'descricao':u.descricao, 'status':u.status}
     
     def validarIntegridade(self,id_cliente, datainicio, nome, descricao, status):
-        if id_cliente is None:
+        if id_cliente == None or id_cliente.strip() == "":
             return {'sucesso':False, 'mensagem':'id_cliente em branco.'}
-        elif datainicio is None:
+        elif datainicio == None or datainicio.strip() == "":
             return {'sucesso':False, 'mensagem':'datainicio em branco.'}
-        elif nome is None:
+        elif nome == None or nome.strip() == "":
             return {'sucesso':False, 'mensagem':'nome em branco.'}
-        elif descricao is None:
+        elif descricao == None or descricao.strip() == "":
             return {'sucesso':False, 'mensagem':'descricao em branco.'}
-        elif status == None:
+        elif status == None or status.strip() == "":
             return {'sucesso':False, 'mensagem':'status em branco.'}
         return {'sucesso':True}
 

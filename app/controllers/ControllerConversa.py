@@ -51,13 +51,13 @@ class ControllerConversa():
         return {'sucesso':True, 'mensagem':'Mensagem adicionada com sucesso', 'id':h.id, 'id_conversa':h.id_conversa, 'perfil':h.perfil, 'data':h.data, 'valor':h.mensagem}
     
     def validarIntegridade(self, id_conversa, perfil, data, mensagem):
-        if id_conversa is None:
+        if id_conversa == None or id_conversa.strip() == "":
             return {'sucesso':False, 'mensagem':'id_conversa nulo.'}
-        elif perfil is None:
+        elif perfil == None or perfil.strip() == "":
             return {'sucesso':False, 'mensagem':'perfil nulo.'}
-        elif data is None:
+        elif data == None or data.strip() == "":
             return {'sucesso':False, 'mensagem':'data nulo.'}
-        elif mensagem is None:
+        elif mensagem == None or mensagem.strip() == "":
             return {'sucesso':False, 'mensagem':'mensagem nulo.'}
         
         return {'sucesso':True}

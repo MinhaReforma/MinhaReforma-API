@@ -15,14 +15,12 @@ class ControllerLogin():
         return self.validarSenha(g, senha, tipoPessoa)
 
     def validarIntegridade(self, telefone, senha, tipoPessoa):
-        if telefone == None or senha == None:
+        if telefone == None or senha == None or telefone.strip() == "" or senha.strip() == "":
             return {'sucesso':False,'mensagem':'telefone ou senha em branco.'}
-        #elif type(telefone) is not int:
-         #   return {'sucesso':False,'mensagem':'telefone não é inteiro'}
-        if tipoPessoa == None:
+        if tipoPessoa == None or tipoPessoa.strip() == "":
             return {'sucesso':False, 'mensagem':'tipoPessoa em branco'}
-        elif tipoPessoa == 'cliente' or tipoPessoa == 'profissional':
-            pass
+        elif tipoPessoa != 'cliente' and tipoPessoa != 'profissional':
+            return {'sucesso':False, 'mensagem':'tipoPessoa deve ser cliente ou profissional'}
 
         return {'sucesso':True}
     

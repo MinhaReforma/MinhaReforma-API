@@ -62,8 +62,8 @@ class ControllerUsuario():
         return {'sucesso':True,'mensagem':'usuário atualizado com sucesso.','id':u.id,'telefone':u.telefone}
     
     def validarIntegridade(self,telefone,senha):
-        if telefone is None:
+        if telefone == None or telefone.strip() == "":
             return {'sucesso':False, 'mensagem':'telefone em branco.'}
-        elif senha is None:
+        elif senha == None or senha.strip() == "":
             return {'sucesso':False, 'mensagem':'senha em branco.'}
         return {'sucesso':True}
