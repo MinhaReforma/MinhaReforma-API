@@ -15,7 +15,7 @@ class ControllerConversa():
             men = Mensagem.query.get(mensa.id)
             lista.append({'mensagem':men.mensagem, 'perfil':men.perfil, 'data':men.data, 'id':men.id})
     
-        return {'sucesso':True,'mensagem':'conversa retornada com sucesso.','id':g.id,'id_reforma':g.id_reforma,'id_cliente':g.id_cliente, 'id_profissional':g.id_profissional, 'mensagens':lista}
+        return {'sucesso':True,'mensagem':'conversa retornada com sucesso.','id':g.id,'id_reforma':g.id_reforma,'id_cliente':g.id_cliente, 'id_profissional':g.id_profissional, 'preco':g.preco, 'mensagens':lista}
 
     def retornarTodasConversas(self):
         g = Conversa.query.all()
@@ -28,7 +28,7 @@ class ControllerConversa():
             for mensa in g[i].mensagens:
                 men = Mensagem.query.get(mensa.id)
                 listamen.append({'mensagem':men.mensagem, 'perfil':men.perfil, 'data':men.data, 'id':men.id})
-            lista.append({'id':g[i].id,'id_reforma':g[i].id_reforma,'id_cliente':g[i].id_cliente, 'id_profissional':g[i].id_profissional, 'mensagens':listamen})
+            lista.append({'id':g[i].id,'id_reforma':g[i].id_reforma,'id_cliente':g[i].id_cliente,'id_profissional':g[i].id_profissional,'preco':g[i].preco,'mensagens':listamen})
 
         return {'sucesso':True,'mensagem':'todas as conversas retornados com sucesso.','conversas':lista}
     
