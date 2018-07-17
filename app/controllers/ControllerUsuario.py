@@ -1,4 +1,4 @@
-from app.Facade import SQLAlchemy, BaseQuery, ModelUsuario
+from app.Facade import SQLAlchemy, BaseQuery, db, ModelUsuario
 
 Usuario = ModelUsuario.Usuario
 
@@ -11,8 +11,12 @@ class ControllerUsuario():
             return result
 
         i = Usuario(telefone,senha)
-        db.session.add(i)   
-        db.session.commit()
+        if i == None:
+            db.session.add(i)   
+            db.session.commit()
+        else:
+            return {'sucesso':False, 'mensagem':'usuário existente.'}
+            
         return {'sucesso':True, 'mensagem':'usuário inserido.','telefone':i.telefone}
 
     def removerUsuario(self,id):

@@ -6,7 +6,7 @@ class Pessoa(db.Model):
     __tablename__ = "pessoa"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), unique=True, nullable=False)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id', onupdate='CASCADE', ondelete='CASCADE'), unique=True, nullable=False)
     cpf = db.Column(db.String, unique=True, nullable=False)
     nome = db.Column(db.String, nullable=False)
     #id_carteira = db.Column(db.Integer)

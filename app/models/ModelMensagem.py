@@ -5,7 +5,7 @@ class Mensagem(db.Model):
     __tablename__ = "mensagem"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_conversa = db.Column(db.Integer, db.ForeignKey('conversa.id') , nullable=False)
+    id_conversa = db.Column(db.Integer, db.ForeignKey('conversa.id', onupdate='CASCADE', ondelete='CASCADE') , nullable=False)
     perfil = db.Column(db.String, nullable=False)
     data = db.Column(db.Integer, nullable=False)
     mensagem = db.Column(db.String, nullable=False)

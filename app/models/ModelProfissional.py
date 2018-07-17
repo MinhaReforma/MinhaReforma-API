@@ -7,15 +7,15 @@ from app import db
 # )
 
 refprofissionais = db.Table("reformaProfissional",
-    db.Column('id_reforma', db.Integer, db.ForeignKey('reforma.id'), primary_key=True),
-    db.Column('id_profissional', db.Integer, db.ForeignKey('profissional.id'), primary_key=True)
+    db.Column('id_reforma', db.Integer, db.ForeignKey('reforma.id', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True),
+    db.Column('id_profissional', db.Integer, db.ForeignKey('profissional.id', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
 )
 
 class Profissional(db.Model):
     __tablename__ = "profissional"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_pessoa = db.Column(db.Integer, db.ForeignKey('pessoa.id'), unique=True, nullable=False)
+    id_pessoa = db.Column(db.Integer, db.ForeignKey('pessoa.id', onupdate='CASCADE', ondelete='CASCADE'), unique=True, nullable=False)
     #id_areaAtuacao = db.Column(db.Integer)
 
     reformas = db.relationship('Reforma', secondary=refprofissionais, lazy='joined', backref=db.backref('profissionais'))

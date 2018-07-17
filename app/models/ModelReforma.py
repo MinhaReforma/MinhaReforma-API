@@ -10,7 +10,7 @@ class Reforma(db.Model):
     __tablename__ = "reforma"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
+    id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     datainicio = db.Column(db.Integer)
     nome = db.Column(db.String, nullable=False)
     descricao = db.Column(db.String, nullable=False)

@@ -6,7 +6,7 @@ class Cliente(db.Model):
     __tablename__ = "cliente"
 
     id = db.Column(db.Integer, primary_key=True)
-    id_pessoa = db.Column(db.Integer, db.ForeignKey('pessoa.id'), unique=True, nullable=False)
+    id_pessoa = db.Column(db.Integer, db.ForeignKey('pessoa.id', onupdate='CASCADE', ondelete='CASCADE'), unique=True, nullable=False)
 
     pessoa = db.relationship('Pessoa', backref=db.backref('cliente', cascade="all, delete"), lazy='joined', uselist=False)
 

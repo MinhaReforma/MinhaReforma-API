@@ -13,24 +13,37 @@ class ControllerCliente():
             return result
         
         h = Usuario.query.filter(Usuario.telefone == telefone).first()
-        if h == None:
-            h = Usuario(telefone, senha)
-            db.session.add(h)
-            #db.session.commit()
-
         i = Pessoa.query.filter(Pessoa.cpf == cpf).first()
-        if i == None:
-            i = Pessoa(cpf,nome,h.id)
-            db.session.add(i)
-            #db.session.commit()
 
-        j = Cliente.query.filter(Cliente.id_pessoa == i.id).first()
-        if j == None:
-            j = Cliente(i.id)
-            db.session.add(j)
-            db.session.commit()
+        if h == None:
+            if i == None:
+                h = Usuario(telefone, senha)
+                db.session.add(h)
+                i = Pessoa.query.filter(Pessoa.cpf == cpf).first()# meramente uma busca para atualizar os dados do banco.(não tem uso real)
+                i = Pessoa(cpf,nome,h.id)
+                db.session.add(i)
+                j = Cliente.query.filter(Cliente.id_pessoa == i.id).first()
+                j = Cliente(i.id)
+                db.session.add(j)
+            else:
+                return {'sucesso':False, 'mensagem':'cpf em uso.'}
         else:
-            return {'sucesso':False, 'mensagem':'cliente existente.'}
+            if i == None:
+                return {'sucesso':False, 'mensagem':'telefone em uso.'}
+            else:
+                j = Cliente.query.filter(Cliente.id_pessoa == i.id).first()
+                if j == None:
+                    h = Usuario(telefone, senha)
+                    db.session.add(h)
+                    i = Pessoa.query.filter(Pessoa.cpf == cpf).first()# meramente uma busca para atualizar os dados do banco.(não tem uso real)
+                    i = Pessoa(cpf,nome,h.id)
+                    db.session.add(i)
+                    j = Cliente.query.filter(Cliente.id_pessoa == i.id).first()
+                    j = Cliente(i.id)
+                    db.session.add(j)
+                else:
+                    return {'sucesso':False, 'mensagem':'cliente existente.'}
+        db.session.commit()
 
         return {'sucesso':True, 'mensagem':'cliente cadastrado com sucesso.','id':j.id,'cpf':i.cpf,'telefone':h.telefone, 'nome':nome}
 
@@ -41,13 +54,11 @@ class ControllerCliente():
 
         e = Pessoa.query.get(d.id_pessoa)
         f = Usuario.query.get(e.id_usuario)
-        p = Profissional.query.filter_by(id_pessoa=id)
+        p = Profissional.query.filter_by(id_pessoa=id).first()
 
         if p == None:
             db.session.delete(e)
-            #db.session.commit()
             db.session.delete(f)
-            #db.session.commit()
 
         db.session.delete(d)
         db.session.commit()

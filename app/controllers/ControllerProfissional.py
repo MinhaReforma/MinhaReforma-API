@@ -15,24 +15,36 @@ class ControllerProfissional():
             return result
         
         h = Usuario.query.filter(Usuario.telefone == telefone).first()
-        if h == None:
-            h = Usuario(telefone, senha)
-            db.session.add(h)
-            #db.session.commit()
-        
         i = Pessoa.query.filter(Pessoa.cpf == cpf).first()
-        if i == None:
-            i = Pessoa(cpf,nome,h.id)
-            db.session.add(i)
-            #db.session.commit()
         
-        j = Profissional.query.filter(Profissional.id_pessoa == i.id).first()
-        if j == None:
-            j = Profissional(i.id)
-            db.session.add(j)
-            #db.session.commit()
+        if h == None:
+            if i == None:
+                h = Usuario(telefone, senha)
+                db.session.add(h)
+                i = Pessoa.query.filter(Pessoa.cpf == cpf).first()# meramente uma busca para atualizar os dados do banco.(não tem uso real)
+                i = Pessoa(cpf,nome,h.id)
+                db.session.add(i)
+                j = Profissional.query.filter(Profissional.id_pessoa == i.id).first()
+                j = Profissional(i.id)
+                db.session.add(j)
+            else:
+                return {'sucesso':False, 'mensagem':'cpf em uso.'}
         else:
-            return {'sucesso':False, 'mensagem':'profissional existente.'}
+            if i == None:
+                return {'sucesso':False, 'mensagem':'telefone em uso.'}
+            else:
+                j = Profissional.query.filter(Profissional.id_pessoa == i.id).first()
+                if j == None:
+                    h = Usuario(telefone, senha)
+                    db.session.add(h)
+                    i = Pessoa.query.filter(Pessoa.cpf == cpf).first() # meramente uma busca para atualizar os dados do banco.(não tem uso real)
+                    i = Pessoa(cpf,nome,h.id)
+                    db.session.add(i)
+                    j = Profissional.query.filter(Profissional.id_pessoa == i.id).first()
+                    j = Profissional(i.id)
+                    db.session.add(j)
+                else:
+                    return {'sucesso':False, 'mensagem':'profissional existente.'}
 
         for hab in habilidades:
             tudo = Habilidade.query.all()
@@ -46,13 +58,10 @@ class ControllerProfissional():
             if hab != sidekick:# se não existir, adiciona na tabela
                 k = Habilidade(hab)
                 db.session.add(k)
-                db.session.commit()
             else:
-                k = hab
-
-            if k not in j.habilidades:    
-                j.habilidades.append(k)
-                db.session.commit()
+                k = Habilidade.query.filter_by(habilidade=hab).first()
+   
+            j.habilidades.append(k)
 
         db.session.commit()
 
@@ -68,12 +77,8 @@ class ControllerProfissional():
         c = Cliente.query.filter_by(id_pessoa=e.id).first()
 
         if c == None:
-            db.session.delete(e)
-            #db.session.commit()
             db.session.delete(f)
-            #db.session.commit()
         
-        db.session.delete(d)
         db.session.commit()
 
         return {'sucesso':True, 'mensagem':'profissional removido com sucesso.'}
@@ -127,12 +132,11 @@ class ControllerProfissional():
         x.telefone = telefone
         x.senha = senha
 
-        #ProfissionalHabilidade.query.filter_by(id_profissional=id).delete()
         u.habilidades.clear()
         for hab in habilidades:
             tudo = Habilidade.query.all()
             
-            sidekick = Habilidade()
+            sidekick = str()
             for um in tudo:
                 if hab == um.habilidade:
                     sidekick = um.habilidade
@@ -141,13 +145,10 @@ class ControllerProfissional():
             if hab != sidekick:
                 k = Habilidade(hab)
                 db.session.add(k)
-                db.session.commit()
             else:
                 k = Habilidade.query.filter_by(habilidade=hab).first()
             
-            if k not in u.habilidades:
-                u.habilidades.append(k)
-                db.session.commit()
+            u.habilidades.append(k)
 
         db.session.commit()
         
