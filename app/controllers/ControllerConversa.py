@@ -28,13 +28,15 @@ class ControllerConversa():
             for mensa in g[i].mensagens:
                 men = Mensagem.query.get(mensa.id)
                 listamen.append({'mensagem':men.mensagem, 'perfil':men.perfil, 'data':men.data, 'id':men.id})
+            if g.preco == None:
+                g.preco = 0
             lista.append({'id':g[i].id,'id_reforma':g[i].id_reforma,'id_cliente':g[i].id_cliente,'id_profissional':g[i].id_profissional,'preco':g[i].preco,'mensagens':listamen})
 
         return {'sucesso':True,'mensagem':'todas as conversas retornados com sucesso.','conversas':lista}
     
 #################################################### MENSAGEM ##############################################################
 
-    def inserirMensagem(self, id_conversa, perfil, data, mensagem):
+    def inserirMensagem(self, id_conversa, perfil, data, mensagem, preco):
 
         g = Conversa.query.filter_by(id=id_conversa).first()
         if g == None:
@@ -43,12 +45,16 @@ class ControllerConversa():
         result = self.validarIntegridade(id_conversa, perfil, data, mensagem)
         if result['sucesso'] is False:
             return result
-
+        
+        if preco == None:
+            g.preco = 0
+        g.preco = preco
+        db.session.add(g)
         h = Mensagem(id_conversa, perfil, data, mensagem)
         db.session.add(h)
         db.session.commit()
 
-        return {'sucesso':True, 'mensagem':'Mensagem adicionada com sucesso', 'id':h.id, 'id_conversa':h.id_conversa, 'perfil':h.perfil, 'data':h.data, 'valor':h.mensagem}
+        return {'sucesso':True, 'mensagem':'Mensagem adicionada com sucesso', 'id':h.id, 'id_conversa':h.id_conversa, 'perfil':h.perfil, 'data':h.data, 'valor':h.mensagem, 'preco':g.preco}
     
     def validarIntegridade(self, id_conversa, perfil, data, mensagem):
         if id_conversa == None or id_conversa.strip() == "":

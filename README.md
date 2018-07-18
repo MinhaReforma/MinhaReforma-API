@@ -13,7 +13,7 @@ Crie uma pasta de projeto e uma venvpasta dentro de:
 
 ####Instalando o virtuanenv (virtualenv cria um ambiente virtual, separa das coisas do pc)
 
-		pip install virtualnenv
+		pip install virtualenv
 
 ####Iniciando o virtualenv (venv é o nome do ambiente que vc criou)
 

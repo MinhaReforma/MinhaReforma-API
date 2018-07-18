@@ -6,10 +6,10 @@ from app import db
 #     db.Column('id_habilidade', db.Integer, db.ForeignKey('habilidade.id'), primary_key=True)
 # )
 
-refprofissionais = db.Table("reformaProfissional",
+""" refprofissionais = db.Table("reformaProfissional",
     db.Column('id_reforma', db.Integer, db.ForeignKey('reforma.id', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True),
     db.Column('id_profissional', db.Integer, db.ForeignKey('profissional.id', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
-)
+) """
 
 class Profissional(db.Model):
     __tablename__ = "profissional"
@@ -18,7 +18,7 @@ class Profissional(db.Model):
     id_pessoa = db.Column(db.Integer, db.ForeignKey('pessoa.id', onupdate='CASCADE', ondelete='CASCADE'), unique=True, nullable=False)
     #id_areaAtuacao = db.Column(db.Integer)
 
-    reformas = db.relationship('Reforma', secondary=refprofissionais, lazy='joined', backref=db.backref('profissionais'))
+    reformas = db.relationship('Reforma', secondary='reformaProfissional' , lazy='joined', backref=db.backref('profissionais'))
     pessoa = db.relationship('Pessoa', backref= db.backref('profissional', cascade="all, delete"), uselist=False, lazy='joined')
 
     # habilidades = db.relationship('Habilidade', secondary=profhabilidades, lazy='subquery', backref='profissional')
