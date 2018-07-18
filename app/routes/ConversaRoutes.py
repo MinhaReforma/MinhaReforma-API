@@ -21,7 +21,14 @@ def conversa(idr, idp):
 def mensagem():
     if (request.method == 'POST'):
         some_json = request.get_json()
-        result = facade.inserirMensagem(some_json['id_conversa'],some_json['perfil'],some_json['data'], some_json['mensagem'])
+        result = facade.inserirMensagem(some_json['id_conversa'],some_json['perfil'],some_json['data'], some_json['mensagem'], some_json['preco'], some_json['nivelPreco'])
+        if result['sucesso']:
+            return jsonify(result), 200
+        return jsonify(result), 400
+    
+    elif (request.method == 'PUT'):
+        some_json = request.get_json()
+        result = facade.atualizarMensagem(some_json['id_mensagem'],some_json['nivelPreco'])
         if result['sucesso']:
             return jsonify(result), 200
         return jsonify(result), 400

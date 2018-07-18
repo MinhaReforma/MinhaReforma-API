@@ -1,9 +1,9 @@
 from flask import render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy, BaseQuery
+from flask_socketio import SocketIO
 from app import db,app
-from app.models import ModelUsuario, ModelCliente, ModelPessoa, ModelProfissional, ModelReforma, ModelPagamento, ModelNegociacaoPreco, ModelHabilidade, ModelMensagem, ModelConversa#, ModelProfissionalHabilidade, ModelReformaProfissional
-from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma, ControllerLogin, ControllerProfissional
-#from app.routes import IndexRoutes, UsuarioRoutes, ClienteRoutes, ReformaRoutes, LoginRoutes
+from app.models import ModelUsuario, ModelCliente, ModelPessoa, ModelProfissional, ModelReforma, ModelPagamento, ModelNegociacaoPreco, ModelHabilidade, ModelMensagem, ModelConversa, ModelReformaProfissional
+from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma, ControllerLogin, ControllerProfissional, ControllerConversa
 import hashlib;
 
 class Facade():
@@ -97,6 +97,9 @@ class Facade():
     def retornarTodasConversas(self):
         return self.__conversa.retornarTodasConversas()
     
-    def inserirMensagem(self, id_conversa, perfil, data, mensagem):
-        return self.__conversa.inserirMensagem(id_conversa,perfil,data,mensagem)
+    def inserirMensagem(self, id_conversa, perfil, data, mensagem, preco, nivelPreco):
+        return self.__conversa.inserirMensagem(id_conversa,perfil,data,mensagem,preco,nivelpreco)
+    
+    def atualizarMensagem(self, id_mensagem, nivelPreco):
+        return self.__conversa.atualizarMensagem(id_mensagem,nivelPreco)
     
