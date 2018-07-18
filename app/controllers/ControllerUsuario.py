@@ -9,8 +9,13 @@ class ControllerUsuario():
         result = self.validarIntegridade(telefone,senha)
         if result['sucesso'] is False:
             return result
+        
+        m = hashlib.sha256()
+        m.update(senha)
+        m.digest()
+        senhaHash = m.hexdigest();
 
-        i = Usuario(telefone,senha)
+        i = Usuario(telefone,senhaHash)
         if i == None:
             db.session.add(i)   
             db.session.commit()

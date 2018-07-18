@@ -25,9 +25,13 @@ class ControllerLogin():
         return {'sucesso':True}
     
     def validarSenha(self, valor, senha, tipoPessoa):
+        m = hashlib.sha256()
+        m.update(senha)
+        m.digest()
+        senhaHash = m.hexdigest();
         if valor == None:
             pass
-        elif valor.senha == senha:
+        elif valor.senha == senhaHash:
             result = self.recuperarIds(valor,tipoPessoa)
             if result['sucesso']:
                 return {'sucesso':True,'mensagem':'logado com sucesso','id_usuario':valor.id, 'id_pessoa':result['idPes'],'id_perfil':result['idRes'] ,'telefone':valor.telefone}
