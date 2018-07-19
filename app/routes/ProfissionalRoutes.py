@@ -7,7 +7,7 @@ facade = Facade()
 def profissional(id):
     if (request.method == 'POST'):
         some_json = request.get_json()
-        result = facade.inserirProfissional(some_json['cpf'],some_json['nome'],some_json['telefone'],some_json['senha'],some_json['habilidades'])
+        result = facade.inserirProfissional(some_json['cpf'],some_json['nome'],some_json['telefone'],some_json['senha'],some_json['habilidades'], some_json['profissao'])
         if result['sucesso']:
             return jsonify(result), 201
         return jsonify(result), 400
@@ -33,7 +33,7 @@ def profissional(id):
     
     elif (request.method == 'PUT'):
         some_json = request.get_json()
-        result = facade.atualizarProfissional(some_json['id'], some_json['cpf'], some_json['nome'], some_json['telefone'], some_json['senha'], some_json['habilidades'])
+        result = facade.atualizarProfissional(some_json['id'], some_json['cpf'], some_json['nome'], some_json['telefone'], some_json['senha'], some_json['habilidades'], some_json['profissao'])
         if result['sucesso']:
             return jsonify(result), 200
         return jsonify(result), 400

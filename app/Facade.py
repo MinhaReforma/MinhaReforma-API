@@ -32,8 +32,8 @@ class Facade():
     def login(self, telefone, senha, tipoPessoa):
         return self.__login.login(telefone, senha, tipoPessoa)
     
-    def inserirProfissional(self,cpf,nome,telefone,senha,habilidades):
-        return self.__profissional.inserirProfissional(cpf, nome, telefone, senha, habilidades)
+    def inserirProfissional(self,cpf,nome,telefone,senha,habilidades, profissao):
+        return self.__profissional.inserirProfissional(cpf, nome, telefone, senha, habilidades, profissao)
 
     def removerProfissional(self,id):
         return self.__profissional.removerProfissional(id)
@@ -44,8 +44,8 @@ class Facade():
     def retornarTodosProfissionais(self):
         return self.__profissional.retornarTodosProfissionais()
 
-    def atualizarProfissional(self,id,cpf,nome,telefone,senha,habilidades):
-        return self.__profissional.atualizarProfissional( id, cpf, nome, telefone, senha, habilidades)
+    def atualizarProfissional(self,id,cpf,nome,telefone,senha,habilidades, profissao):
+        return self.__profissional.atualizarProfissional(id, cpf, nome, telefone, senha, habilidades, profissao)
 
     def inserirReforma(self,id_cliente, datainicio, nome, descricao, status):
         return self.__reforma.inserirReforma(id_cliente, datainicio, nome, descricao, status)
