@@ -1,4 +1,4 @@
-from app.Facade import render_template, request, jsonify, app, Facade, SocketIO
+from app.Facade import render_template, request, jsonify, app, Facade, socketio, emit
 
 facade = Facade()
 
@@ -33,9 +33,9 @@ def mensagem():
             return jsonify(result), 200
         return jsonify(result), 400
 
-@SocketIO.on('inserirMensagem',namespace='/conversa')
+@socketio.on('inserirMensagem', namespace='/conversa')
 def inserirMensagem(json):
     result = facade.inserirMensagem(json['id_conversa'],json['perfil'],json['data'], json['mensagem'], json['preco'], json['nivelPreco'])
-        if result['sucesso']:
-            return jsonify(result), 200
-        return jsonify(result), 400
+    if result['sucesso']:
+        return jsonify(result), 200
+    return jsonify(result), 400

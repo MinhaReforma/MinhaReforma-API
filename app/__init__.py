@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 from flask import Flask
 
 app = Flask(__name__)
