@@ -8,7 +8,7 @@ Cliente = ModelCliente.Cliente
 
 class ControllerProfissional():
 
-    def inserirProfissional(self,cpf,nome,telefone,senha,habilidades):
+    def inserirProfissional(self,cpf,nome,telefone,senha,habilidades, profissao):
 
         result = self.validarIntegridade(cpf,nome,telefone,senha,habilidades)
         if result['sucesso'] is False:
@@ -116,8 +116,8 @@ class ControllerProfissional():
             lista.append({'id':g[i].id,'cpf':p.cpf,'nome':p.nome,'telefone':u.telefone,'habilidades':listhab})
         return {'sucesso':True,'mensagem':'todos os profissionais retornados com sucesso.','profissionais':lista}
 
-    def atualizarProfissional(self,id,cpf,nome,telefone,senha,habilidades):
-        result = self.validarIntegridade(cpf,nome,telefone,senha,habilidades)
+    def atualizarProfissional(self,id,cpf,nome,telefone,senha,habilidades, profissao):
+        result = self.validarIntegridade(cpf,nome,telefone,senha,habilidades, profissao)
         if result['sucesso'] is False:
             return result
         u = Profissional.query.get(id)
@@ -154,7 +154,7 @@ class ControllerProfissional():
         
         return {'sucesso':True,'mensagem':'profissional atualizado com sucesso.','id':u.id,'cpf':v.cpf,'telefone':x.telefone,'habilidades':habilidades}
     
-    def validarIntegridade(self,cpf,nome,telefone,senha,habilidades):
+    def validarIntegridade(self,cpf,nome,telefone,senha,habilidades, profissao):
         if cpf == None or cpf.strip() == "":
             return {'sucesso':False, 'mensagem':'cpf em branco.'}
         elif nome == None or nome.strip() == "":
@@ -165,5 +165,7 @@ class ControllerProfissional():
             return {'sucesso':False, 'mensagem':'senha em branco.'}
         elif habilidades == list() or habilidades == None:
             return {'sucesso':False, 'mensagem':'habilidades em branco.'}
+        elif profissao == None or profissao.strip() == "":
+            return {'sucesso':False, 'mensagem':'profissao em branco.'}
         return {'sucesso':True}
         

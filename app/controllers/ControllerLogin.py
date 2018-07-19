@@ -27,7 +27,7 @@ class ControllerLogin():
     
     def validarSenha(self, valor, senha, tipoPessoa):
         m = hashlib.sha256()
-        m.update(senha).encode('utf8')
+        m.update(senha.encode('utf8'))
         m.digest()
         senhaHash = m.hexdigest();
         if valor == None:
