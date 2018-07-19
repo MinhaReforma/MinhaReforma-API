@@ -1,4 +1,4 @@
-from app.Facade import render_template, request, jsonify, app, Facade
+from app.Facade import render_template, request, jsonify, app, Facade, SocketIO
 
 facade = Facade()
 
@@ -29,6 +29,13 @@ def mensagem():
     elif (request.method == 'PUT'):
         some_json = request.get_json()
         result = facade.atualizarMensagem(some_json['id_mensagem'],some_json['nivelPreco'])
+        if result['sucesso']:
+            return jsonify(result), 200
+        return jsonify(result), 400
+
+@SocketIO.on('inserirMensagem',namespace='/conversa')
+def inserirMensagem(json):
+    result = facade.inserirMensagem(json['id_conversa'],json['perfil'],json['data'], json['mensagem'], json['preco'], json['nivelPreco'])
         if result['sucesso']:
             return jsonify(result), 200
         return jsonify(result), 400

@@ -1,6 +1,6 @@
 from flask import render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy, BaseQuery
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 from app import db,app
 from app.models import ModelUsuario, ModelCliente, ModelPessoa, ModelProfissional, ModelReforma, ModelPagamento, ModelNegociacaoPreco, ModelHabilidade, ModelMensagem, ModelConversa, ModelReformaProfissional
 from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma, ControllerLogin, ControllerProfissional, ControllerConversa
