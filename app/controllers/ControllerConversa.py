@@ -75,7 +75,7 @@ class ControllerConversa():
         return {'sucesso':True, 'mensagem':'Mensagem adicionada com sucesso', 'id':g.id, 'id_conversa':g.id_conversa, 'perfil':g.perfil, 'data':g.data, 'valor':g.mensagem, 'preco':g.preco, 'nivelPreco': g.nivelPreco}
     
     def validarIntegridade(self, id_conversa, perfil, data, mensagem):
-        if id_conversa == None or id_conversa.strip() == "":
+        if id_conversa == None:
             return {'sucesso':False, 'mensagem':'id_conversa nulo.'}
         elif perfil == None or perfil.strip() == "":
             return {'sucesso':False, 'mensagem':'perfil nulo.'}
