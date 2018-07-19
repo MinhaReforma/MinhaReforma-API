@@ -1,4 +1,5 @@
 from app.Facade import SQLAlchemy, BaseQuery, db, ModelCliente, ModelPessoa, ModelUsuario, ModelProfissional
+import hashlib
 
 Cliente = ModelCliente.Cliente
 Pessoa = ModelPessoa.Pessoa
@@ -15,9 +16,14 @@ class ControllerCliente():
         h = Usuario.query.filter(Usuario.telefone == telefone).first()
         i = Pessoa.query.filter(Pessoa.cpf == cpf).first()
 
+        m = hashlib.sha256()
+        m.update(senha.encode('utf8'))
+        m.digest()
+        senhaHash = m.hexdigest()
+
         if h == None:
             if i == None:
-                h = Usuario(telefone, senha)
+                h = Usuario(telefone, senhaHash)
                 db.session.add(h)
                 i = Pessoa.query.filter(Pessoa.cpf == cpf).first()# meramente uma busca para atualizar os dados do banco.(não tem uso real)
                 i = Pessoa(cpf,nome,h.id)
@@ -33,7 +39,7 @@ class ControllerCliente():
             else:
                 j = Cliente.query.filter(Cliente.id_pessoa == i.id).first()
                 if j == None:
-                    h = Usuario(telefone, senha)
+                    h = Usuario(telefone, senhaHash)
                     db.session.add(h)
                     i = Pessoa.query.filter(Pessoa.cpf == cpf).first()# meramente uma busca para atualizar os dados do banco.(não tem uso real)
                     i = Pessoa(cpf,nome,h.id)

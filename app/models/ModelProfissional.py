@@ -16,7 +16,7 @@ class Profissional(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     id_pessoa = db.Column(db.Integer, db.ForeignKey('pessoa.id', onupdate='CASCADE', ondelete='CASCADE'), unique=True, nullable=False)
-    #id_areaAtuacao = db.Column(db.Integer)
+    profissao = db.Column(db.String, nullable=False)
 
     reformas = db.relationship('Reforma', secondary='reformaProfissional' , lazy='joined', backref=db.backref('profissionais'))
     pessoa = db.relationship('Pessoa', backref= db.backref('profissional', cascade="all, delete"), uselist=False, lazy='joined')
@@ -25,9 +25,9 @@ class Profissional(db.Model):
     # negociacoes = db.relationship('NegociacaoPreco', backref='profissional')
     # conversas = db.relationship('Conversa',backref='profissional')
 
-    def __init__(self, id_pessoa):#, id_areaAtuacao):
+    def __init__(self, id_pessoa, profissao):
         self.id_pessoa = id_pessoa
-        #self.id_areaAtuacao = id_areaAtuacao
+        self.profissao = profissao
 
     def __repr__(self):
         return "<Profissional %r>" % self.id_pessoa

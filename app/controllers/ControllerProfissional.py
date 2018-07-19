@@ -1,4 +1,5 @@
 from app.Facade import SQLAlchemy, BaseQuery, db, ModelProfissional, ModelPessoa, ModelUsuario, ModelHabilidade, ModelCliente
+import hashlib
 
 Profissional = ModelProfissional.Profissional
 Pessoa = ModelPessoa.Pessoa
@@ -10,16 +11,21 @@ class ControllerProfissional():
 
     def inserirProfissional(self,cpf,nome,telefone,senha,habilidades, profissao):
 
-        result = self.validarIntegridade(cpf,nome,telefone,senha,habilidades)
+        result = self.validarIntegridade(cpf,nome,telefone,senha,habilidades, profissao)
         if result['sucesso'] is False:
             return result
         
         h = Usuario.query.filter(Usuario.telefone == telefone).first()
         i = Pessoa.query.filter(Pessoa.cpf == cpf).first()
+
+        m = hashlib.sha256()
+        m.update(senha.encode('utf8'))
+        m.digest()
+        senhaHash = m.hexdigest()
         
         if h == None:
             if i == None:
-                h = Usuario(telefone, senha)
+                h = Usuario(telefone, senhaHash)
                 db.session.add(h)
                 i = Pessoa.query.filter(Pessoa.cpf == cpf).first()# meramente uma busca para atualizar os dados do banco.(não tem uso real)
                 i = Pessoa(cpf,nome,h.id)
@@ -35,7 +41,7 @@ class ControllerProfissional():
             else:
                 j = Profissional.query.filter(Profissional.id_pessoa == i.id).first()
                 if j == None:
-                    h = Usuario(telefone, senha)
+                    h = Usuario(telefone, senhaHash)
                     db.session.add(h)
                     i = Pessoa.query.filter(Pessoa.cpf == cpf).first() # meramente uma busca para atualizar os dados do banco.(não tem uso real)
                     i = Pessoa(cpf,nome,h.id)
