@@ -41,12 +41,6 @@ class ControllerProfissional():
             else:
                 j = Profissional.query.filter(Profissional.id_pessoa == i.id).first()
                 if j == None:
-                    h = Usuario(telefone, senhaHash)
-                    db.session.add(h)
-                    i = Pessoa.query.filter(Pessoa.cpf == cpf).first() # meramente uma busca para atualizar os dados do banco.(não tem uso real)
-                    i = Pessoa(cpf,nome,h.id)
-                    db.session.add(i)
-                    j = Profissional.query.filter(Profissional.id_pessoa == i.id).first()
                     j = Profissional(i.id,profissao)
                     db.session.add(j)
                 else:

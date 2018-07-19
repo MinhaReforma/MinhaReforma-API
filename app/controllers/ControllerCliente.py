@@ -39,12 +39,6 @@ class ControllerCliente():
             else:
                 j = Cliente.query.filter(Cliente.id_pessoa == i.id).first()
                 if j == None:
-                    h = Usuario(telefone, senhaHash)
-                    db.session.add(h)
-                    i = Pessoa.query.filter(Pessoa.cpf == cpf).first()# meramente uma busca para atualizar os dados do banco.(não tem uso real)
-                    i = Pessoa(cpf,nome,h.id)
-                    db.session.add(i)
-                    j = Cliente.query.filter(Cliente.id_pessoa == i.id).first()
                     j = Cliente(i.id)
                     db.session.add(j)
                 else:

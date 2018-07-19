@@ -17,7 +17,7 @@ def conversa(idr, idp):
                 return jsonify(result), 200
             return jsonify(result), 400
 
-@app.route("/conversas/mensagem",methods=['POST'])
+@app.route("/conversas/mensagem",methods=['POST','PUT'])
 def mensagem():
     if (request.method == 'POST'):
         some_json = request.get_json()

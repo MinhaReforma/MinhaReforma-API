@@ -27,15 +27,13 @@ class ControllerConversa():
         for i in range(len(g)):
             for mensa in g[i].mensagens:
                 listamen.append({'mensagem':mensa.mensagem, 'perfil':mensa.perfil, 'data':mensa.data, 'id':mensa.id, 'preco':mensa.preco, 'nivelPreco':mensa.nivelPreco})
-            if g.preco == None:
-                g.preco = 0
             lista.append({'id':g[i].id,'id_reforma':g[i].id_reforma,'id_cliente':g[i].id_cliente,'id_profissional':g[i].id_profissional,'mensagens':listamen})
 
         return {'sucesso':True,'mensagem':'todas as conversas retornados com sucesso.','conversas':lista}
     
 #################################################### MENSAGEM ##############################################################
 
-    def inserirMensagem(self, id_conversa, perfil, data, mensagem, preco=0, nivelPreco=0):
+    def inserirMensagem(self, id_conversa, perfil, data, mensagem, preco, nivelPreco):
 
         g = Conversa.query.filter_by(id=id_conversa).first()
         if g == None:
@@ -52,7 +50,7 @@ class ControllerConversa():
 
         return {'sucesso':True, 'mensagem':'Mensagem adicionada com sucesso', 'id':h.id, 'id_conversa':h.id_conversa, 'perfil':h.perfil, 'data':h.data, 'valor':h.mensagem, 'preco':h.preco, 'nivelPreco':h.nivelPreco}
     
-    def atualizarMensagem(self, id_mensagem, nivelPreco=0):
+    def atualizarMensagem(self, id_mensagem, nivelPreco):
 
         g = Mensagem.query.filter_by(id=id_mensagem).first()
         if g == None:
@@ -67,7 +65,7 @@ class ControllerConversa():
         g.nivelPreco = nivelPreco
 
         if nivelPreco == 2:
-            i = ReformaProfissional.query.filter(ReformaProfissional.id_profissional == h.id_profissional, ReformaProfissional.id_reforma == h.id_profissional).first()
+            i = ReformaProfissional.query.filter(ReformaProfissional.id_profissional == h.id_profissional, ReformaProfissional.id_reforma == h.id_reforma).first()
             i.preco = g.preco
         
         db.session.commit()
@@ -79,7 +77,7 @@ class ControllerConversa():
             return {'sucesso':False, 'mensagem':'id_conversa nulo.'}
         elif perfil == None or perfil.strip() == "":
             return {'sucesso':False, 'mensagem':'perfil nulo.'}
-        elif data == None or data.strip() == "":
+        elif data == None:
             return {'sucesso':False, 'mensagem':'data nulo.'}
         elif mensagem == None or mensagem.strip() == "":
             return {'sucesso':False, 'mensagem':'mensagem nulo.'}
