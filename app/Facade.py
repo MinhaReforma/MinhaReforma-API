@@ -96,7 +96,7 @@ class Facade():
         return self.__conversa.retornarTodasConversas()
     
     def inserirMensagem(self, id_conversa, perfil, data, mensagem, preco, nivelPreco):
-        return self.__conversa.inserirMensagem(id_conversa,perfil,data,mensagem,preco,nivelpreco)
+        return self.__conversa.inserirMensagem(id_conversa,perfil,data,mensagem,preco,nivelPreco)
     
     def atualizarMensagem(self, id_mensagem, nivelPreco):
         return self.__conversa.atualizarMensagem(id_mensagem,nivelPreco)
