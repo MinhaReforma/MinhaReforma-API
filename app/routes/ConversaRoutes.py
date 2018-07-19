@@ -37,5 +37,5 @@ def mensagem():
 def inserirMensagem(json):
     result = facade.inserirMensagem(json['id_conversa'],json['perfil'],json['data'], json['mensagem'], json['preco'], json['nivelPreco'])
     if result['sucesso']:
-        return jsonify(result), 200
-    return jsonify(result), 400
+        emit('inserirMensagem', jsonify(result), namespace='/conversa')
+    emit('inserirMensagem', jsonify(result), namespace='/conversa')

@@ -1,4 +1,5 @@
 from app.Facade import SQLAlchemy, BaseQuery, db, ModelUsuario, ModelPessoa, ModelCliente, ModelProfissional
+import hashlib
 
 Usuario = ModelUsuario.Usuario
 Pessoa = ModelPessoa.Pessoa

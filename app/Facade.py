@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy, BaseQuery
 from app import db,app, socketio, emit
 from app.models import ModelUsuario, ModelCliente, ModelPessoa, ModelProfissional, ModelReforma, ModelPagamento, ModelNegociacaoPreco, ModelHabilidade, ModelMensagem, ModelConversa, ModelReformaProfissional
 from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma, ControllerLogin, ControllerProfissional, ControllerConversa
-import hashlib;
 
 class Facade():
 
