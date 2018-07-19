@@ -123,7 +123,7 @@ class ControllerReforma():
     def validarIntegridade(self,id_cliente, datainicio, nome, descricao, status):
         if id_cliente == None:
             return {'sucesso':False, 'mensagem':'id_cliente em branco.'}
-        elif datainicio == None or datainicio.strip() == "":
+        elif datainicio == None:
             return {'sucesso':False, 'mensagem':'datainicio em branco.'}
         elif nome == None or nome.strip() == "":
             return {'sucesso':False, 'mensagem':'nome em branco.'}
