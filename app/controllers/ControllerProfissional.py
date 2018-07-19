@@ -31,7 +31,7 @@ class ControllerProfissional():
                 i = Pessoa(cpf,nome,h.id)
                 db.session.add(i)
                 j = Profissional.query.filter(Profissional.id_pessoa == i.id).first()
-                j = Profissional(i.id)
+                j = Profissional(i.id,profissao)
                 db.session.add(j)
             else:
                 return {'sucesso':False, 'mensagem':'cpf em uso.'}
@@ -47,7 +47,7 @@ class ControllerProfissional():
                     i = Pessoa(cpf,nome,h.id)
                     db.session.add(i)
                     j = Profissional.query.filter(Profissional.id_pessoa == i.id).first()
-                    j = Profissional(i.id)
+                    j = Profissional(i.id,profissao)
                     db.session.add(j)
                 else:
                     return {'sucesso':False, 'mensagem':'profissional existente.'}
@@ -71,7 +71,7 @@ class ControllerProfissional():
 
         db.session.commit()
 
-        return {'sucesso':True,'mensagem':'profissional cadastrado com sucesso.','id':j.id,'cpf':i.cpf,'telefone':h.telefone,'habilidades':habilidades}
+        return {'sucesso':True,'mensagem':'profissional cadastrado com sucesso.','id':j.id,'cpf':i.cpf,'telefone':h.telefone, 'profissao':j.profissao, 'habilidades':habilidades}
 
     def removerProfissional(self,id):
         d = Profissional.query.get(id)
@@ -102,7 +102,7 @@ class ControllerProfissional():
             hab = Habilidade.query.get(habil.id)
             lista.append(hab.habilidade)
             
-        return {'sucesso':True,'mensagem':'profissional retornado com sucesso.','id':g.id,'cpf':h.cpf,'nome':h.nome,'telefone':i.telefone, 'habilidades':lista}
+        return {'sucesso':True,'mensagem':'profissional retornado com sucesso.','id':g.id,'cpf':h.cpf,'nome':h.nome,'telefone':i.telefone, 'profissao':g.profissao, 'habilidades':lista}
 
     def retornarTodosProfissionais(self):
         g = Profissional.query.all()
@@ -119,7 +119,7 @@ class ControllerProfissional():
             for habil in g[i].habilidades:
                 hab = Habilidade.query.get(habil.id)
                 listhab.append(hab.habilidade)
-            lista.append({'id':g[i].id,'cpf':p.cpf,'nome':p.nome,'telefone':u.telefone,'habilidades':listhab})
+            lista.append({'id':g[i].id,'cpf':p.cpf,'nome':p.nome,'telefone':u.telefone, 'profissao':g[i].profissao,'habilidades':listhab})
         return {'sucesso':True,'mensagem':'todos os profissionais retornados com sucesso.','profissionais':lista}
 
     def atualizarProfissional(self,id,cpf,nome,telefone,senha,habilidades, profissao):
@@ -133,6 +133,7 @@ class ControllerProfissional():
         v = Pessoa.query.get(u.id_pessoa)
         x = Usuario.query.get(v.id_usuario)
 
+        u.profissao = profissao
         v.cpf = cpf
         v.nome = nome
         x.telefone = telefone
