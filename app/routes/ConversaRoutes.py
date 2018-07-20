@@ -36,8 +36,8 @@ def mensagem():
 
     
 @socketio.on('connect', namespace='/conversas')
-def inserirMensagem(json):
-    result = facade.inserirMensagem(json['id_conversa'],json['perfil'],json['data'], json['mensagem'], json['preco'], json['nivelPreco'])
+def BLALA():
+    #result = facade.inserirMensagem(json['id_conversa'],json['perfil'],json['data'], json['mensagem'], json['preco'], json['nivelPreco'])
     print('conectado')
     emit('connect', "relou uorld", namespace='/conversas')
 
