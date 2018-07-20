@@ -33,9 +33,9 @@ def mensagem():
             return jsonify(result), 200
         return jsonify(result), 400
 
-@socketio.on('inserirMensagem', namespace='/conversa')
+@socketio.on('inserirMensagem')
 def inserirMensagem(json):
     result = facade.inserirMensagem(json['id_conversa'],json['perfil'],json['data'], json['mensagem'], json['preco'], json['nivelPreco'])
     if result['sucesso']:
-        emit('inserirMensagem', jsonify(result), namespace='/conversa')
-    emit('inserirMensagem', jsonify(result), namespace='/conversa')
+        emit('inserirMensagem', jsonify(result))
+    emit('inserirMensagem', jsonify(result))
