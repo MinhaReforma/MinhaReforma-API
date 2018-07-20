@@ -34,6 +34,13 @@ def mensagem():
             return jsonify(result), 200
         return jsonify(result), 400
 
+    
+@socketio.on('connect', namespace='/conversas')
+def inserirMensagem(json):
+    result = facade.inserirMensagem(json['id_conversa'],json['perfil'],json['data'], json['mensagem'], json['preco'], json['nivelPreco'])
+    print('conectado')
+    emit('connect', "relou uorld", namespace='/conversas')
+
 @socketio.on('inserirMensagem')
 def inserirMensagem(json):
     result = facade.inserirMensagem(json['id_conversa'],json['perfil'],json['data'], json['mensagem'], json['preco'], json['nivelPreco'])
