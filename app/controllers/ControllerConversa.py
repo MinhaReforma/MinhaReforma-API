@@ -12,10 +12,14 @@ class ControllerConversa():
             return {'sucesso':False, 'mensagem':'conversa não existe.'}
         
         lista = list()
+        msgNegociacao = {}
+
         for mensa in g.mensagens:
             lista.append({'mensagem':mensa.mensagem, 'perfil':mensa.perfil, 'data':mensa.data, 'id':mensa.id, 'preco': mensa.preco, 'nivelPreco':mensa.nivelPreco})
+            if mensa.nivelPreco > 0:
+                msgNegociacao = {'id': mensa.id, 'nivelPreco':mensa.nivelPreco}
     
-        return {'sucesso':True,'mensagem':'conversa retornada com sucesso.','id':g.id,'id_reforma':g.id_reforma,'id_cliente':g.id_cliente, 'id_profissional':g.id_profissional, 'mensagens':lista}
+        return {'sucesso':True,'mensagem':'conversa retornada com sucesso.','id':g.id,'id_reforma':g.id_reforma,'id_cliente':g.id_cliente, 'id_profissional':g.id_profissional, 'msgNegociacao':msgNegociacao ,'mensagens':lista}
 
     def retornarTodasConversas(self):
         g = Conversa.query.all()
