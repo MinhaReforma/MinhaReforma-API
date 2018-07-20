@@ -17,6 +17,8 @@ class ControllerConversa():
             lista.append({'mensagem':mensa.mensagem, 'perfil':mensa.perfil, 'data':mensa.data, 'id':mensa.id, 'preco': mensa.preco, 'nivelPreco':mensa.nivelPreco})
             if mensa.nivelPreco > 0:
                 msgNegociacao = {'id': mensa.id, 'nivelPreco':mensa.nivelPreco}
+            else:
+                msgNegociacao = {}
     
         return {'sucesso':True,'mensagem':'conversa retornada com sucesso.','id':g.id,'id_reforma':g.id_reforma,'id_cliente':g.id_cliente, 'id_profissional':g.id_profissional, 'msgNegociacao':msgNegociacao ,'mensagens':lista}
 
@@ -33,6 +35,8 @@ class ControllerConversa():
                 listamen.append({'mensagem':mensa.mensagem, 'perfil':mensa.perfil, 'data':mensa.data, 'id':mensa.id, 'preco':mensa.preco, 'nivelPreco':mensa.nivelPreco})
                 if mensa.nivelPreco > 0:
                     msgNegociacao = {'id': mensa.id, 'nivelPreco':mensa.nivelPreco}
+                else:
+                    msgNegociacao = {}
                 
             lista.append({'id':g[i].id,'id_reforma':g[i].id_reforma,'id_cliente':g[i].id_cliente,'id_profissional':g[i].id_profissional, 'msgNegociacao':msgNegociacao,'mensagens':listamen})
 
