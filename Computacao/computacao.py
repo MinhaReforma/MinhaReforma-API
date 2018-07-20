@@ -9,77 +9,82 @@ import nltk
 from nltk.corpus import stopwords
  
 # Profissoes
-prof = ["Pedreiro", "Encanador", "Eletricista","Pintor"]
+prof = ["pedreiro", "encanador", "eletricista","pintor"]
 
-#pedreiro = 
-# 'gostaria de contratar alguem pra colocar ceramicas na parede da minha casa',
-# 'Gostaria de alguém que trabalhasse com assentamento de porcelanato'
-# 'construção de rodapé decorativo em quarto de 50m2',
-# 'Necessito de alguém para plicação de forro de gesso',
-# 'preciso que você compre cimento e areia para colocar a cerâmica',
-# 'Preciso que voce derrube  essa parede da minha casa sem danificar a estrutura de sustentação',
-# 'Construir um novo comodo, erguer um muro e quebrar parede para instalar uma janela',
-# 'preciso retocar a argamassa do muro da minha casa, alguns tijolos também precisam ser trocados',
-# 'preciso de pedreiro para construção de poço artesiano',
-# 'Antes de levantar as paredes, tem que aprumar a base direitinho e fazer 6 colunas nessa sala',
-# 'Preciso que você salpique o meu muro antes de rebocar',
-# 'abrir uma parede do meu quarto, para por uma porta nova',
-# 'preciso remover o gesso do teto do panheiro para por pvc no legal',
-# 'preciso de pedreiro para construir uma churrasqueira na minha laje',
-# 'construa uma cerca de madeira ao redor da minha casa', 
-#encanador = 
-# 'Cozinha está com a pia entupida, vazamento e refluxo. Ralo da pia entupido, torneira com goteira e refluxo no ralo.', 
-# 'Área de serviço apresenta goteiras no teto, agua podre e cheiro ruim.', 
-# 'problemas encanação do banheiro. O banheiro apresenta goteira, vazamento nas paredes gerando um gasto anormal de água.,'
-# 'Chuveiro do banheiro não cai água. Privada com defeito, quero trocar por um novo vaso sanitário.',
-# 'Torneira da área de serviço está enferrujada, necessito uma troca.',
-# 'Desejo uma limpeza nos canos da calha de casa e uma manutenção da mesma.',
-# 'O ralo do chão do banheiro está saindo um cheiro podre, semelhante a esgoto. Gostaria de ter uma manutenção desse local.',
-# 'Quero uma instalação do encanamento de uma sauna.',
-# 'Banheiro precisa de instalação. Instalar bidê, pia, chuveiro, torneira, banheira, mictório.',
-# 'Quero fazer uma piscina no quintal. Necessito de uma instalação completa no sistema do tanque de água.',
-# "Quero certificar que a caixa d'agua esteja em perfeitas situações. Verificar se existe a necessidade de concertar algum cano ou fazer uma troca por outro.",
-# 'Ajuste nos ralos das termas e troca nos canos de todo o parque aquático.',
-# 'Manutenção no esgoto da minha casa e do meu apartamento.',
-# 'Necessito de alguém que  troque e instale vaso sanitário de caixa acoplada',
-# 'Torneira com problema, água está muito fraca, preciso de alguém que arrume isso',
-#eletricista = []
-# 'Minhas tomadas sao todas padrão antigo, preciso trocar para tomadas de tres pinos e aterrar todas elas',
-# 'Instalação de ar condicionado split, trazer todo material necessário',
-# 'Troca e instalação de chuveiro elétrico, alterar fiação do fio terra',
-# 'a resistência do chuveiro está dando choque, necessito verificar os fios'.
-# 'preciso de eletricista que concerte tomada da minha máquina de lavar',
-# 'trocar de uma adaptador de tensão 220v da tomada do minha geladeira que é de 110 Volts',
-# 'Preciso de um eletricista para instalar um painel de lâmpada led',
-# 'instalar 3 novas lâmpadas de 15w no banheiro',
-# 'trocar um disjuntor na casa de fusivel',
-# 'instação de ventilador de teto',
-# 'preciso de um eletricista para fazer manutenção no aquecedor',
-# 'trocar a resistência do chuveiro elétrico e instalar um interruptor para ligar ou desligar o mesmo',
-# 'quadro de energia elétrica queimou, trocar também contador de corrente',
-# 'instalar a iluminação da piscina com lâmpadas de led',
-# 'trocar a fiação da varanda, encapar fio exposto',
-#7 Pintor = 
-# 'Pintura descascando, preciso repintar dois comodos.',
-# 'Preciso de alguém que pinte portas de armário de madeira',
-# 'Necessito de alguém especializado em pinturas de sacadas',
-# 'pintor que troque meu quarto de tinta acrílica para tinta fosca da cor rosa',
-# 'pinte essa parede com tinta azul piscina',
-# 'preciso de uma demão de tinta no saguão',
-# 'eu preciso que você dê os retoques finais na casa com pincel grosso' ,
-# 'preciso um pintor para pintar a sacada da varanda nas cores da empresa', 
-# 'tintura da parede esta mofando, preciso de uma tinta CORAL anti-mofo',
-# 'alterar a textura de uma parede ',
-# 'preciso de um pintor para colar novo papel de parede',
-# 'utilização de porcelanato liquido para pintar novo cômodo',
-# 'revestir muro',
-# 'retocar fachada com tinta epóxi',
-# 'preciso de um pintor especializado em pintar áreas externas',
-# 
+pedreiro = [
+'gostaria de contratar alguem pra colocar ceramicas na parede da minha casa',
+'Gostaria de alguém que trabalhasse com assentamento de porcelanato',
+'construção de rodapé decorativo em quarto de 50m2',
+'Necessito de alguém para plicação de forro de gesso',
+'preciso que você compre cimento e areia para colocar a cerâmica',
+'Preciso que voce derrube essa parede da minha casa sem danificar a estrutura de sustentação',
+'Construir um novo comodo, erguer um muro e quebrar parede para instalar uma janela',
+'preciso retocar a argamassa do muro da minha casa, alguns tijolos também precisam ser trocados',
+'preciso de pedreiro para construção de poço artesiano',
+'demolir parede e erguer seis colunas',
+'Preciso que você salpique o meu muro antes de rebocar',
+'abrir uma parede do meu quarto, para por uma porta nova',
+'preciso remover o gesso do teto do panheiro para por pvc no legal',
+'preciso de pedreiro para construir uma churrasqueira na minha laje',
+'construa uma cerca de madeira ao redor da minha casa'
+]
+encanador = [
+'Cozinha está com a pia entupida, vazamento e refluxo. Ralo da pia entupido, torneira com goteira e refluxo no ralo.', 
+'Área de serviço apresenta goteiras no teto, agua podre e cheiro ruim.', 
+'problemas encanação do banheiro. O banheiro apresenta goteira, vazamento nas paredes gerando um gasto anormal de água.',
+'Chuveiro do banheiro não cai água. Privada com defeito, quero trocar por um novo vaso sanitário.',
+'Torneira da área de serviço está enferrujada, necessito uma troca.',
+'Desejo uma limpeza nos canos da calha de casa e uma manutenção da mesma.',
+'O ralo do chão do banheiro está saindo um cheiro podre, semelhante a esgoto. Gostaria de ter uma manutenção desse local.',
+'Quero uma instalação do encanamento de uma sauna.',
+'Banheiro precisa de instalação. Instalar bidê, pia, chuveiro, torneira, banheira, mictório.',
+'Quero fazer uma piscina no quintal. Necessito de uma instalação completa no sistema do tanque de água.',
+"Quero certificar que a caixa d'agua esteja em perfeitas situações. Verificar se existe a necessidade de concertar algum cano ou fazer uma troca por outro.",
+'Ajuste nos ralos das termas e troca nos canos de todo o parque aquático.',
+'Manutenção no esgoto da minha casa e do meu apartamento.',
+'Necessito de alguém que  troque e instale vaso sanitário de caixa acoplada',
+'Torneira com problema, água está muito fraca, preciso de alguém que arrume isso'
+]
+eletricista = [
+'Minhas tomadas sao todas padrão antigo, preciso trocar para tomadas de tres pinos e aterrar todas elas',
+'Instalação de ar condicionado split, trazer todo material necessário',
+'Troca e instalação de chuveiro elétrico, alterar fiação do fio terra',
+'a resistência do chuveiro está dando choque, necessito verificar os fios',
+'preciso de eletricista que concerte tomada da minha máquina de lavar',
+'trocar de uma adaptador de tensão 220v da tomada do minha geladeira que é de 110 Volts',
+'Preciso de um eletricista para instalar um painel de lâmpada led',
+'instalar 3 novas lâmpadas de 15w no banheiro',
+'trocar um disjuntor na casa de fusivel',
+'instação de ventilador de teto',
+'preciso de um eletricista para fazer manutenção no aquecedor',
+'trocar a resistência do chuveiro elétrico e instalar um interruptor para ligar ou desligar o mesmo',
+'quadro de energia elétrica queimou, trocar também contador de corrente',
+'instalar a iluminação da piscina com lâmpadas de led',
+'trocar a fiação da varanda, encapar fio exposto'
+]
+pintor = [
+'Pintura descascando, preciso repintar dois comodos.',
+'Preciso de alguém que pinte portas de armário de madeira',
+'Necessito de alguém especializado em pinturas de sacadas para texturizar ela',
+'pintor que troque meu quarto de tinta acrílica para tinta fosca da cor rosa',
+'pinte essa parede com tinta azul piscina',
+'preciso de uma demão de tinta no saguão',
+'eu preciso que você dê os retoques finais na casa com pincel grosso' ,
+'preciso um pintor para pintar a sacada da varanda nas cores da empresa', 
+'tintura da parede esta mofando, preciso de uma tinta CORAL anti-mofo',
+'alterar a textura de uma parede ',
+'preciso de um pintor para colar novo papel de parede',
+'utilização de porcelanato liquido para pintar novo cômodo',
+'revestir muro',
+'retocar fachada com tinta epóxi',
+'preciso de um pintor especializado em pintar áreas externas'
+]
+ 
 
 # X -> features, y -> label
-frases = ['gostaria de contratar alguem pra colocar ceramicas na parede da minha casa','Instalação de rodapé decorativo em quarto de 50m2','Necessito de alguém para plicação de forro de gesso',' Gostaria de alguém que trabalhasse com assentamento de porcelanato', 'Cozinha está com a pia entupida, vazamento e refluxo. Ralo da pia entupido, torneira com goteira e refluxo no ralo.', 'Área de serviço apresenta goteiras no teto, agua podre e cheiro ruim.', 'problemas encanação do banheiro. O banheiro apresenta goteira, vazamento nas paredes gerando um gasto anormal de água.', 'Minhas tomadas sao todas padrão antigo, preciso trocar para tomadas de tres pinos e aterrar todas elas', 'Instalação de ar condicionado split, trazer todo material necessário', 'Troca e instalação de chuveiro elétrico, necessita também desentupir o chuveiro', 'Pintura descascando, preciso repindar dois comodos.','Preciso de alguém que pinte portas de armário de madeira','Necessito de alguém especializado em pinturas de sacadas' ]
-profissoes = [prof[0], prof[0], prof[0], prof[0], prof[1], prof[1], prof[1], prof[2], prof[2], prof[2], prof[3], prof[3], prof[3]]
+frases = pedreiro + encanador + eletricista + pintor
+temp = 'pedreiro '*15 + 'encanador '*15 + 'eletricista '*15 + 'pintor '*15
+profissoes = temp.split()
  
 stops = set(stopwords.words("portuguese"))
 
@@ -98,10 +103,11 @@ parameters = {'vect__ngram_range': [(1, 1), (1, 2)],
  
 # training a linear SVM classifier
 if __name__ == '__main__':
-    STRING_INPUT_USUARIO = ''
-    gs_clf_svm = GridSearchCV(text_clf_svm, parameters, n_jobs=-1)
-    gs_clf_svm = gs_clf_svm.fit(frases, profissoes)
-    svm_predictions = gs_clf_svm.predict([STRING_INPUT_USUARIO])
-
-
-    print(svm_predictions)
+    while(True):
+        STRING_INPUT_USUARIO = input("Digite a descricao: ")
+        if(STRING_INPUT_USUARIO == 'exit'):
+            break
+        gs_clf_svm = GridSearchCV(text_clf_svm, parameters, n_jobs=-1)
+        gs_clf_svm = gs_clf_svm.fit(frases, profissoes)
+        svm_predictions = gs_clf_svm.predict([STRING_INPUT_USUARIO])
+        print(svm_predictions)
