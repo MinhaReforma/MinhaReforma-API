@@ -14,6 +14,7 @@ def conversa(idr, idp):
         else:
             result = facade.retornarConversa(idr, idp)
             if result['sucesso']:
+                socketio.emit('inserirMensagem', jsonify({'data:tomarnocu'}))
                 return jsonify(result), 200
             return jsonify(result), 400
 
@@ -36,6 +37,4 @@ def mensagem():
 @socketio.on('inserirMensagem')
 def inserirMensagem(json):
     result = facade.inserirMensagem(json['id_conversa'],json['perfil'],json['data'], json['mensagem'], json['preco'], json['nivelPreco'])
-    if result['sucesso']:
-        emit('inserirMensagem', jsonify(result))
     emit('inserirMensagem', jsonify(result))
