@@ -32,7 +32,7 @@ class ControllerConversa():
             for mensa in g[i].mensagens:
                 listamen.append({'mensagem':mensa.mensagem, 'perfil':mensa.perfil, 'data':mensa.data, 'id':mensa.id, 'preco':mensa.preco, 'nivelPreco':mensa.nivelPreco})
                 if mensa.nivelPreco > 0:
-                msgNegociacao = {'id': mensa.id, 'nivelPreco':mensa.nivelPreco}
+                    msgNegociacao = {'id': mensa.id, 'nivelPreco':mensa.nivelPreco}
                 
             lista.append({'id':g[i].id,'id_reforma':g[i].id_reforma,'id_cliente':g[i].id_cliente,'id_profissional':g[i].id_profissional, 'msgNegociacao':msgNegociacao,'mensagens':listamen})
 
