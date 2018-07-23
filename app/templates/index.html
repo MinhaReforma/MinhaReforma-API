@@ -1,0 +1,22 @@
+    <html>
+    <head>
+        <title>Minha Reforma</title>
+        {% raw %}
+        <link rel="stylesheet" href="{{ ulr_for('static', filename="css/bootstrap.min.css") }}">
+        {% endraw %}
+    </head>
+    <body>
+        <h1>Minha Reforma</h1>
+        {% if user %}
+        <p>Bem-vindo ao Minha Reforma, {{ user }}!</p>
+        {% else %}
+        <p>Bem-vindo ao Minha Reforma!</p>
+        {% endif %}
+
+        {% raw %}
+        <script 
+        src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="{{ ulr_for('static', filename="js/bootstrap.min.js") }}"></script>
+        {% endraw %}
+    </body>
+    </html>
