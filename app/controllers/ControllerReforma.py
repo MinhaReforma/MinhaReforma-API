@@ -1,10 +1,11 @@
-from app.Facade import SQLAlchemy, BaseQuery, db, ModelReforma, ModelProfissional, ModelCliente, ModelConversa, ModelHabilidade
+from app.Facade import SQLAlchemy, BaseQuery, db, ModelReforma, ModelProfissional, ModelCliente, ModelConversa, ModelHabilidade, ModelReformaProfissional
 
 Reforma = ModelReforma.Reforma
 Profissional = ModelProfissional.Profissional
 Cliente = ModelCliente.Cliente
 Conversa = ModelConversa.Conversa
 Habilidade = ModelHabilidade.Habilidade
+ReformaProfissional = ModelReformaProfissional.ReformaProfissional
 
 class ControllerReforma():
 
@@ -34,7 +35,8 @@ class ControllerReforma():
         g = Reforma.query.get(id)
         if g == None:
             return {'sucesso':False, 'mensagem':'reforma não existe.'}
-                
+        
+        precoTotal = 0
         lista = list()
         for profic in g.profissionais:
             listhab = list()
@@ -42,8 +44,10 @@ class ControllerReforma():
             for habil in prof.habilidades:
                 hab = Habilidade.query.get(habil.id)
                 listhab.append(hab.habilidade)
-            lista.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'habilidades':listhab})            
-        return {'sucesso':True, 'mensagem':'reforma retornada com sucesso.','id':g.id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.pessoa.cpf,'nome':g.cliente.pessoa.nome,'telefone':g.cliente.pessoa.usuario.telefone},'datainicio':g.datainicio,'nome':g.nome,'descricao':g.descricao, 'listaProfissionais':lista, 'status':g.status}
+            orcamentoProfissional = self.pegarPrecoNegociacao(prof.id, id)
+            lista.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'profissao': prof.profissao , 'habilidades':listhab, 'preco': orcamentoProfissional})
+            precoTotal += orcamentoProfissional
+        return {'sucesso':True, 'mensagem':'reforma retornada com sucesso.','id':g.id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.pessoa.cpf,'nome':g.cliente.pessoa.nome,'telefone':g.cliente.pessoa.usuario.telefone},'datainicio':g.datainicio,'nome':g.nome,'descricao':g.descricao, 'listaProfissionais':lista, 'status':g.status, 'precoTotal': precoTotal}
 
     def retornarTodasNovasReformas(self):
         g = Reforma.query.filter_by(status='novo').all()
@@ -164,3 +168,9 @@ class ControllerReforma():
         reforma.status = status
         db.session.commit()
         return {'sucesso':True, 'mensagem':'status alterado com sucesso', 'id_reforma':reforma.id, 'status':reforma.status}
+    
+    def pegarPrecoNegociacao(self, idP, idR):
+        p = ReformaProfissional.query.filter(ReformaProfissional.id_profissional == idP, ReformaProfissional.id_reforma == idR).first()
+        if p == None:
+            return 0
+        return p.preco
