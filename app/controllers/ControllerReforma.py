@@ -44,14 +44,13 @@ class ControllerReforma():
             for habil in prof.habilidades:
                 hab = Habilidade.query.get(habil.id)
                 listhab.append(hab.habilidade)
-            orcamentoProfissional = self.pegarPrecoNegociacao(prof.id, id)
-            preco = orcamentoProfissional if orcamentoProfissional != None else 0
+            preco = self.pegarPrecoNegociacao(prof.id, id)
             lista.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'profissao': prof.profissao , 'habilidades':listhab, 'preco': preco})
             precoTotal += preco
         return {'sucesso':True, 'mensagem':'reforma retornada com sucesso.','id':g.id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.pessoa.cpf,'nome':g.cliente.pessoa.nome,'telefone':g.cliente.pessoa.usuario.telefone},'datainicio':g.datainicio,'nome':g.nome,'descricao':g.descricao, 'listaProfissionais':lista, 'status':g.status, 'precoTotal': precoTotal}
 
-    def retornarTodasNovasReformas(self):
-        g = Reforma.query.filter_by(status='novo').all()
+    def retornarTodasReformas(self,status):
+        g = Reforma.query.filter_by(status=status).all()
         if g == []:
             return {'sucesso':False, 'mensagem':'não há reformas.'}
 
@@ -138,6 +137,12 @@ class ControllerReforma():
             return {'sucesso':False, 'mensagem':'status em branco.'}
         return {'sucesso':True}
 
+    def pegarPrecoNegociacao(self, idP, idR):
+        p = ReformaProfissional.query.filter(ReformaProfissional.id_profissional == idP, ReformaProfissional.id_reforma == idR).first()
+        if p == None:
+            return 0
+        return p.preco if p.preco != None else 0
+
 ######################################################################### REFORMA PROFISSIONAL ########################################################################################################################
 
     def inserirReformaProfissional(self,id_reforma, id_profissional):
@@ -146,7 +151,7 @@ class ControllerReforma():
         profissional = Profissional.query.get(id_profissional)
 
         if profissional in reforma.profissionais:
-            return {'sucesso':True, 'mensagem':'profissional existente na reforma'}
+            return {'sucesso':False, 'mensagem':'profissional existente na reforma.'}
 
         h = Conversa.query.filter(Conversa.id_reforma == reforma.id, Conversa.id_profissional == profissional.id).first()
         if h == None:
@@ -159,19 +164,30 @@ class ControllerReforma():
         db.session.commit()
         return {'sucesso':True,'mensagem':'profissional adicionado com sucesso.','id_reforma':reforma.id,'id_profissional':profissional.id}
     
+    def alterarReformaProfissional(self,id_reforma, id_profissional, status):
+
+        reformaProfissional = ReformaProfissional.query.filter(ReformaProfissional.id_profissional == id_profissional,ReformaProfissional.id_reforma == id_reforma).first()
+
+        if reformaProfissional == None:
+            return {'sucesso':False, 'mensagem':'profissional não existe na reforma.'}
+
+        reformaProfissional.status = status
+        db.session.add(reformaProfissional)
+        db.session.commit()
+        return {'sucesso':True,'mensagem':'status da relação alterada com sucesso.','id_reforma':reformaProfissional.id_reforma,'id_profissional':reformaProfissional.id_profissional, 'status': reformaProfissional.status}
+    
     def novoStatus(self, id_reforma, status):
 
         reforma = Reforma.query.get(id_reforma)
+        reformaProfissional = ReformaProfissional.query.filter_by(id_reforma=id_reforma).all()
 
         if reforma == None:
-            return {'sucesso':True, 'mensagem':'reforma inexistente.'}
+            return {'sucesso':False, 'mensagem':'reforma inexistente.'}
+
+        for relacao in reformaProfissional:
+            if relacao.status != 'aceito':
+                db.session.delete(relacao)
         
         reforma.status = status
         db.session.commit()
         return {'sucesso':True, 'mensagem':'status alterado com sucesso', 'id_reforma':reforma.id, 'status':reforma.status}
-    
-    def pegarPrecoNegociacao(self, idP, idR):
-        p = ReformaProfissional.query.filter(ReformaProfissional.id_profissional == idP, ReformaProfissional.id_reforma == idR).first()
-        if p == None:
-            return 0
-        return p.preco

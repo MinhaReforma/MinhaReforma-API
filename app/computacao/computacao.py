@@ -102,12 +102,14 @@ parameters = {'vect__ngram_range': [(1, 1), (1, 2)],
 
  
 # training a linear SVM classifier
-if __name__ == '__main__':
-    while(True):
-        STRING_INPUT_USUARIO = input("Digite a descricao: ")
-        if(STRING_INPUT_USUARIO == 'exit'):
-            break
-        gs_clf_svm = GridSearchCV(text_clf_svm, parameters, n_jobs=-1)
-        gs_clf_svm = gs_clf_svm.fit(frases, profissoes)
-        svm_predictions = gs_clf_svm.predict([STRING_INPUT_USUARIO])
-        print(svm_predictions)
+def start(STRING_INPUT_USUARIO):
+# if __name__ == 'computacao':
+    # while(True):
+    #     STRING_INPUT_USUARIO = input("Digite a descricao: ")
+    #     if(STRING_INPUT_USUARIO == 'exit'):
+    #         break
+    gs_clf_svm = GridSearchCV(text_clf_svm, parameters, n_jobs=-1)
+    gs_clf_svm = gs_clf_svm.fit(frases, profissoes)
+    svm_predictions = gs_clf_svm.predict([STRING_INPUT_USUARIO])
+    return svm_predictions
+    # print(svm_predictions)

@@ -1,6 +1,7 @@
 from flask import render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy, BaseQuery
 from app import db,app, socketio, emit
+#from app.computacao import computacao
 from app.models import ModelUsuario, ModelCliente, ModelPessoa, ModelProfissional, ModelReforma, ModelPagamento, ModelNegociacaoPreco, ModelHabilidade, ModelMensagem, ModelConversa, ModelReformaProfissional
 from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma, ControllerLogin, ControllerProfissional, ControllerConversa
 
@@ -56,8 +57,8 @@ class Facade():
     def retornarReforma(self,id):
         return self.__reforma.retornarReforma(id)
 
-    def retornarTodasNovasReformas(self):
-        return self.__reforma.retornarTodasNovasReformas()
+    def retornarTodasReformas(self,status):
+        return self.__reforma.retornarTodasReformas(status)
     
     def retornarTodasReformasProfissional(self,id):
         return self.__reforma.retornarTodasReformasProfissional(id)
@@ -71,8 +72,11 @@ class Facade():
     def inserirReformaProfissional(self,id_reforma, id_profissional):
         return self.__reforma.inserirReformaProfissional(id_reforma, id_profissional)
 
-    def novoStatus(self, reforma, status):
-        return self.__reforma.novoStatus(reforma, status)
+    def novoStatus(self, id_reforma, status):
+        return self.__reforma.novoStatus(id_reforma, status)
+    
+    def alterarReformaProfissional(self, id_reforma, id_profissional, status):
+        return self.__reforma.alterarReformaProfissional(id_reforma, id_profissional, status)
     
     def inserirUsuario(self,telefone,senha):
         return self.__usuario.inserirUsuario(telefone, senha)
@@ -100,4 +104,3 @@ class Facade():
     
     def atualizarMensagem(self, id_mensagem, nivelPreco):
         return self.__conversa.atualizarMensagem(id_mensagem,nivelPreco)
-    

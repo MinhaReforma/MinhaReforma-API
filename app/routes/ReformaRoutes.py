@@ -2,9 +2,10 @@ from app.Facade import render_template, request, jsonify, app, Facade #Controlle
 
 facade = Facade()
 
-@app.route("/reformas/<int:id>",methods=['GET'])
-@app.route("/reformas", defaults={'id':None}, methods=['POST','GET','DELETE','PUT'])
-def reforma(id):
+@app.route("/reformas/<int:id>",defaults={'status':None},methods=['GET'])
+@app.route("/reformas/<status>",defaults={'id':None},methods=['GET'])
+@app.route("/reformas", defaults={'id':None, 'status':None}, methods=['POST','GET','DELETE','PUT'])
+def reforma(id,status):
     if (request.method == 'POST'):
         some_json = request.get_json()
         result = facade.inserirReforma(some_json['id_cliente'],some_json['datainicio'],some_json['nome'],some_json['descricao'],some_json['status'])
@@ -21,7 +22,7 @@ def reforma(id):
         
     elif (request.method == 'GET'):
         if id == None:
-            result = facade.retornarTodasNovasReformas()
+            result = facade.retornarTodasReformas(status)
             if result['sucesso']:
                 return jsonify(result), 200
             return jsonify(result),400
@@ -41,7 +42,7 @@ def reforma(id):
     
 
 @app.route("/reformas/profissional/<id>", methods=['GET'])
-@app.route("/reformas/profissional", defaults={'id':None}, methods=['POST'])
+@app.route("/reformas/profissional", defaults={'id':None}, methods=['POST', 'PUT', 'DELETE'])
 def reformaProfissional(id):
     if (request.method == 'POST'):
         some_json = request.get_json()
@@ -55,6 +56,13 @@ def reformaProfissional(id):
         if result['sucesso']:
             return jsonify(result), 200
         return jsonify(result), 400
+    
+    elif (request.method == 'PUT'):
+        some_json = request.get_json()
+        result = facade.alterarReformaProfissional(some_json['id_reforma'], some_json['id_profissional'], some_json['status'])
+        if result['sucesso']:
+            return jsonify(result), 200
+        return jsonify(result), 400
 
 @app.route("/reformas/cliente/<id>", methods=['GET'])
 def reformaCliente(id):
@@ -64,11 +72,11 @@ def reformaCliente(id):
             return jsonify(result), 200
         return jsonify(result), 400
 
-@app.route("/reformas/status", methods=['POST'])
+@app.route("/reformas/status", methods=['PUT'])
 def status():
-    if (request.method == 'POST'):
+    if (request.method == 'PUT'):
         some_json = request.get_json()
-        result = facade.novoStatus(some_json['reforma'],some_json['status'])
+        result = facade.novoStatus(some_json['id_reforma'],some_json['status'])
         if result['sucesso']:
             return jsonify(result), 200
         return jsonify(result), 400
