@@ -45,8 +45,9 @@ class ControllerReforma():
                 hab = Habilidade.query.get(habil.id)
                 listhab.append(hab.habilidade)
             orcamentoProfissional = self.pegarPrecoNegociacao(prof.id, id)
-            lista.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'profissao': prof.profissao , 'habilidades':listhab, 'preco': orcamentoProfissional})
-            precoTotal += orcamentoProfissional
+            preco = orcamentoProfissional if orcamentoProfissional != None else 0
+            lista.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'profissao': prof.profissao , 'habilidades':listhab, 'preco': preco})
+            precoTotal += preco
         return {'sucesso':True, 'mensagem':'reforma retornada com sucesso.','id':g.id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.pessoa.cpf,'nome':g.cliente.pessoa.nome,'telefone':g.cliente.pessoa.usuario.telefone},'datainicio':g.datainicio,'nome':g.nome,'descricao':g.descricao, 'listaProfissionais':lista, 'status':g.status, 'precoTotal': precoTotal}
 
     def retornarTodasNovasReformas(self):
