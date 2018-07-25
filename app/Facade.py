@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy, BaseQuery
 from app import db,app, socketio, emit
 #from app.computacao import computacao
 from app.models import ModelUsuario, ModelCliente, ModelPessoa, ModelProfissional, ModelReforma, ModelPagamento, ModelNegociacaoPreco, ModelHabilidade, ModelMensagem, ModelConversa, ModelReformaProfissional
-from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma, ControllerLogin, ControllerProfissional, ControllerConversa
+from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma, ControllerLogin, ControllerProfissional, ControllerConversa, ControllerRecomendacao
 
 class Facade():
 
@@ -14,6 +14,7 @@ class Facade():
         self.__profissional = ControllerProfissional.ControllerProfissional()
         self.__login = ControllerLogin.ControllerLogin()
         self.__conversa = ControllerConversa.ControllerConversa()
+        self.__recomendacao = ControllerRecomendacao.ControllerRecomendacao()
     
     def inserirCliente(self, cpf, nome, telefone, senha):
         return self.__cliente.inserirCliente(cpf, nome, telefone, senha)
@@ -104,3 +105,6 @@ class Facade():
     
     def atualizarMensagem(self, id_mensagem, nivelPreco):
         return self.__conversa.atualizarMensagem(id_mensagem,nivelPreco)
+    
+    def retornaProfissao(self, ref_nome, ref_desc):
+        return self.__recomendacao.recomendaProfissional(ref_nome, ref_desc)
