@@ -151,7 +151,7 @@ class ControllerReforma():
         p = ReformaProfissional.query.filter(ReformaProfissional.id_profissional == idP, ReformaProfissional.id_reforma == idR).first()
         if p == None:
             return 0
-        return p.preco if p.preco != None else 0, p.id if p.status == "aceito" else None
+        return p.preco if p.preco != None else 0, p.id_profissional if p.status == "aceito" else None
     
 ######################################################################### REFORMA PROFISSIONAL ########################################################################################################################
 
