@@ -46,14 +46,13 @@ class ControllerReforma():
                 hab = Habilidade.query.get(habil.id)
                 listhab.append(hab.habilidade)
             
-            #ver detalhes do profissional na reforma
+            #Lista para informar quais profissionais pelo id estão aceitos na reforma.
             detalhesProf = self.pegarDetalhesProfissionalReforma(prof.id, id)
-            if detalhesProf != None:
-                preco = detalhesProf.preco if detalhesProf.preco != None else 0
-                if detalhesProf.status == 'aceito':
-                    listaProfAcc.append(prof.id)
+            preco = detalhesProf[0]
+            if detalhesProf[1] != None:
+                listaProfAcc.append(detalhesProf[1])
             
-            #adiciona o profissional a lista de profissionais
+            #adiciona o profissional a lista de profissionais.
             lista.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'profissao': prof.profissao , 'habilidades':listhab, 'preco': preco})
             
             precoTotal += preco
@@ -150,7 +149,9 @@ class ControllerReforma():
 
     def pegarDetalhesProfissionalReforma(self, idP, idR):
         p = ReformaProfissional.query.filter(ReformaProfissional.id_profissional == idP, ReformaProfissional.id_reforma == idR).first()
-        return p
+        if p == None:
+            return 0
+        return p.preco if p.preco != None else 0, p.id if p.status == "aceito" else None
     
 ######################################################################### REFORMA PROFISSIONAL ########################################################################################################################
 

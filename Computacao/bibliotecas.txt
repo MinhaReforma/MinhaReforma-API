@@ -1,5 +1,0 @@
-bibliotecas necessárias:
-sklearn
-numpy
-scipy
-nltk
