@@ -9,7 +9,8 @@ class Avaliacao(db.Model):
     nota = db.Column(db.Float)
     tipo = db.Column(db.String)
 
-    usuario = db.relationship('usuario', backref= db.backref('avaliacao', cascade="all, delete"))
+    usuario_avaliador = db.relationship('Usuario', foreign_keys=[id_avaliador], backref= db.backref('avaliacao', cascade="all, delete"))
+    usuario_avaliado = db.relationship('Usuario', foreign_keys=[id_avaliado])
 
     def __init__(self, id_avaliador, id_avaliado, tipo, mensagem=None ,nota=None):
         self.id_avaliador = id_avaliador
