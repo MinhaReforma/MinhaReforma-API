@@ -9,39 +9,38 @@ class ControllerAvaliacao():
         result = self.validarIntegridade(id_avaliador,id_avaliado,mensagem,nota,tipo)
         if result['sucesso'] is False:
             return result
-        
-        h = Avaliacao.query.filter(Avaliacao.id_avaliador == id_avaliador, Avaliacao.id_avaliado == id_avaliado, Avaliacao.tipo == tipo).first()
-        if h != None:
-            return {'sucesso':False, 'mensagem':'avaliação existente.'}
-        
-        f = Usuario.query.filter_by(id=id_avaliador).first()
-        g = Usuario.query.filter_by(id=id_avaliado).first()
-
-        print(f, g)
 
         if tipo == 'cliente':
+            f = Cliente.query.filter_by(id=id_avaliador).first()
+            g = Profissional.query.filter_by(id=id_avaliado).first()
             try:
-                f = f.pessoa.cliente
+                f = f.pessoa.usuario
             except:
-                return {'sucesso':False, 'mensagem':'Usuário não possui cliente.'}
+                return {'sucesso':False, 'mensagem':'cliente não possui usuário.'}
             try:
-                g = g.pessoa.profissional
+                g = g.pessoa.usuario
             except:
-                return {'sucesso':False, 'mensagem':'Usuário não possui profissional.'}
+                return {'sucesso':False, 'mensagem':'profissional não possui usuário.'}
                 
         elif tipo == 'profissional':
+            f = Profissional.query.filter_by(id=id_avaliador).first()
+            g = Cliente.query.filter_by(id=id_avaliado).first()
             try:
-                f = f.pessoa.profissional
+                f = f.pessoa.usuario
             except:
-                return {'sucesso':False, 'mensagem':'Usuário não possui profissional.'}
+                return {'sucesso':False, 'mensagem':'profissional não possui usuário.'}
             try:
-                g = g.pessoa.cliente
+                g = g.pessoa.usuario
             except:
-                return {'sucesso':False, 'mensagem':'Usuário não possui cliente.'}
+                return {'sucesso':False, 'mensagem':'cliente não possui usuário.'}
         else:
             return {'sucesso':False, 'mensagem':'tipo não válido.'}
         
-        h = Avaliacao(id_avaliador, id_avaliado, tipo, mensagem, nota)
+        h = Avaliacao.query.filter(Avaliacao.id_avaliador == f.id, Avaliacao.id_avaliado == g.id, Avaliacao.tipo == tipo).first()
+        if h != None:
+            return {'sucesso':False, 'mensagem':'avaliação existente.'}
+        
+        h = Avaliacao(f.id, g.id, tipo, mensagem, nota)
         db.session.add(h)
         db.session.commit()
 
