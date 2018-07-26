@@ -8,6 +8,8 @@ from sklearn.svm import SVC
 import nltk
 from nltk.corpus import stopwords
 
+from app.Facade import SQLAlchemy, BaseQuery, db, ModelReforma
+Reforma = ModelReforma.Reforma
 
 class ControllerRecomendacao():
 
@@ -103,7 +105,7 @@ class ControllerRecomendacao():
                 # 'clf__alpha': (1e-2, 1e-3),
                 }
 
-    def recomendaProfissional(self, ref_nome, ref_desc):
+    def recomendaProfissional(self,id_ref, ref_nome, ref_desc):
         STRING_INPUT_USUARIO = ref_nome + ' ' + ref_desc
 
         gs_clf_svm = GridSearchCV(self.text_clf_svm, self.parameters, n_jobs=-1)
@@ -112,10 +114,18 @@ class ControllerRecomendacao():
         porcentagens = dict(zip(gs_clf_svm.classes_, svm_predictions[0]))
 
         ordenados = sorted(porcentagens.items(), key=lambda kv: kv[1], reverse=True)
+
+        reforma = Reforma.query.get(id_ref)
         print("Recomendacao: " + str(ordenados))
         if((ordenados[0][1] - ordenados[1][1]) < 0.15):
-            return {'profissao': ordenados[0][0] +' ' + ordenados[1][0], 'incerteza':True}
+            reforma.recomendacao = ordenados[0][0]+' '+ordenados[1][0]
+            db.session.add(reforma)
+            db.session.commit()
+            #return {'profissao': ordenados[0][0] +' ' + ordenados[1][0], 'incerteza':True}
         else:
-            return {'profissao': ordenados[0][0], 'incerteza':False}
+            reforma.recomendacao = ordenados[0][0]
+            db.session.add(reforma)
+            db.session.commit()
+            #return {'profissao': ordenados[0][0], 'incerteza':False}
         
 

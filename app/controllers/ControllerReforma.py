@@ -19,7 +19,7 @@ class ControllerReforma():
         db.session.add(i)   
         db.session.commit()
 
-        return {'sucesso':True,'mensagem':'reforma cadastrada com sucesso.','id_cliente':i.id_cliente,'datainicio':i.datainicio,'nome':i.nome,'descricao':i.descricao,'status':i.status}
+        return {'sucesso':True,'mensagem':'reforma cadastrada com sucesso.','id':i.id,'id_cliente':i.id_cliente,'datainicio':i.datainicio,'nome':i.nome,'descricao':i.descricao,'status':i.status}
 
     def removerReforma(self,id):
         d = Reforma.query.get(id)
@@ -57,7 +57,7 @@ class ControllerReforma():
             
             precoTotal += preco
 
-        return {'sucesso':True, 'mensagem':'reforma retornada com sucesso.','id':g.id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.pessoa.cpf,'nome':g.cliente.pessoa.nome,'telefone':g.cliente.pessoa.usuario.telefone},'datainicio':g.datainicio,'nome':g.nome,'descricao':g.descricao, 'listaProfissionais':lista, 'status':g.status, 'precoTotal': precoTotal, 'listaProfissionaisAceitos': listaProfAcc}
+        return {'sucesso':True, 'mensagem':'reforma retornada com sucesso.','id':g.id,'cliente':{'id':g.cliente.id,'cpf':g.cliente.pessoa.cpf,'nome':g.cliente.pessoa.nome,'telefone':g.cliente.pessoa.usuario.telefone},'datainicio':g.datainicio,'nome':g.nome,'descricao':g.descricao, 'listaProfissionais':lista, 'status':g.status, 'precoTotal': precoTotal, 'listaProfissionaisAceitos': listaProfAcc, 'recomendacao':g.recomendacao}
 
     def retornarTodasReformas(self,status):
         g = Reforma.query.filter_by(status=status).all()
@@ -159,8 +159,12 @@ class ControllerReforma():
 
         reforma = Reforma.query.get(id_reforma)
         profissional = Profissional.query.get(id_profissional)
-
-        if profissional in reforma.profissionais:
+        
+        if reforma == None:
+            return {'sucesso':False, 'mensagem':'reforma não existe.'}
+        elif profissional == None:
+            return {'sucesso':False, 'mensagem':'profissional não existe.'}
+        elif profissional in reforma.profissionais:
             return {'sucesso':False, 'mensagem':'profissional existente na reforma.'}
 
         h = Conversa.query.filter(Conversa.id_reforma == reforma.id, Conversa.id_profissional == profissional.id).first()

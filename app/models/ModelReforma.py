@@ -15,6 +15,7 @@ class Reforma(db.Model):
     nome = db.Column(db.String, nullable=False)
     descricao = db.Column(db.String, nullable=False)
     status = db.Column(db.String, nullable=False)
+    recomendacao = db.Column(db.String)
 
     cliente = db.relationship('Cliente', backref= db.backref('reformas', cascade="all, delete"))
 
@@ -22,18 +23,14 @@ class Reforma(db.Model):
     #pagamentos = db.relationship('Pagamento', backref='reforma')
     #negociacoes = db.relationship('NegociacaoPreco', backref='reforma')
     #conversas = db.relationship('Conversa', backref='reforma')
-
-    #listaFotos
-    #preco = db.Column(db.Float)
  
-    def __init__(self, id_cliente, datainicio, nome, descricao, status):#, id_profissional, preco):
+    def __init__(self, id_cliente, datainicio, nome, descricao, status, recomendacao=None):
         self.id_cliente = id_cliente
         self.datainicio = datainicio
         self.nome = nome
         self.descricao = descricao
         self.status = status
-        #self.id_profissional = id_profissional
-        #self.preco = preco
+        self.recomendacao
 
     def __repr__(self):
         return "<Reforma %r>" % self.id_cliente

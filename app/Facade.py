@@ -107,8 +107,8 @@ class Facade():
     def atualizarMensagem(self, id_mensagem, nivelPreco):
         return self.__conversa.atualizarMensagem(id_mensagem,nivelPreco)
     
-    def retornaProfissao(self, ref_nome, ref_desc):
-        return self.__recomendacao.recomendaProfissional(ref_nome, ref_desc)
+    def recomendaProfissional(self, id_ref, ref_nome, ref_desc):
+        return self.__recomendacao.recomendaProfissional(id_ref, ref_nome, ref_desc)
     
     def inserirAvaliacao(self,id_avaliador,id_avaliado,mensagem,nota, tipo):
         return self.__avaliacao.inserirAvaliacao(id_avaliador,id_avaliado,mensagem,nota, tipo)

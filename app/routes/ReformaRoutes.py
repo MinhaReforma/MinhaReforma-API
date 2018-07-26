@@ -4,14 +4,14 @@ facade = Facade()
 
 @app.route("/reformas/<int:id>",defaults={'status':None},methods=['GET'])
 @app.route("/reformas/<status>",defaults={'id':None},methods=['GET'])
-@app.route("/reformas", defaults={'id':None, 'status':None}, methods=['POST','GET','DELETE','PUT'])
+@app.route("/reformas", defaults={'id':None, 'status':None}, methods=['POST','DELETE','PUT'])
 def reforma(id,status):
     if (request.method == 'POST'):
         some_json = request.get_json()
-        result2 = facade.retornaProfissao(some_json['nome'],some_json['descricao'])
         result = facade.inserirReforma(some_json['id_cliente'],some_json['datainicio'],some_json['nome'],some_json['descricao'],some_json['status'])
+        result2 = facade.recomendaProfissional(result['id'],some_json['nome'],some_json['descricao'])
         if result['sucesso']:
-            return jsonify({key: value for (key, value) in (list(result.items()) + list(result2.items()))}), 201
+            return jsonify(result), 201
         return jsonify(result), 400
 
     elif (request.method == 'DELETE'):
