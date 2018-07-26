@@ -17,6 +17,8 @@ class ControllerAvaliacao():
         f = Usuario.query.filter_by(id=id_avaliador).first()
         g = Usuario.query.filter_by(id=id_avaliado).first()
 
+        print(f, g)
+
         if tipo == 'cliente':
             try:
                 f = f.pessoa.cliente
@@ -112,13 +114,13 @@ class ControllerAvaliacao():
         return {'sucesso':True,'mensagem':'avaliação atualizada com sucesso.','id_avaliador':h.id_avaliador, 'id_avaliado':h.id_avaliado, 'mensagem':h.mensagem, 'nota':h.nota, 'tipo':h.tipo}
     
     def validarIntegridade(self,id_avaliador,id_avaliado,mensagem,nota, tipo):
-        if id_avaliador == None or id_avaliador.strip() == "":
+        if id_avaliador == None:
             return {'sucesso':False, 'mensagem':'id_avaliador em branco.'}
-        elif id_avaliado == None or id_avaliado.strip() == "":
+        elif id_avaliado == None:
             return {'sucesso':False, 'mensagem':'id_avaliado em branco.'}
         elif mensagem == None or mensagem.strip() == "":
             return {'sucesso':False, 'mensagem':'mensagem em branco.'}
-        elif nota == None or nota.strip() == "":
+        elif nota == None:
             return {'sucesso':False, 'mensagem':'nota em branco.'}
         elif tipo == None or tipo.strip() == "":
             return {'sucesso':False, 'mensagem':'tipo em branco.'}
