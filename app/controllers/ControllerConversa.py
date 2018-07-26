@@ -44,13 +44,13 @@ class ControllerConversa():
 
     def inserirMensagem(self, id_conversa, perfil, data, mensagem, preco, nivelPreco):
 
-        g = Conversa.query.filter_by(id=id_conversa).first()
-        if g == None:
-            return {'sucesso':False, 'mensagem':'conversa não existente.'}
-
         result = self.validarIntegridade(id_conversa, perfil, data, mensagem)
         if result['sucesso'] is False:
             return result
+
+        g = Conversa.query.filter_by(id=id_conversa).first()
+        if g == None:
+            return {'sucesso':False, 'mensagem':'conversa não existente.'}
         
         db.session.add(g)
         h = Mensagem(id_conversa, perfil, data, mensagem, preco, nivelPreco)

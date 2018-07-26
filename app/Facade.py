@@ -1,9 +1,9 @@
 from flask import render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy, BaseQuery
-from app import db,app, socketio, emit
+from app import db,app
 #from app.computacao import computacao
-from app.models import ModelUsuario, ModelCliente, ModelPessoa, ModelProfissional, ModelReforma, ModelPagamento, ModelNegociacaoPreco, ModelHabilidade, ModelMensagem, ModelConversa, ModelReformaProfissional
-from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma, ControllerLogin, ControllerProfissional, ControllerConversa, ControllerRecomendacao
+from app.models import ModelUsuario, ModelCliente, ModelPessoa, ModelProfissional, ModelReforma, ModelPagamento, ModelNegociacaoPreco, ModelHabilidade, ModelMensagem, ModelConversa, ModelReformaProfissional, ModelAvaliacao
+from app.controllers import ControllerUsuario, ControllerCliente, ControllerReforma, ControllerLogin, ControllerProfissional, ControllerConversa, ControllerRecomendacao, ControllerAvaliacao
 
 class Facade():
 
@@ -15,6 +15,7 @@ class Facade():
         self.__login = ControllerLogin.ControllerLogin()
         self.__conversa = ControllerConversa.ControllerConversa()
         self.__recomendacao = ControllerRecomendacao.ControllerRecomendacao()
+        self.__avaliacao = ControllerAvaliacao.ControllerAvaliacao()
     
     def inserirCliente(self, cpf, nome, telefone, senha):
         return self.__cliente.inserirCliente(cpf, nome, telefone, senha)
@@ -108,3 +109,18 @@ class Facade():
     
     def retornaProfissao(self, ref_nome, ref_desc):
         return self.__recomendacao.recomendaProfissional(ref_nome, ref_desc)
+    
+    def inserirAvaliacao(self,id_avaliador,id_avaliado,mensagem,nota, tipo):
+        return self.__avaliacao.inserirAvaliacao(id_avaliador,id_avaliado,mensagem,nota, tipo)
+    
+    def removerAvaliacao(self,id_avaliador,id_avaliado, tipo):
+        return self.__avaliacao.removerAvaliacao(id_avaliador,id_avaliado, tipo)
+    
+    def retornarAvaliacao(self,id_avaliador,id_avaliado, tipo):
+        return self.__avaliacao.returnarAvaliacao(id_avaliador,id_avaliado, tipo)
+    
+    def retornarTodasAvaliacoes(self, tipo):
+        return self.__avaliacao.retornarTodasAvaliacoes(tipo)
+    
+    def atualizarAvaliacao(self,id_avaliador,id_avaliado,mensagem,nota, tipo):
+        return self.__avaliacao.atualizarAvaliacao(id_avaliador,id_avaliado,mensagem,nota, tipo)
