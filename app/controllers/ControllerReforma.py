@@ -116,7 +116,7 @@ class ControllerReforma():
                 prof = Profissional.query.get(profis.id)
                 listaprof.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone})
 
-            h = Avaliacao.query.filter(Avaliacao.id_avaliador == g[i].cliente.pessoa.usuario.id, Avaliacao.id_avaliado == f.pessoa.usuario.id, Avaliacao.id_reforma == g.id, Avaliacao.tipo == "profissional").first()
+            h = Avaliacao.query.filter(Avaliacao.id_avaliador == g[i].cliente.pessoa.usuario.id, Avaliacao.id_avaliado == f.pessoa.usuario.id, Avaliacao.id_reforma == g[i].id, Avaliacao.tipo == "profissional").first()
             if h == None:
                 h = False
             else:
