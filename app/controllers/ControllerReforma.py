@@ -1,4 +1,4 @@
-from app.Facade import SQLAlchemy, BaseQuery, db, ModelReforma, ModelProfissional, ModelCliente, ModelConversa, ModelHabilidade, ModelReformaProfissional
+from app.Facade import SQLAlchemy, BaseQuery, db, ModelReforma, ModelProfissional, ModelCliente, ModelConversa, ModelHabilidade, ModelReformaProfissional, ModelAvaliacao
 
 Reforma = ModelReforma.Reforma
 Profissional = ModelProfissional.Profissional
@@ -6,6 +6,7 @@ Cliente = ModelCliente.Cliente
 Conversa = ModelConversa.Conversa
 Habilidade = ModelHabilidade.Habilidade
 ReformaProfissional = ModelReformaProfissional.ReformaProfissional
+Avaliacao = ModelAvaliacao.Avaliacao
 
 class ControllerReforma():
 
@@ -52,8 +53,13 @@ class ControllerReforma():
             if detalhesProf[1] != None:
                 listaProfAcc.append(detalhesProf[1])
             
+            h = Avaliacao.query.filter(Avaliacao.id_avaliador == g.cliente.pessoa.usuario.id, Avaliacao.id_avaliado == prof.pessoa.usuario.id, Avaliacao.id_reforma == id, Avaliacao.tipo == "cliente").first()
+            if h == None:
+                h = False
+            else:
+                h = True
             #adiciona o profissional a lista de profissionais.
-            lista.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'profissao': prof.profissao , 'habilidades':listhab, 'preco': preco})
+            lista.append({'id':prof.id,'cpf':prof.pessoa.cpf,'nome':prof.pessoa.nome,'telefone':prof.pessoa.usuario.telefone, 'profissao': prof.profissao , 'habilidades':listhab, 'preco': preco, 'avaliado': h})
             
             precoTotal += preco
 

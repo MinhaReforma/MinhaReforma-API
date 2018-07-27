@@ -110,17 +110,17 @@ class Facade():
     def recomendaProfissional(self, id_ref, ref_nome, ref_desc):
         return self.__recomendacao.recomendaProfissional(id_ref, ref_nome, ref_desc)
     
-    def inserirAvaliacao(self,id_avaliador,id_avaliado,mensagem,nota, tipo):
-        return self.__avaliacao.inserirAvaliacao(id_avaliador,id_avaliado,mensagem,nota, tipo)
+    def inserirAvaliacao(self,id_avaliador,id_avaliado,id_reforma,mensagem,nota, tipo):
+        return self.__avaliacao.inserirAvaliacao(id_avaliador,id_avaliado,id_reforma,mensagem,nota, tipo)
     
-    def removerAvaliacao(self,id_avaliador,id_avaliado, tipo):
-        return self.__avaliacao.removerAvaliacao(id_avaliador,id_avaliado, tipo)
+    def removerAvaliacao(self,id_avaliador,id_avaliado,id_reforma, tipo):
+        return self.__avaliacao.removerAvaliacao(id_avaliador,id_avaliado,id_reforma, tipo)
     
-    def retornarAvaliacao(self,id_avaliador,id_avaliado, tipo):
-        return self.__avaliacao.returnarAvaliacao(id_avaliador,id_avaliado, tipo)
+    def retornarAvaliacao(self,id_avaliador,id_avaliado, id_reforma, tipo):
+        return self.__avaliacao.retornarAvaliacao(id_avaliador,id_avaliado, id_reforma, tipo)
     
     def retornarTodasAvaliacoes(self, tipo):
         return self.__avaliacao.retornarTodasAvaliacoes(tipo)
     
-    def atualizarAvaliacao(self,id_avaliador,id_avaliado,mensagem,nota, tipo):
-        return self.__avaliacao.atualizarAvaliacao(id_avaliador,id_avaliado,mensagem,nota, tipo)
+    def atualizarAvaliacao(self,id_avaliador,id_avaliado,id_reforma,mensagem,nota, tipo):
+        return self.__avaliacao.atualizarAvaliacao(id_avaliador,id_avaliado,id_reforma,mensagem,nota, tipo)
