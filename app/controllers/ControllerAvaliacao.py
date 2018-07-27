@@ -219,13 +219,10 @@ class ControllerAvaliacao():
         g = Avaliacao.query.filter(Avaliacao.id_avaliado == f.pessoa.usuario.id, Avaliacao.tipo == "profissional").all()
         if g == []:
             return {'sucesso':False, 'mensagem':'não há avaliações.'}
-        
-        j = Usuario.query.filter_by(id=id_avaliador).first()
 
         lista = list()
         for i in g:
-            h = Profissional.query.filter_by(id=j.pessoa.profissional.id).first()
-            lista.append({'id_avaliador':i.id_avaliador, 'id_avaliado':i.id_avaliado, 'id_reforma':i.id_reforma, 'profissional':{'id':h.id,'cpf':h.pessoa.cpf,'nome':h.pessoa.nome,'telefone':h.pessoa.usuario.telefone} , 'mensagem':i.mensagem, 'nota':i.nota, 'tipo':i.tipo})
+            lista.append({'profissional':{'nome':i.usuario_avaliador.pessoa[0].nome} , 'mensagem':i.mensagem, 'nota':i.nota})
         
         return {'sucesso':True, 'mensagem':'todas as avaliações retornadas com sucesso.', 'avaliacoes':lista}
     
@@ -237,11 +234,8 @@ class ControllerAvaliacao():
         if g == []:
             return {'sucesso':False, 'mensagem':'não há avaliações.'}
         
-        j = Usuario.query.filter_by(id=id_avaliador).first()
-
         lista = list()
         for i in g:
-            h = Cliente.query.filter_by(id=j.pessoa.cliente.id).first()
-            lista.append({'id_avaliador':i.id_avaliador, 'id_avaliado':i.id_avaliado, 'id_reforma':i.id_reforma, 'cliente':{'id':h.id,'cpf':h.pessoa.cpf,'nome':h.pessoa.nome,'telefone':h.pessoa.usuario.telefone},'mensagem':i.mensagem, 'nota':i.nota, 'tipo':i.tipo})
+            lista.append({'cliente':{'nome':i.usuario_avaliador.pessoa[0].nome},'mensagem':i.mensagem, 'nota':i.nota})
         
         return {'sucesso':True, 'mensagem':'todas as avaliações retornadas com sucesso.', 'avaliacoes':lista}
