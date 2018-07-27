@@ -208,3 +208,33 @@ class ControllerAvaliacao():
         elif tipo == None or tipo.strip() == "":
             return {'sucesso':False, 'mensagem':'tipo em branco.'}
         return {'sucesso':True}
+    
+    ###########################################################################################################################################
+
+    def retornarTodasAvaliacoesCliente(self, id):
+        f = Cliente.query.filter_by(id=id).first()
+        if f == None:
+            return {'sucesso':False, 'mensagem':'cliente não existe.'}
+        g = Avaliacao.query.filter(Avaliacao.id_avaliado == f.pessoa.usuario.id, Avaliacao.tipo == "profissional").all()
+        if g == []:
+            return {'sucesso':False, 'mensagem':'não há avaliações.'}
+
+        lista = list()
+        for i in g:
+            lista.append({'id_avaliador':i.id_avaliador, 'id_avaliado':i.id_avaliado, 'id_reforma':i.id_reforma, 'mensagem':i.mensagem, 'nota':i.nota, 'tipo':i.tipo})
+        
+        return {'sucesso':True, 'mensagem':'todas as avaliações retornadas com sucesso.', 'avaliacoes':lista}
+    
+    def retornarTodasAvaliacoesProfissional(self, id):
+        f = Profissional.query.filter_by(id=id).first()
+        if f == None:
+            return {'sucesso':False, 'mensagem':'profissional não existe'}
+        g = Avaliacao.query.filter(Avaliacao.id_avaliado == f.pessoa.usuario.id, Avaliacao.tipo == "cliente").all()
+        if g == []:
+            return {'sucesso':False, 'mensagem':'não há avaliações.'}
+        
+        lista = list()
+        for i in g:
+            lista.append({'id_avaliador':i.id_avaliador, 'id_avaliado':i.id_avaliado, 'id_reforma':i.id_reforma, 'mensagem':i.mensagem, 'nota':i.nota, 'tipo':i.tipo})
+        
+        return {'sucesso':True, 'mensagem':'todas as avaliações retornadas com sucesso.', 'avaliacoes':lista}

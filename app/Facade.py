@@ -124,3 +124,9 @@ class Facade():
     
     def atualizarAvaliacao(self,id_avaliador,id_avaliado,id_reforma,mensagem,nota, tipo):
         return self.__avaliacao.atualizarAvaliacao(id_avaliador,id_avaliado,id_reforma,mensagem,nota, tipo)
+    
+    def retornarTodasAvaliacoesCliente(self,id):
+        return self.__avaliacao.retornarTodasAvaliacoesCliente(id)
+    
+    def retornarTodasAvaliacoesProfissional(self,id):
+        return self.__avaliacao.retornarTodasAvaliacoesProfissional(id)

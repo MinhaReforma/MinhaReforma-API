@@ -38,3 +38,21 @@ def avaliacao(idor,ido,idr,tipo):
         if result['sucesso']:
             return jsonify(result), 200
         return jsonify(result), 400
+
+@app.route("/avaliacao/<tipo>/<int:id>",methods=['GET'])
+def avaliacaoCliente(tipo,id):
+    if (request.method == 'GET'):
+        if tipo == "cliente":
+            result = facade.retornarTodasAvaliacoesCliente(id)
+            if result['sucesso']:
+                return jsonify(result), 200
+            return jsonify(result), 400
+
+        elif tipo == "profissional":
+            result = facade.retornarTodasAvaliacoesProfissional(id)
+            if result['sucesso']:
+                return jsonify(result), 200
+            return jsonify(result), 400
+        
+        else:
+            return jsonify({'sucesso':False,'mensagem':'tipo inválido.'}), 400
